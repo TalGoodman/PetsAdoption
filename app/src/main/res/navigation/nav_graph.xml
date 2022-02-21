@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_WelcomeFragment_to_WatchPetsFragment"
             app:destination="@id/WatchPetsFragment" />
+        <action
+            android:id="@+id/action_WelcomeFragment_to_OfferToAdoptionFragment"
+            app:destination="@id/OfferToAdoptionFragment" />
     </fragment>
     <fragment
         android:id="@+id/LoginFragment"
@@ -36,6 +39,16 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/WelcomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/OfferToAdoptionFragment"
+        android:name="sadna.java.petsadoption.OfferToAdoptionFragment"
+        android:label="@string/offer_to_adoption_fragment_label"
+        tools:layout="@layout/fragment_offer_to_adoption">
+
+        <action
+            android:id="@+id/action_OfferToAdoptionFragment_to_WelcomeFragment"
             app:destination="@id/WelcomeFragment" />
     </fragment>
 

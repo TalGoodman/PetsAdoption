@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "649176801512",
+    "project_id": "pets-adoption-1645058706322",
+    "storage_bucket": "pets-adoption-1645058706322.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649176801512:android:e6369ddc4dc21cc5f3695d",
+        "android_client_info": {
+          "package_name": "sadna.java.petsadoption"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649176801512-evjp2t3ht2jspef69120o7q481kc0n1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sadna.java.petsadoption",
+            "certificate_hash": "610217504892ca964776ef232daa56ff03eb8507"
+          }
+        },
+        {
+          "client_id": "649176801512-946g0lcdahsi6pil9fi5qs8gjgi0haae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd7pb8FZjt9zTrJsoBF4HbCJqxI5yVo8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649176801512-5eu3ju7dd1vp66ujc40ad3eq656uo7kq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
