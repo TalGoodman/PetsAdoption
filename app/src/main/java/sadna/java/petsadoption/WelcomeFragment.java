@@ -81,6 +81,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
 
         updateUI(mAuth.getCurrentUser());
 
+
         /*ActivityResultLauncher<Intent> launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
