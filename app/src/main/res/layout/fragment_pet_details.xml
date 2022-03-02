@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PetDetailsFragment">
+
+    <ImageView
+        android:id="@+id/ivPetImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvPetName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Pet Name:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
+
+    <TextView
+        android:id="@+id/tvPetNameContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Content"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvPetName"
+        app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
+
+    <TextView
+        android:id="@+id/tvGenus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Genus:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
+
+    <TextView
+        android:id="@+id/tvGenusContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Content"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvGenus"
+        app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
+
+    <TextView
+        android:id="@+id/tvBreed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Breed:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGenus" />
+
+    <TextView
+        android:id="@+id/tvBreedContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Content"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvBreed"
+        app:layout_constraintTop_toBottomOf="@+id/tvGenus" />
+
+    <TextView
+        android:id="@+id/tvSex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Sex:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
+
+    <TextView
+        android:id="@+id/tvSexContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Content"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvSex"
+        app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
+
+    <TextView
+        android:id="@+id/tvAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:text="Age:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvSexContent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
+
+    <TextView
+        android:id="@+id/tvAgeContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Content"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvAge"
+        app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
+
+    <TextView
+        android:id="@+id/tvWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Weight:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSex" />
+
+    <TextView
+        android:id="@+id/tvWeightContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="KG"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvWeight"
+        app:layout_constraintTop_toBottomOf="@+id/tvAge" />
+
+    <TextView
+        android:id="@+id/tvVaccinated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:text="Vaccinated:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvWeightContent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSex" />
+
+    <TextView
+        android:id="@+id/tvVaccinatedContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Content"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvVaccinated"
+        app:layout_constraintTop_toBottomOf="@+id/tvSex" />
+
+    <TextView
+        android:id="@+id/tvDiet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Diet:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
+
+    <TextView
+        android:id="@+id/tvDietContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Content"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvDiet"
+        app:layout_constraintTop_toBottomOf="@+id/tvVaccinated" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Description:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDiet" />
+
+    <TextView
+        android:id="@+id/tvDescriptionContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Content"
+        android:maxLines = "3"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvDescription"
+        app:layout_constraintTop_toBottomOf="@+id/tvDiet" />
+
+    <Button
+        android:id="@+id/btnRequestToAdopt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="6dp"
+        android:padding="14dip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"
+        android:text="Request To Adopt" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="36dp"
+        android:padding="14dip"
+        app:layout_constraintStart_toEndOf="@+id/btnRequestToAdopt"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"
+        android:text="Back"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

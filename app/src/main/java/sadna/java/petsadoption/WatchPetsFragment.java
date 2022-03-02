@@ -4,16 +4,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import sadna.java.petsadoption.databinding.FragmentWatchPetsBinding;
 
 public class WatchPetsFragment extends Fragment {
+    public static final int MAX_LIST_SIZE = 50;
 
     private FragmentWatchPetsBinding binding;
+
+    private RecyclerView recyclerView;
+    private ImageView[] imagesList;
+    private String[] smsScheduleList;
+    private Button[] buttonsList;
 
     @Override
     public View onCreateView(
@@ -29,13 +38,6 @@ public class WatchPetsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(WatchPetsFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
-            }
-        });
     }
 
     @Override
