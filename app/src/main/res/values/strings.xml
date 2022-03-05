@@ -25,4 +25,23 @@
     <string name="default_web_client_id2">649176801512-946g0lcdahsi6pil9fi5qs8gjgi0haae.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Genus">Genus</string>
+    <string name="Sex">Sex</string>
+    <string name="Diet">Diet</string>
+    <string-array name="genusSelectionList">
+        <item>Cat</item>
+        <item>Dog</item>
+        <item>Fish</item>
+        <item>Chicken</item>
+        <item>Rabbit</item>
+    </string-array>
+    <string-array name="sexSelectionList">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="dietSelectionList">
+        <item>Vegetarian</item>
+        <item>Carnivore</item>
+        <item>Omnivore</item>
+    </string-array>
 </resources>

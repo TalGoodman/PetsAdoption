@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddPetFragment">
+
+    <ImageView
+        android:id="@+id/ivPetImageAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvPetNameAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Pet Name:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPetImageAdd" />
+
+    <EditText
+        android:id="@+id/etPetNameContentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Name"
+        android:ems="10"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvPetNameAdd"
+        app:layout_constraintTop_toBottomOf="@+id/ivPetImageAdd" />
+
+    <TextView
+        android:id="@+id/tvGenusAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Genus:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
+
+    <Spinner
+        android:id="@+id/spGenusContentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/Genus"
+        android:entries="genusSelectionList"
+        android:minWidth="100dp"
+        android:minHeight="48dp"
+        android:prompt="Genus"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvGenusAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
+
+    <TextView
+        android:id="@+id/tvBreedAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Breed:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spGenusContentAdd" />
+
+    <EditText
+        android:id="@+id/etBreedContentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Breed"
+        android:ems="10"
+        android:maxLines = "1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvBreedAdd"
+        app:layout_constraintTop_toBottomOf="@+id/spGenusContentAdd" />
+
+    <TextView
+        android:id="@+id/tvSexAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Sex:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
+
+    <Spinner
+        android:id="@+id/spSexContentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/Sex"
+        android:entries="sexSelectionList"
+        android:minHeight="48dp"
+        android:minWidth="100dp"
+        android:prompt="Sex"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvSexAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
+
+    <TextView
+        android:id="@+id/tvAgeAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:text="Age:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/spSexContentAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
+
+    <EditText
+        android:id="@+id/etAgeContentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Age"
+        android:ems="5"
+        android:maxLines = "1"
+        android:inputType="numberDecimal"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvAgeAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
+
+    <TextView
+        android:id="@+id/tvWeightAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Weight:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etAgeContentAdd" />
+
+    <EditText
+        android:id="@+id/etWeightContentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="KG"
+        android:ems="3"
+        android:maxLines = "1"
+        android:inputType="numberDecimal"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvWeightAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etAgeContentAdd" />
+
+    <CheckBox
+        android:id="@+id/cbVaccinatedAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="68dp"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:text="Vaccinated:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/etWeightContentAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etAgeContentAdd" />
+
+
+    <TextView
+        android:id="@+id/tvDietAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Diet:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etWeightContentAdd" />
+
+    <Spinner
+        android:id="@+id/spDietContentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/Diet"
+        android:entries="dietSelectionList"
+        android:minHeight="48dp"
+        android:minWidth="100dp"
+        android:prompt="Diet"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvDietAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etWeightContentAdd" />
+
+    <TextView
+        android:id="@+id/tvDescriptionAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Description:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spDietContentAdd" />
+
+    <EditText
+        android:id="@+id/etDescriptionContentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="6dp"
+        android:text="Description"
+        android:ems="10"
+        android:maxLines = "3"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvDescriptionAdd"
+        app:layout_constraintTop_toBottomOf="@+id/spDietContentAdd" />
+
+    <Button
+        android:id="@+id/btnRequestToAdoptAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="6dp"
+        android:padding="14dip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
+        android:text="Request To Adopt" />
+
+    <Button
+        android:id="@+id/btnBackAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="36dp"
+        android:padding="14dip"
+        app:layout_constraintStart_toEndOf="@+id/btnRequestToAdoptAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
+        android:text="Back"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/talgo/AndroidStudioProjects/PetsAdoption/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/talgo/AndroidStudioProjects/PetsAdoption/app/src/main/res/layout/fragment_add_pet.xml" value="0.1322463768115942" />
         <entry key="..\:/Users/talgo/AndroidStudioProjects/PetsAdoption/app/src/main/res/layout/fragment_list_item.xml" value="0.1322463768115942" />
         <entry key="..\:/Users/talgo/AndroidStudioProjects/PetsAdoption/app/src/main/res/layout/fragment_login.xml" value="0.1" />
         <entry key="..\:/Users/talgo/AndroidStudioProjects/PetsAdoption/app/src/main/res/layout/fragment_offer_to_adoption.xml" value="0.1796875" />
