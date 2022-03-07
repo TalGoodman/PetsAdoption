@@ -12,24 +12,11 @@
         tools:layout="@layout/fragment_welcome">
 
         <action
-            android:id="@+id/action_WelcomeFragment_to_LoginFragment"
-            app:destination="@id/LoginFragment" />
-        <action
             android:id="@+id/action_WelcomeFragment_to_WatchPetsFragment"
             app:destination="@id/WatchPetsFragment" />
         <action
             android:id="@+id/action_WelcomeFragment_to_OfferToAdoptionFragment"
             app:destination="@id/OfferToAdoptionFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/LoginFragment"
-        android:name="sadna.java.petsadoption.ui.login.LoginFragment"
-        android:label="@string/login_fragment_label"
-        tools:layout="@layout/fragment_login">
-
-        <action
-            android:id="@+id/action_WelcomeFragment_to_LoginFragment"
-            app:destination="@id/WatchPetsFragment" />
     </fragment>
     <fragment
         android:id="@+id/WatchPetsFragment"

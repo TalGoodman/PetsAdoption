@@ -230,7 +230,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spDietContentAdd" />
 
     <Button
-        android:id="@+id/btnRequestToAdoptAdd"
+        android:id="@+id/btnAddPet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -238,7 +238,7 @@
         android:padding="14dip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
-        android:text="Request To Adopt" />
+        android:text="Add Pet" />
 
     <Button
         android:id="@+id/btnBackAdd"
@@ -247,7 +247,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginStart="36dp"
         android:padding="14dip"
-        app:layout_constraintStart_toEndOf="@+id/btnRequestToAdoptAdd"
+        app:layout_constraintStart_toEndOf="@+id/btnAddPet"
         app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
         android:text="Back"/>
 
