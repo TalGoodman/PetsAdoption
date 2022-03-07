@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Pet Name:"
+        android:text="@string/pet_name"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
@@ -32,33 +32,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Content"
+        android:text="@string/content"
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvPetName"
         app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
 
     <TextView
-        android:id="@+id/tvGenus"
+        android:id="@+id/tvSpecie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Genus:"
+        android:text="@string/specie"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
 
     <TextView
-        android:id="@+id/tvGenusContent"
+        android:id="@+id/tvSpecieContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Content"
+        android:text="@string/content"
         android:maxLines = "1"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvGenus"
+        app:layout_constraintStart_toEndOf="@+id/tvSpecie"
         app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
 
     <TextView
@@ -67,10 +67,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Breed:"
+        android:text="@string/breed"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGenus" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecie" />
 
     <TextView
         android:id="@+id/tvBreedContent"
@@ -78,11 +78,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Content"
+        android:text="@string/content"
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvBreed"
-        app:layout_constraintTop_toBottomOf="@+id/tvGenus" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecie" />
 
     <TextView
         android:id="@+id/tvSex"
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Sex:"
+        android:text="@string/sex"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
@@ -101,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Content"
+        android:text="@string/content"
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvSex"
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="24dp"
-        android:text="Age:"
+        android:text="@string/age"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvSexContent"
         app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Content"
+        android:text="@string/content"
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvAge"
@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Weight:"
+        android:text="@string/weight"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSex" />
@@ -147,7 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="KG"
+        android:text="@string/kg"
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvWeight"
@@ -159,7 +159,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="24dp"
-        android:text="Vaccinated:"
+        android:text="@string/vaccinated"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvWeightContent"
         app:layout_constraintTop_toBottomOf="@+id/tvSex" />
@@ -170,7 +170,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Content"
+        android:text="@string/content"
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvVaccinated"
@@ -182,7 +182,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Diet:"
+        android:text="@string/diet"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
@@ -193,7 +193,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Content"
+        android:text="@string/content"
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvDiet"
@@ -205,7 +205,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Description:"
+        android:text="@string/description"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDiet" />
@@ -216,7 +216,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Content"
+        android:text="@string/content"
         android:maxLines = "3"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvDescription"
@@ -231,7 +231,7 @@
         android:padding="14dip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"
-        android:text="Request To Adopt" />
+        android:text="@string/request_to_adopt" />
 
     <Button
         android:id="@+id/btnBack"
@@ -242,7 +242,7 @@
         android:padding="14dip"
         app:layout_constraintStart_toEndOf="@+id/btnRequestToAdopt"
         app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"
-        android:text="Back"/>
+        android:text="@string/back"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

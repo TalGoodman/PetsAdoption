@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Pet Name:"
+        android:text="@string/pet_name"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPetImageAdd" />
@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Name"
+        android:inputType="text"
+        android:text="@string/name"
         android:ems="10"
         android:maxLines = "1"
         android:textSize="20sp"
@@ -40,29 +41,29 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPetImageAdd" />
 
     <TextView
-        android:id="@+id/tvGenusAdd"
+        android:id="@+id/tvSpecieAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Genus:"
+        android:text="@string/specie"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
 
     <Spinner
-        android:id="@+id/spGenusContentAdd"
+        android:id="@+id/spSpecieContentAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="24dp"
-        android:contentDescription="@string/Genus"
-        android:entries="genusSelectionList"
+        android:contentDescription="@string/Specie"
+        android:entries="specieSelectionList"
         android:minWidth="100dp"
         android:minHeight="48dp"
-        android:prompt="Genus"
+        android:prompt="Specie"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvGenusAdd"
+        app:layout_constraintStart_toEndOf="@+id/tvSpecieAdd"
         app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
 
     <TextView
@@ -71,10 +72,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Breed:"
+        android:text="@string/breed"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spGenusContentAdd" />
+        app:layout_constraintTop_toBottomOf="@+id/spSpecieContentAdd" />
 
     <EditText
         android:id="@+id/etBreedContentAdd"
@@ -82,12 +83,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Breed"
+        android:text="@string/Breed"
+        android:inputType="text"
         android:ems="10"
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvBreedAdd"
-        app:layout_constraintTop_toBottomOf="@+id/spGenusContentAdd" />
+        app:layout_constraintTop_toBottomOf="@+id/spSpecieContentAdd" />
 
     <TextView
         android:id="@+id/tvSexAdd"
@@ -95,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Sex:"
+        android:text="@string/sex"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
@@ -121,7 +123,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="24dp"
-        android:text="Age:"
+        android:text="@string/age"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/spSexContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
@@ -132,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Age"
+        android:text="@string/Age"
         android:ems="5"
         android:maxLines = "1"
         android:inputType="numberDecimal"
@@ -146,7 +148,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Weight:"
+        android:text="@string/weight"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAgeContentAdd" />
@@ -157,7 +159,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="KG"
+        android:text="@string/kg"
         android:ems="3"
         android:maxLines = "1"
         android:inputType="numberDecimal"
@@ -173,7 +175,7 @@
         android:layout_marginStart="68dp"
         android:button="@null"
         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        android:text="Vaccinated:"
+        android:text="@string/vaccinated"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/etWeightContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/etAgeContentAdd" />
@@ -185,7 +187,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Diet:"
+        android:text="@string/diet"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etWeightContentAdd" />
@@ -211,7 +213,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Description:"
+        android:text="@string/description"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spDietContentAdd" />
@@ -222,7 +224,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
-        android:text="Description"
+        android:inputType="text"
+        android:text="@string/Description"
         android:ems="10"
         android:maxLines = "3"
         android:textSize="20sp"
@@ -238,7 +241,7 @@
         android:padding="14dip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
-        android:text="Add Pet" />
+        android:text="@string/add_pet" />
 
     <Button
         android:id="@+id/btnBackAdd"
@@ -249,7 +252,7 @@
         android:padding="14dip"
         app:layout_constraintStart_toEndOf="@+id/btnAddPet"
         app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
-        android:text="Back"/>
+        android:text="@string/back"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

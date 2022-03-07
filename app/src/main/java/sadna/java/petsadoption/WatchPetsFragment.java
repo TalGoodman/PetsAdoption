@@ -21,7 +21,7 @@ public class WatchPetsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ImageView[] imagesList;
-    private String[] smsScheduleList;
+    private String[] petsTextList;
     private Button[] buttonsList;
 
     @Override
