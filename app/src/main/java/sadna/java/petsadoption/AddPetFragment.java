@@ -28,7 +28,7 @@ public class AddPetFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAddPetBinding.inflate(inflater, container, false);
-        spSpecie = binding.spSpecieContentAdd;
+        spSpecie = binding.spGenusContentAdd;
         spSpecie.setSelection(0);
 
         return binding.getRoot();
