@@ -13,13 +13,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
-import sadna.java.petsadoption.databinding.FragmentWatchPetsBinding;
+
 
 public class AddPetFragment extends Fragment {
     private FragmentAddPetBinding binding;
 
     private ImageView image;
-    private Spinner spGenus;
+    private Spinner spSpecie;
 
     private Pet newPet;
 
@@ -28,10 +28,10 @@ public class AddPetFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAddPetBinding.inflate(inflater, container, false);
-        spGenus = binding.spGenusContentAdd;
-        spGenus.setSelection(1);
+        spSpecie = binding.spSpecieContentAdd;
+        spSpecie.setSelection(0);
 
-        return inflater.inflate(R.layout.fragment_add_pet, container, false);
+        return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -40,7 +40,8 @@ public class AddPetFragment extends Fragment {
         binding.btnAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int Genus = binding.spGenusContentAdd.getSelectedItemPosition();
+                /*
+                int Genus = binding.spSpecieContentAdd.getSelectedItemPosition();
                 String Name = binding.etPetNameContentAdd.getText().toString();
                 Integer Identifier;
                 String Breed = binding.etBreedContentAdd.getText().toString();
@@ -49,14 +50,18 @@ public class AddPetFragment extends Fragment {
                 Integer Weight = Integer.parseInt(binding.etWeightContentAdd.getText().toString());
                 Boolean Vaccinated = binding.cbVaccinatedAdd.isChecked();
                 int Diet = binding.spDietContentAdd.getSelectedItemPosition();
-                String Description = binding.etDescriptionContentAdd.getText().toString();
+                String Description = binding.etDescriptionContentAdd.getText().toString();*/
+
+                NavHostFragment.findNavController(AddPetFragment.this)
+                        .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
             }
         });
 
         binding.btnBackAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                NavHostFragment.findNavController(AddPetFragment.this)
+                        .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
             }
         });
     }

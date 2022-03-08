@@ -2,8 +2,8 @@
     <string name="app_name">Pets Adoption</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="welcome_fragment_label">First Fragment</string>
-    <string name="watch_pets_fragment_label">Second Fragment</string>
+    <string name="welcome_fragment_label">Welcome</string>
+    <string name="watch_pets_fragment_label">Watch Pets</string>
     <string name="offer_to_adoption_fragment_label">Offer To Adoption Fragment</string>
     <string name="login_fragment_label">Second Fragment</string>
     <string name="btn_login_text">Login with Google</string>
@@ -46,6 +46,9 @@
     <string name="back">Back</string>
     <string name="content">Content</string>
     <string name="request_to_adopt">Request To Adopt</string>
+    <string name="your_pets">Your Pets</string>
+    <string name="offer_a_pet_for_adoption">Offer a pet for adoption</string>
+    <string name="pet_details">Pet Details</string>
     <string-array name="specieSelectionList">
         <item>Cat</item>
         <item>Dog</item>

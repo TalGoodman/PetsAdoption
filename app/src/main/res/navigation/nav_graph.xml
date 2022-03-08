@@ -25,8 +25,11 @@
         tools:layout="@layout/fragment_watch_pets">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            android:id="@+id/action_WatchPetsFragment_to_WelcomeFragment"
             app:destination="@id/WelcomeFragment" />
+        <action
+            android:id="@+id/action_WatchPetsFragment_to_PetDetailsFragment"
+            app:destination="@id/PetDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/OfferToAdoptionFragment"
@@ -37,6 +40,29 @@
         <action
             android:id="@+id/action_OfferToAdoptionFragment_to_WelcomeFragment"
             app:destination="@id/WelcomeFragment" />
+        <action
+            android:id="@+id/action_OfferToAdoptionFragment_to_AddPetFragment"
+            app:destination="@id/AddPetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/AddPetFragment"
+        android:name="sadna.java.petsadoption.AddPetFragment"
+        android:label="@string/offer_a_pet_for_adoption"
+        tools:layout="@layout/fragment_add_pet">
+
+        <action
+            android:id="@+id/action_AddPetFragment_to_OfferToAdoptionFragment"
+            app:destination="@id/OfferToAdoptionFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/PetDetailsFragment"
+        android:name="sadna.java.petsadoption.PetDetailsFragment"
+        android:label="@string/pet_details"
+        tools:layout="@layout/fragment_pet_details">
+
+        <action
+            android:id="@+id/action_PetDetailsFragment_to_WatchPetsFragment"
+            app:destination="@id/OfferToAdoptionFragment"/>
     </fragment>
 
 </navigation>

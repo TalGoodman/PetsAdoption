@@ -117,8 +117,13 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding.btnOfferToAdoption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(WelcomeFragment.this)
-                        .navigate(R.id.action_WelcomeFragment_to_OfferToAdoptionFragment);
+                if(mAuth.getCurrentUser() != null) {
+                    NavHostFragment.findNavController(WelcomeFragment.this)
+                            .navigate(R.id.action_WelcomeFragment_to_OfferToAdoptionFragment);
+                } else {
+                    Toast.makeText(getActivity(), "Please Sign In in order to offer a pet",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

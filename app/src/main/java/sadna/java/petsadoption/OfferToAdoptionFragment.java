@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import sadna.java.petsadoption.databinding.FragmentOfferToAdoptionBinding;
-import sadna.java.petsadoption.databinding.FragmentWatchPetsBinding;
+
 
 public class OfferToAdoptionFragment extends Fragment {
     public static final int MAX_LIST_SIZE = 50;
@@ -36,6 +36,21 @@ public class OfferToAdoptionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.btnOfferPet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(OfferToAdoptionFragment.this)
+                        .navigate(R.id.action_OfferToAdoptionFragment_to_AddPetFragment);
+            }
+        });
+
+        binding.btnBackOfferToAdoption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(OfferToAdoptionFragment.this)
+                        .navigate(R.id.action_OfferToAdoptionFragment_to_WelcomeFragment);
+            }
+        });
     }
 
     @Override

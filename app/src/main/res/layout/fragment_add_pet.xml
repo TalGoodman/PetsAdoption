@@ -57,11 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="24dp"
-        android:contentDescription="@string/Specie"
-        android:entries="specieSelectionList"
+        android:entries="@array/specieSelectionList"
         android:minWidth="100dp"
         android:minHeight="48dp"
-        android:prompt="Specie"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvSpecieAdd"
         app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
@@ -108,11 +106,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="24dp"
-        android:contentDescription="@string/Sex"
-        android:entries="sexSelectionList"
+        android:entries="@array/sexSelectionList"
         android:minHeight="48dp"
         android:minWidth="100dp"
-        android:prompt="Sex"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvSexAdd"
         app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
@@ -198,11 +194,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="24dp"
-        android:contentDescription="@string/Diet"
-        android:entries="dietSelectionList"
+        android:entries="@array/dietSelectionList"
         android:minHeight="48dp"
         android:minWidth="100dp"
-        android:prompt="Diet"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvDietAdd"
         app:layout_constraintTop_toBottomOf="@+id/etWeightContentAdd" />
@@ -241,6 +235,7 @@
         android:padding="14dip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/add_pet" />
 
     <Button
@@ -252,6 +247,7 @@
         android:padding="14dip"
         app:layout_constraintStart_toEndOf="@+id/btnAddPet"
         app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/back"/>
 
 
