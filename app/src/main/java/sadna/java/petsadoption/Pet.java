@@ -1,5 +1,7 @@
 package sadna.java.petsadoption;
 
+import android.graphics.Bitmap;
+
 //Used Integers instead of ENUMS because ENUMS requires too much memory and
 //it might slow the application
 //https://stackoverflow.com/questions/9246934/working-with-enums-in-android
@@ -18,7 +20,8 @@ public class Pet {
     private static final int DIET_CARNIVOROUS = 32;
     private static final int DIET_OMNIVORE = 33;
 
-    private int Genus;
+    private Bitmap Image;
+    private int Specie;
     private String Name;
     private Integer Identifier;
     private String Breed;
@@ -29,12 +32,37 @@ public class Pet {
     private int Diet;
     private String Description;
 
-    public int getGenus() {
-        return Genus;
+    public Pet(Bitmap image, int specie, String name,
+               Integer identifier, String breed, int sex,
+               Integer age, Integer weight, Boolean vaccinated,
+               int diet, String description) {
+        Image = image;
+        Specie = specie;
+        Name = name;
+        Identifier = identifier;
+        Breed = breed;
+        Sex = sex;
+        Age = age;
+        Weight = weight;
+        Vaccinated = vaccinated;
+        Diet = diet;
+        Description = description;
     }
 
-    public void setGenus(int genus) {
-        Genus = genus;
+    public Bitmap getImage() {
+        return Image;
+    }
+
+    public void setImage(Bitmap image) {
+        Image = image;
+    }
+
+    public int getSpecie() {
+        return Specie;
+    }
+
+    public void setSpecie(int specie) {
+        Specie = specie;
     }
 
     public String getName() {
