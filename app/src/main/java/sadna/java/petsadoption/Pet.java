@@ -1,5 +1,7 @@
 package sadna.java.petsadoption;
 
+import android.graphics.Bitmap;
+
 //Used Integers instead of ENUMS because ENUMS requires too much memory and
 //it might slow the application
 //https://stackoverflow.com/questions/9246934/working-with-enums-in-android
@@ -18,9 +20,11 @@ public class Pet {
     private static final int DIET_CARNIVOROUS = 32;
     private static final int DIET_OMNIVORE = 33;
 
-    private int Genus;
+    private byte[] Image;
+    private int Specie;
     private String Name;
     private Integer Identifier;
+    private String UserID;
     private String Breed;
     private int Sex;
     private Integer Age;
@@ -29,83 +33,111 @@ public class Pet {
     private int Diet;
     private String Description;
 
-    public int getGenus() {
-        return Genus;
+    public Pet(byte[] image, int specie, String name,
+               Integer identifier, String userID, String breed, int sex,
+               Integer age, Integer weight, Boolean vaccinated,
+               int diet, String description) {
+        this.Image = image;
+        this.Specie = specie;
+        this.Name = name;
+        this.Identifier = identifier;
+        this.UserID = userID;
+        this.Breed = breed;
+        this.Sex = sex;
+        this.Age = age;
+        this.Weight = weight;
+        this.Vaccinated = vaccinated;
+        this.Diet = diet;
+        this.Description = description;
     }
 
-    public void setGenus(int genus) {
-        Genus = genus;
+    public byte[] getImage() { return this.Image; }
+
+    public void setImage(byte[] image) {
+        this.Image = image;
+    }
+
+    public int getSpecie() {
+        return this.Specie;
+    }
+
+    public void setSpecie(int specie) {
+        this.Specie = specie;
     }
 
     public String getName() {
-        return Name;
+        return this.Name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.Name = name;
     }
 
     public Integer getIdentifier() {
-        return Identifier;
+        return this.Identifier;
     }
 
     public void setIdentifier(Integer identifier) {
-        Identifier = identifier;
+        this.Identifier = identifier;
     }
 
+    public String getUserID() { return this.UserID; }
+
+    public void setUserID(String userID) { this.UserID = userID; }
+
     public String getBreed() {
-        return Breed;
+        return this.Breed;
     }
 
     public void setBreed(String breed) {
-        Breed = breed;
+        this.Breed = breed;
     }
 
     public int getSex() {
-        return Sex;
+        return this.Sex;
     }
 
     public void setSex(int sex) {
-        Sex = sex;
+        this.Sex = sex;
     }
 
     public Integer getAge() {
-        return Age;
+        return this.Age;
     }
 
     public void setAge(Integer age) {
-        Age = age;
+        this.Age = age;
     }
 
     public Integer getWeight() {
-        return Weight;
+        return this.Weight;
     }
 
     public void setWeight(Integer weight) {
-        Weight = weight;
+        this.Weight = weight;
     }
 
     public Boolean getVaccinated() {
-        return Vaccinated;
+        return this.Vaccinated;
     }
 
     public void setVaccinated(Boolean vaccinated) {
-        Vaccinated = vaccinated;
+        this.Vaccinated = vaccinated;
     }
 
     public int getDiet() {
-        return Diet;
+        return this.Diet;
     }
 
     public void setDiet(int diet) {
-        Diet = diet;
+        this.Diet = diet;
     }
 
     public String getDescription() {
-        return Description;
+        return this.Description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.Description = description;
     }
 }
