@@ -22,9 +22,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Blob;
 
 import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 
@@ -33,6 +38,7 @@ public class AddPetFragment extends Fragment {
     private FragmentAddPetBinding binding;
 
     private Bitmap selectedImage;
+    private byte[] byteArray;
     private Pet newPet;
 
     @Override
@@ -58,6 +64,7 @@ public class AddPetFragment extends Fragment {
                     return;
                 }
                 Integer Identifier = null;  //will be set later after the pet is added to the DB
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
                 String Breed = binding.etBreedContentAdd.getText().toString();
                 int Sex = binding.spSexContentAdd.getSelectedItemPosition();
                 Integer Age;
@@ -86,7 +93,7 @@ public class AddPetFragment extends Fragment {
                 int Diet = binding.spDietContentAdd.getSelectedItemPosition();
                 String Description = binding.etDescriptionContentAdd.getText().toString();
 
-                Pet newPet = new Pet(selectedImage, Specie, Name, Identifier, Breed, Sex, Age,
+                Pet newPet = new Pet(byteArray, Specie, Name, Identifier, userID, Breed, Sex, Age,
                         Weight, Vaccinated, Diet, Description);
 
                 //TODO: add newPet to the database and then set newPet's Identifier
@@ -127,17 +134,45 @@ public class AddPetFragment extends Fragment {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 9002){
+                final Uri imageUri;
+                InputStream imageStream = null;
+                ByteArrayOutputStream byteStream = null;
                 try {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
-                    selectedImage = BitmapFactory.decodeStream(imageStream);
+                    imageUri = data.getData();
+                    imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+                    byteStream = new ByteArrayOutputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                    selectedImage = bitmap;
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteStream);
+                    byteArray = byteStream.toByteArray();
+                    if (byteArray.length > 15000000) {
+                        Toast.makeText(getActivity(), "File size must be at most 15MB", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     binding.ivPetImageAdd.setImageBitmap(selectedImage);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
+                } finally {
+                    if (imageStream != null){
+                        try {
+                            imageStream.close();
+                        } catch (IOException ioException) {
+                            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                    if (byteStream != null) {
+                        try {
+                            byteStream.close();
+                        } catch (IOException ioException) {
+                            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
                 }
             }
-        }else {
+        } else {
             Toast.makeText(getActivity(), "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
