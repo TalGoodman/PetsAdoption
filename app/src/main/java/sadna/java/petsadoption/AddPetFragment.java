@@ -56,7 +56,7 @@ public class AddPetFragment extends Fragment {
                     Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
                     return;
                 }
-                Integer Identifier = null;  //will be set later after the pet is added to the DB
+                Integer Identifier = 0;  //will be set later after the pet is added to the DB
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
                 String Breed = binding.etBreedContentAdd.getText().toString();
                 int Sex = binding.spSexContentAdd.getSelectedItemPosition();
@@ -92,9 +92,10 @@ public class AddPetFragment extends Fragment {
                 //TODO: add newPet to the database and then set newPet's Identifier
 
                 //Web Request To GScript
-                String my_url = "https://script.google.com/macros/s/AKfycbxqs1UKCCmRfFnjdltjYJ2hW_hCNuz9DkDSPx0Gccc/dev?hello=world";// will be replaced with a dynami url
+                String my_url = "https://script.google.com/macros/s/AKfycbwN-2oGeltVPkN6QbeO244cF_M-W3ia_F_Mjw0D0Gw3IkJLUIejnON1XUEwt_cjof08/exec";// will be replaced with a dynami url
                 String my_data = "hello=world";// Replace this with your data
-                new MyHttpRequestTask().execute(my_url,my_data);
+                MyHttpRequestTask api_request = new MyHttpRequestTask();
+                api_request.execute(my_url,my_data);
 
 
                 NavHostFragment.findNavController(AddPetFragment.this)

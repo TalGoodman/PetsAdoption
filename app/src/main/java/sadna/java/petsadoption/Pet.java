@@ -10,6 +10,7 @@ public class Pet {
     private static final int GENUS_FISH = 13;
     private static final int GENUS_CHICKEN = 14;
     private static final int GENUS_RABBIT = 15;
+    private static final int GENUS_OTHER = 16;
 
     private static final int SEX_MALE = 21;
     private static final int SEX_FEMALE = 22;
