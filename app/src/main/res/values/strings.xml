@@ -51,6 +51,7 @@
     <string name="pet_details">Pet Details</string>
     <string name="add_photo">Add Photo</string>
     <string name="set_photo">Set Photo</string>
+    <string name="desc_pet_image">pet image</string>
     <string-array name="specieSelectionList">
         <item>Cat</item>
         <item>Dog</item>

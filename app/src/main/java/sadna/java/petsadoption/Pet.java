@@ -1,7 +1,5 @@
 package sadna.java.petsadoption;
 
-import android.graphics.Bitmap;
-
 //Used Integers instead of ENUMS because ENUMS requires too much memory and
 //it might slow the application
 //https://stackoverflow.com/questions/9246934/working-with-enums-in-android
@@ -81,9 +79,9 @@ public class Pet {
         this.Identifier = identifier;
     }
 
-    public String getUserID() { return this.UserID; }
+    public String getOwnerID() { return this.UserID; }
 
-    public void setUserID(String userID) { this.UserID = userID; }
+    public void setOwnerID(String userID) { this.UserID = userID; }
 
     public String getBreed() {
         return this.Breed;
@@ -105,7 +103,7 @@ public class Pet {
         return this.Age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.Age = age;
     }
 

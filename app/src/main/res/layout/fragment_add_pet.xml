@@ -1,266 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddPetFragment">
 
     <ImageView
         android:id="@+id/ivPetImageAdd"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_empty_pet_image"
+        android:layout_width="112dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:clickable="true"
+        android:contentDescription='@string/desc_pet_image'
+        android:focusable="true"
         android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_empty_pet_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnSetPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="18dp"
+        android:layout_width="112dp"
+        android:layout_height="57dp"
         android:padding="14dip"
+        android:text="@string/set_photo"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/ivPetImageAdd"
+        app:layout_constraintTop_toBottomOf="@+id/ivPetImageAdd" />
+
+    <EditText
+        android:id="@+id/etPetNameContentAdd"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="text"
+        android:maxLines="1"
+        android:minHeight="48dp"
+        android:textSize="@dimen/input_text_size"
         app:layout_constraintStart_toEndOf="@+id/ivPetImageAdd"
-        app:layout_constraintBottom_toBottomOf="@+id/ivPetImageAdd"
-        android:text="@string/set_photo"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvPetNameAdd" />
 
     <TextView
         android:id="@+id/tvPetNameAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
         android:text="@string/pet_name"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPetImageAdd" />
+        app:layout_constraintStart_toStartOf="@+id/etPetNameContentAdd"
+        app:layout_constraintTop_toTopOf="@+id/ivPetImageAdd" />
 
-    <EditText
-        android:id="@+id/etPetNameContentAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:inputType="text"
-        android:hint="@string/name"
-        android:ems="10"
-        android:maxLines = "1"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvPetNameAdd"
-        app:layout_constraintTop_toBottomOf="@+id/ivPetImageAdd" />
-
-    <TextView
-        android:id="@+id/tvSpecieAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/specie"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
 
     <Spinner
         android:id="@+id/spSpecieContentAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="2dp"
         android:entries="@array/specieSelectionList"
         android:minWidth="100dp"
         android:minHeight="48dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvSpecieAdd"
-        app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
+        app:layout_constraintStart_toStartOf="@+id/tvSpecieAdd"
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecieAdd" />
+
+    <TextView
+        android:id="@+id/tvSpecieAdd"
+        android:layout_width="122dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/specie"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSetPhoto" />
 
     <TextView
         android:id="@+id/tvBreedAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
+        android:layout_width="200dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="60dp"
         android:text="@string/breed"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spSpecieContentAdd" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvSpecieAdd"
+        app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
 
     <EditText
         android:id="@+id/etBreedContentAdd"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:inputType="text"
-        android:hint="@string/Breed"
+        android:autofillHints=""
         android:ems="10"
-        android:maxLines = "1"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvBreedAdd"
-        app:layout_constraintTop_toBottomOf="@+id/spSpecieContentAdd" />
-
-    <TextView
-        android:id="@+id/tvSexAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/sex"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
-
-    <Spinner
-        android:id="@+id/spSexContentAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="24dp"
-        android:entries="@array/sexSelectionList"
+        android:hint="@string/Breed"
+        android:inputType="text"
+        android:maxLines="1"
         android:minHeight="48dp"
-        android:minWidth="100dp"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvSexAdd"
-        app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
-
-    <TextView
-        android:id="@+id/tvAgeAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp"
-        android:text="@string/age"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/spSexContentAdd"
-        app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
+        android:textColorHint="#757575"
+        android:textSize="@dimen/input_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/tvBreedAdd"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/tvBreedAdd"
+        app:layout_constraintTop_toBottomOf="@+id/tvBreedAdd" />
 
     <EditText
         android:id="@+id/etAgeContentAdd"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:hint="@string/Age"
+        android:layout_marginEnd="90dp"
+        android:autofillHints=""
         android:ems="5"
-        android:maxLines = "1"
-        android:inputType="number"
+        android:hint="@string/Age"
+        android:inputType="number|numberDecimal"
+        android:maxLines="1"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        android:textSize="@dimen/input_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAgeAdd" />
+
+    <TextView
+        android:id="@+id/tvAgeAdd"
+        android:layout_width="100dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="13dp"
+        android:text="@string/age"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvAgeAdd"
+        app:layout_constraintBottom_toTopOf="@+id/etAgeContentAdd"
+        app:layout_constraintEnd_toEndOf="@+id/etDescriptionContentAdd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etAgeContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/etBreedContentAdd" />
 
     <TextView
+        android:id="@+id/tvSexAdd"
+        android:layout_width="121dp"
+        android:layout_height="27dp"
+        android:text="@string/sex"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/spSexContentAdd"
+        app:layout_constraintEnd_toEndOf="@+id/spSexContentAdd"
+        app:layout_constraintStart_toStartOf="@+id/spSexContentAdd"
+        app:layout_constraintTop_toTopOf="@+id/tvAgeAdd"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/spSexContentAdd"
+        android:layout_width="122dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:entries="@array/sexSelectionList"
+        android:minWidth="100dp"
+        android:minHeight="48dp"
+        android:textSize="@dimen/input_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSexAdd" />
+
+    <TextView
         android:id="@+id/tvWeightAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
+        android:layout_width="131dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/weight"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/etWeightContentAdd"
+        app:layout_constraintEnd_toEndOf="@+id/etDescriptionContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/etAgeContentAdd" />
 
     <EditText
         android:id="@+id/etWeightContentAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:hint="@string/kg"
+        android:layout_width="133dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:autofillHints=""
         android:ems="3"
-        android:maxLines = "1"
-        android:inputType="number"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvWeightAdd"
-        app:layout_constraintTop_toBottomOf="@+id/etAgeContentAdd" />
+        android:hint="@string/kg"
+        android:inputType="number|numberDecimal"
+        android:maxLines="1"
+        android:minHeight="48dp"
+        android:textSize="@dimen/input_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/tvWeightAdd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvWeightAdd"
+        app:layout_constraintTop_toBottomOf="@+id/tvWeightAdd" />
 
     <CheckBox
         android:id="@+id/cbVaccinatedAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="68dp"
+        android:layout_marginTop="20dp"
         android:button="@null"
-        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
         android:text="@string/vaccinated"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/etWeightContentAdd"
-        app:layout_constraintTop_toBottomOf="@+id/etAgeContentAdd" />
-
+        app:layout_constraintStart_toStartOf="@+id/spDietContentAdd"
+        app:layout_constraintTop_toBottomOf="@+id/spDietContentAdd" />
 
     <TextView
         android:id="@+id/tvDietAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="6dp"
+        android:layout_width="189dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
         android:text="@string/diet"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etWeightContentAdd" />
+        app:layout_constraintTop_toBottomOf="@+id/spSexContentAdd" />
 
     <Spinner
         android:id="@+id/spDietContentAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="18dp"
+        android:layout_width="193dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
         android:entries="@array/dietSelectionList"
-        android:minHeight="48dp"
         android:minWidth="100dp"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvDietAdd"
-        app:layout_constraintTop_toBottomOf="@+id/etWeightContentAdd" />
-
-    <TextView
-        android:id="@+id/tvDescriptionAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/description"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spDietContentAdd" />
+        android:minHeight="48dp"
+        android:textSize="@dimen/input_text_size"
+        app:layout_constraintStart_toStartOf="@+id/tvDietAdd"
+        app:layout_constraintTop_toBottomOf="@+id/tvDietAdd" />
 
     <EditText
         android:id="@+id/etDescriptionContentAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="6dp"
-        android:inputType="text"
-        android:hint="@string/Description"
+        android:layout_width="334dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="49dp"
+        android:autofillHints=""
         android:ems="10"
-        android:maxLines = "3"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvDescriptionAdd"
-        app:layout_constraintTop_toBottomOf="@+id/spDietContentAdd" />
+        android:hint="@string/Description"
+        android:inputType="text"
+        android:maxLines="3"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        android:textSize="@dimen/input_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbVaccinatedAdd" />
 
     <Button
         android:id="@+id/btnAddPet"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="6dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="25dp"
         android:padding="14dip"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
+        android:text="@string/add_pet"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/add_pet" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnBackAdd"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="36dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="204dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="25dp"
         android:padding="14dip"
-        app:layout_constraintStart_toEndOf="@+id/btnAddPet"
-        app:layout_constraintTop_toBottomOf="@+id/etDescriptionContentAdd"
+        android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/back"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAddPet"
+        app:layout_constraintTop_toTopOf="@+id/btnAddPet" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="spSexContentAdd" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

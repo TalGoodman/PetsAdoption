@@ -1,35 +1,29 @@
 package sadna.java.petsadoption;
 
 import android.app.Activity;
+import java.net.HttpURLConnection;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
+import java.net.HttpURLConnection;
+import java.util.logging.Logger;
 
 import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 
@@ -37,12 +31,11 @@ import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 public class AddPetFragment extends Fragment {
     private FragmentAddPetBinding binding;
 
-    private Bitmap selectedImage;
     private byte[] byteArray;
     private Pet newPet;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAddPetBinding.inflate(inflater, container, false);
@@ -95,8 +88,14 @@ public class AddPetFragment extends Fragment {
 
                 Pet newPet = new Pet(byteArray, Specie, Name, Identifier, userID, Breed, Sex, Age,
                         Weight, Vaccinated, Diet, Description);
-
+                Toast.makeText(getActivity(), newPet.toString(), Toast.LENGTH_SHORT).show();
                 //TODO: add newPet to the database and then set newPet's Identifier
+
+                //Web Request To GScript
+                String my_url = "https://script.google.com/macros/s/AKfycbxqs1UKCCmRfFnjdltjYJ2hW_hCNuz9DkDSPx0Gccc/dev?hello=world";// will be replaced with a dynami url
+                String my_data = "hello=world";// Replace this with your data
+                new MyHttpRequestTask().execute(my_url,my_data);
+
 
                 NavHostFragment.findNavController(AddPetFragment.this)
                         .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
@@ -142,14 +141,13 @@ public class AddPetFragment extends Fragment {
                     imageStream = getActivity().getContentResolver().openInputStream(imageUri);
                     byteStream = new ByteArrayOutputStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-                    selectedImage = bitmap;
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteStream);
                     byteArray = byteStream.toByteArray();
                     if (byteArray.length > 15000000) {
                         Toast.makeText(getActivity(), "File size must be at most 15MB", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    binding.ivPetImageAdd.setImageBitmap(selectedImage);
+                    binding.ivPetImageAdd.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
