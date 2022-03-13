@@ -28,10 +28,10 @@
     <string name="Specie">Specie</string>
     <string name="Sex">Sex</string>
     <string name="Diet">Diet</string>
-    <string name="Description">Description</string>
+    <string name="input_pet_Description">Description</string>
     <string name="pet_name">Pet Name:</string>
     <string name="Age">Age</string>
-    <string name="description">Description:</string>
+    <string name="title_pet_Description">Description:</string>
     <string name="name">Name</string>
     <string name="specie">Specie:</string>
     <string name="breed">Breed:</string>

@@ -1,7 +1,7 @@
 package sadna.java.petsadoption;
 
 import android.app.Activity;
-import java.net.HttpURLConnection;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,12 +18,14 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.util.logging.Logger;
+import java.util.HashMap;
 
 import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 
@@ -31,7 +33,7 @@ import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 public class AddPetFragment extends Fragment {
     private FragmentAddPetBinding binding;
 
-    private byte[] byteArray;
+    private byte[] petImageByteArray;
     private Pet newPet;
 
     @Override
@@ -47,6 +49,7 @@ public class AddPetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Add Pet Button
         binding.btnAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,44 +61,45 @@ public class AddPetFragment extends Fragment {
                 }
                 Integer Identifier = 0;  //will be set later after the pet is added to the DB
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
-                String Breed = binding.etBreedContentAdd.getText().toString();
                 int Sex = binding.spSexContentAdd.getSelectedItemPosition();
-                Integer Age;
-                if (binding.etAgeContentAdd.getText().toString().equals("")) {
-                    Age = null;
-                } else {
-                    try {
-                        Age = Integer.parseInt(binding.etAgeContentAdd.getText().toString());
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), "Invalid Age Input",Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                }
-                Integer Weight;
-                if (binding.etWeightContentAdd.getText().toString().equals("")) {
-                    Weight = null;
-                } else {
-                    try {
-                        Weight = Integer.parseInt(binding.etWeightContentAdd.getText().toString());
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), "Invalid Weight Input",Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                }
                 Boolean Vaccinated = binding.cbVaccinatedAdd.isChecked();
                 int Diet = binding.spDietContentAdd.getSelectedItemPosition();
                 String Description = binding.etDescriptionContentAdd.getText().toString();
 
-                Pet newPet = new Pet(byteArray, Specie, Name, Identifier, userID, Breed, Sex, Age,
-                        Weight, Vaccinated, Diet, Description);
-                Toast.makeText(getActivity(), newPet.toString(), Toast.LENGTH_SHORT).show();
+                Pet newPet = new Pet(petImageByteArray, Specie, Name, Identifier, userID, Sex,
+                        Vaccinated, Diet, Description);
+                String petJSON = newPet.toJSON();
+                Toast.makeText(getActivity(), petJSON, Toast.LENGTH_LONG).show();
                 //TODO: add newPet to the database and then set newPet's Identifier
 
                 //Web Request To GScript
-                String my_url = "https://script.google.com/macros/s/AKfycbwN-2oGeltVPkN6QbeO244cF_M-W3ia_F_Mjw0D0Gw3IkJLUIejnON1XUEwt_cjof08/exec";// will be replaced with a dynami url
-                String my_data = "hello=world";// Replace this with your data
+
+                String my_url = "https://script.google.com/macros/s/AKfycbwN-2oGeltVPkN6QbeO244cF_M-W3ia_F_Mjw0D0Gw3IkJLUIejnON1XUEwt_cjof08/exec";
+                /*String my_data = petJSON;// Replace this with your data
                 MyHttpRequestTask api_request = new MyHttpRequestTask();
+                Log.e("PetAdded",petJSON);
                 api_request.execute(my_url,my_data);
+                */
+
+                Context mContext = null;
+                HttpUrlConnectionUtlity httpMethod = new HttpUrlConnectionUtlity (null);
+                JSONObject jsonEntity = new JSONObject();
+
+                try {
+                    jsonEntity.put("key1", "value1");
+                    jsonEntity.put("key2", "value2");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                httpMethod.setUrl(my_url);
+                HashMap<String, String> headerMap = new HashMap<>();
+                headerMap.put("key","value");
+                headerMap.put("key1","value1");
+                httpMethod.setHeaderMap(headerMap);
+                httpMethod.setRequestType(0); //specify POST/GET/DELETE/PUT
+                httpMethod.setEntityString(jsonEntity.toString());
+                httpMethod.execute();
 
 
                 NavHostFragment.findNavController(AddPetFragment.this)
@@ -103,14 +107,7 @@ public class AddPetFragment extends Fragment {
             }
         });
 
-        binding.btnBackAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(AddPetFragment.this)
-                        .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
-            }
-        });
-
+        //Add Photo Button
         binding.btnSetPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +116,17 @@ public class AddPetFragment extends Fragment {
                 startActivityForResult(photoPickerIntent, 9002);
             }
         });
+
+        //Back Button
+        binding.btnBackAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(AddPetFragment.this)
+                        .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
+            }
+        });
+
+
     }
 
     @Override
@@ -143,8 +151,8 @@ public class AddPetFragment extends Fragment {
                     byteStream = new ByteArrayOutputStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteStream);
-                    byteArray = byteStream.toByteArray();
-                    if (byteArray.length > 15000000) {
+                    petImageByteArray = byteStream.toByteArray();
+                    if (petImageByteArray.length > 15000000) {
                         Toast.makeText(getActivity(), "File size must be at most 15MB", Toast.LENGTH_LONG).show();
                         return;
                     }

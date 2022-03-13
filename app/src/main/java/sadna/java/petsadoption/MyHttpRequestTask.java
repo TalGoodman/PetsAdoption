@@ -2,7 +2,6 @@ package sadna.java.petsadoption;
 
 import android.os.AsyncTask;
 import android.util.Log;
-//import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -12,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MyHttpRequestTask extends AsyncTask<String,Integer,String> {
+class MyHttpRequestTask extends AsyncTask<String,Integer,String> {
     public interface ApplicationConstant {
         String TAG = "DEBUG1";
     }
@@ -29,20 +28,22 @@ public class MyHttpRequestTask extends AsyncTask<String,Integer,String> {
             httpURLConnection.setRequestProperty("Content-Type", "application/json");
             try{
                 //to tell the connection object that we will be writing some data on the server and then will fetch the output result
-                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoOutput(false);
                 // this is used for just in case we don't know about the data size associated with our request
-                httpURLConnection.setChunkedStreamingMode(1);
+                //httpURLConnection.setChunkedStreamingMode(0);
 
                 // to write tha data in our request
                 OutputStream outputStream = new BufferedOutputStream(httpURLConnection.getOutputStream());
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
                 outputStreamWriter.write(my_data);
+                Log.e("SentData",my_data);
                 outputStreamWriter.flush();
                 outputStreamWriter.close();
 
 
                 // to log the response code of your request
                 Log.d(ApplicationConstant.TAG, "MyHttpRequestTask doInBackground : " +httpURLConnection.getResponseCode());
+
                 // to log the response message from your server after you have tried the request.
                 Log.d(ApplicationConstant.TAG, "MyHttpRequestTask doInBackground : " +httpURLConnection.getResponseMessage());
                 Log.d(ApplicationConstant.TAG, "MyHttpRequestTask doInBackground : " +httpURLConnection.getInputStream());
@@ -53,7 +54,6 @@ public class MyHttpRequestTask extends AsyncTask<String,Integer,String> {
                 // this is done so that there are no open connections left when this task is going to complete
                 httpURLConnection.disconnect();
             }
-
 
         }catch (Exception e){
             e.printStackTrace();

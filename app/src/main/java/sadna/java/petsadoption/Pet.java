@@ -1,5 +1,8 @@
 package sadna.java.petsadoption;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 //Used Integers instead of ENUMS because ENUMS requires too much memory and
 //it might slow the application
 //https://stackoverflow.com/questions/9246934/working-with-enums-in-android
@@ -22,121 +25,122 @@ public class Pet {
     private byte[] Image;
     private int Specie;
     private String Name;
-    private Integer Identifier;
-    private String UserID;
+    private Integer PetId;
+    private String OwnerID;
     private String Breed;
     private int Sex;
-    private Integer Age;
-    private Integer Weight;
     private Boolean Vaccinated;
     private int Diet;
     private String Description;
 
-    public Pet(byte[] image, int specie, String name,
-               Integer identifier, String userID, String breed, int sex,
-               Integer age, Integer weight, Boolean vaccinated,
-               int diet, String description) {
+    public Pet(
+            byte[] image,
+            int specie,
+            String name,
+            Integer pet_id,
+            String ownerID,
+            int sex,
+            Boolean vaccinated,
+            int diet,
+            String description
+    ) {
         this.Image = image;
         this.Specie = specie;
         this.Name = name;
-        this.Identifier = identifier;
-        this.UserID = userID;
-        this.Breed = breed;
+        this.PetId = pet_id;
+        this.OwnerID = ownerID;
         this.Sex = sex;
-        this.Age = age;
-        this.Weight = weight;
         this.Vaccinated = vaccinated;
         this.Diet = diet;
         this.Description = description;
     }
 
+    //Pet Image
     public byte[] getImage() { return this.Image; }
-
     public void setImage(byte[] image) {
         this.Image = image;
     }
 
-    public int getSpecie() {
+    //Pet Species
+    public int getSpecies() {
         return this.Specie;
     }
-
     public void setSpecie(int specie) {
         this.Specie = specie;
     }
 
+    //Pet Name
     public String getName() {
         return this.Name;
     }
-
     public void setName(String name) {
         this.Name = name;
     }
 
-    public Integer getIdentifier() {
-        return this.Identifier;
+    //Pet ID
+    public Integer getPetId() {
+        return this.PetId;
+    }
+    public void setPetId(Integer identifier) {
+        this.PetId = identifier;
     }
 
-    public void setIdentifier(Integer identifier) {
-        this.Identifier = identifier;
-    }
+    //Owner ID
+    public String getOwnerID() { return this.OwnerID; }
+    public void setOwnerID(String userID) { this.OwnerID = userID; }
 
-    public String getOwnerID() { return this.UserID; }
-
-    public void setOwnerID(String userID) { this.UserID = userID; }
-
-    public String getBreed() {
-        return this.Breed;
-    }
-
-    public void setBreed(String breed) {
-        this.Breed = breed;
-    }
-
+    //Pet Sex
     public int getSex() {
         return this.Sex;
     }
-
     public void setSex(int sex) {
         this.Sex = sex;
     }
 
-    public Integer getAge() {
-        return this.Age;
-    }
-
-    public void setAge(int age) {
-        this.Age = age;
-    }
-
-    public Integer getWeight() {
-        return this.Weight;
-    }
-
-    public void setWeight(Integer weight) {
-        this.Weight = weight;
-    }
-
+    //Pet Is Vaccinated
     public Boolean getVaccinated() {
         return this.Vaccinated;
     }
-
     public void setVaccinated(Boolean vaccinated) {
         this.Vaccinated = vaccinated;
     }
 
+    //Pet Diet
     public int getDiet() {
         return this.Diet;
     }
-
     public void setDiet(int diet) {
         this.Diet = diet;
     }
 
+    //Pet Description
     public String getDescription() {
         return this.Description;
     }
-
     public void setDescription(String description) {
         this.Description = description;
+    }
+
+    public String toJSON(){
+
+        JSONObject jsonObject= new JSONObject();
+        try {
+            jsonObject.put("Image",getImage());
+            jsonObject.put("Species",getSpecies());
+            jsonObject.put("Name",getName());
+            jsonObject.put("pet_id",getPetId());
+            jsonObject.put("OwnerID",getOwnerID());
+            jsonObject.put("Sex",getSex());
+            jsonObject.put("Vaccinated",getVaccinated());
+            jsonObject.put("Diet",getDiet());
+            jsonObject.put("Description",getDescription());
+
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "";
+        }
+
     }
 }
