@@ -1,7 +1,6 @@
 package sadna.java.petsadoption;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,14 +17,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 
 import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 
@@ -70,37 +65,10 @@ public class AddPetFragment extends Fragment {
                         Vaccinated, Diet, Description);
                 String petJSON = newPet.toJSON();
                 Toast.makeText(getActivity(), petJSON, Toast.LENGTH_LONG).show();
-                //TODO: add newPet to the database and then set newPet's Identifier
 
-                //Web Request To GScript
-
-                String my_url = "https://script.google.com/macros/s/AKfycbwN-2oGeltVPkN6QbeO244cF_M-W3ia_F_Mjw0D0Gw3IkJLUIejnON1XUEwt_cjof08/exec";
-                /*String my_data = petJSON;// Replace this with your data
-                MyHttpRequestTask api_request = new MyHttpRequestTask();
-                Log.e("PetAdded",petJSON);
-                api_request.execute(my_url,my_data);
-                */
-
-                Context mContext = null;
-                HttpUrlConnectionUtlity httpMethod = new HttpUrlConnectionUtlity (null);
-                JSONObject jsonEntity = new JSONObject();
-
-                try {
-                    jsonEntity.put("key1", "value1");
-                    jsonEntity.put("key2", "value2");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                httpMethod.setUrl(my_url);
-                HashMap<String, String> headerMap = new HashMap<>();
-                headerMap.put("key","value");
-                headerMap.put("key1","value1");
-                httpMethod.setHeaderMap(headerMap);
-                httpMethod.setRequestType(0); //specify POST/GET/DELETE/PUT
-                httpMethod.setEntityString(jsonEntity.toString());
-                httpMethod.execute();
-
+                //Web Request To Database
+                //createPet(String owner_id,String species,String gander, String pet_name, byte[] pet_image)
+                DatabaseHandler.createPet(newPet.getOwnerID(),newPet.getSpecies()+"", newPet.getSex()+"" ,newPet.getName(), newPet.getImage());
 
                 NavHostFragment.findNavController(AddPetFragment.this)
                         .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
@@ -180,7 +148,7 @@ public class AddPetFragment extends Fragment {
                 }
             }
         } else {
-            Toast.makeText(getActivity(), "You haven't picked Image",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "You haven't picked An Image",Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -1,5 +1,9 @@
 package sadna.java.petsadoption;
 
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -121,8 +125,8 @@ public class Pet {
         this.Description = description;
     }
 
+    //Create A Jason
     public String toJSON(){
-
         JSONObject jsonObject= new JSONObject();
         try {
             jsonObject.put("Image",getImage());
@@ -141,6 +145,31 @@ public class Pet {
             e.printStackTrace();
             return "";
         }
+    }
+
+    boolean created = false;
+    public void addToDatabase() {
+
+        ParseObject entity = new ParseObject("pets");
+
+        entity.put("pet_id", "A string");
+        entity.put("owner_id", ParseUser.getCurrentUser());
+        entity.put("pet_name", "A string");
+        entity.put("species", new ParseObject("Species"));
+        entity.put("gander", "A string");
+        entity.put("pet_image", new ParseFile("resume.txt", "My string content".getBytes()));
+
+        // Saves the new object.
+        // Notice that the SaveCallback is totally optional!
+        entity.saveInBackground(e -> {
+            if (e==null){
+                //Save was done
+
+            }else{
+                //Something went wrong
+                //this. (this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }

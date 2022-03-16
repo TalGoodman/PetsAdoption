@@ -1,28 +1,26 @@
 package sadna.java.petsadoption;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseApp;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import sadna.java.petsadoption.databinding.ActivityMainBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.FirebaseApp;
+import com.parse.ParseObject;
 
-import android.view.Menu;
-import android.view.MenuItem;
+import java.util.Date;
+
+import sadna.java.petsadoption.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +33,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Parse.com Object
+        ParseObject entity = new ParseObject("FirstClass");
+
+        entity.put("message", (new Date()).toString());
+
+        // Saves the new object.
+        // Notice that the SaveCallback is totally optional!
+        entity.saveInBackground(e -> {
+            if (e==null){
+                Log.v("SAVE", "Save was done");
+            }else{
+                //Something went wrong
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         FirebaseApp.initializeApp(this);
         /*gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
