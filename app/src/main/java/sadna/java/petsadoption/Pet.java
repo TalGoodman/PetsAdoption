@@ -10,7 +10,7 @@ import org.json.JSONObject;
 //Used Integers instead of ENUMS because ENUMS requires too much memory and
 //it might slow the application
 //https://stackoverflow.com/questions/9246934/working-with-enums-in-android
-public class Pet {
+public class Pet /*extends ParseObject*/ {
     //TODO: add more animals
     private static final int GENUS_CAT = 11;
     private static final int GENUS_DOG = 12;
