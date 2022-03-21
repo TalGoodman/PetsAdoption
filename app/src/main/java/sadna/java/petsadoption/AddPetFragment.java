@@ -42,7 +42,6 @@ public class AddPetFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentAddPetBinding.inflate(inflater, container, false);
         binding.spSpecieContentAdd.setSelection(0);
-
         return binding.getRoot();
     }
 
@@ -97,7 +96,7 @@ public class AddPetFragment extends Fragment {
                 headerMap.put("key","value");
                 headerMap.put("key1","value1");
                 httpMethod.setHeaderMap(headerMap);
-                httpMethod.setRequestType(0); //specify POST/GET/DELETE/PUT
+                httpMethod.setRequestType(1); //specify POST/GET/DELETE/PUT
                 httpMethod.setEntityString(jsonEntity.toString());
                 httpMethod.execute();
 
