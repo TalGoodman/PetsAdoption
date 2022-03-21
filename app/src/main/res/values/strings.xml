@@ -68,4 +68,11 @@
         <item>Carnivore</item>
         <item>Omnivore</item>
     </string-array>
+
+    //Back4App
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Change BOTH strings as required -->
+    <string name="back4app_app_id">OXRjW8j4dQmxGS2xYcnMgwOH4uzBH9NiFTajqBVJ</string>
+    <string name="back4app_client_key">w85QEiafF4uaDk17gSHMGKwD6f37vTv1C7sAaZIm</string>
 </resources>

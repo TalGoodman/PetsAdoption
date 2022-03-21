@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,14 +16,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView petImage;
-        public TextView petText;
+        public TextView petName;
+        public TextView petSpecies;
         public Button btnView;
 
         public ViewHolder(View v) {
             super(v);
             petImage = (ImageView) v.findViewById(R.id.ivPetSmallImage);
-            petText = (TextView) v.findViewById(R.id.tvPet);
-            btnView = (Button) v.findViewById(R.id.btnViewPet);
+            petName = (TextView) v.findViewById(R.id.tvPetNameRV);
+            petSpecies = (TextView) v.findViewById(R.id.tvPetNameRV);
+            btnView = (Button) v.findViewById(R.id.btnViewPetRV);
         }
     }
 
@@ -38,7 +39,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.pets_list_item, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -46,21 +47,22 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ImageView image = petImagesList[position];
-        String text = petTextsList[position];
+        String petText = petTextsList[position];
         Button button = petButtonsList[position];
         holder.petImage = image;
-        holder.petText.setText(text);
+        holder.petName.setText(petText);
         holder.btnView = button;
     }
 
     @Override
     public int getItemCount() {
-            int i;
+        return petTextsList.length;
+/*            int i;
             for (i = 0; i < petTextsList.length; i++) {
                 if (petTextsList[i] == "") {
                     return i;
                 }
             }
-            return i;
+            return i;*/
     }
 }

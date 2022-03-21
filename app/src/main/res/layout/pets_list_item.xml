@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ListItem">
+
+
+    <ImageView
+        android:id="@+id/ivPetSmallImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvPetNameRV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="53dp"
+        android:text="Pet Name"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnViewPetRV"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ivPetSmallImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnViewPetRV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="307dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="20dp"
+        android:text="View"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintStart_toEndOf="@+id/tvPetNameRV"
+        app:layout_constraintStart_toStartOf="@+id/ivPetSmallImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPetSpeciesRV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:text="Pet Species"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPetSmallImage"
+        app:layout_constraintStart_toStartOf="@+id/tvPetNameRV"
+        app:layout_constraintTop_toBottomOf="@+id/tvPetNameRV" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

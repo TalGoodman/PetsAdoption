@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import sadna.java.petsadoption.databinding.FragmentWatchPetsBinding;
@@ -27,6 +26,7 @@ public class WatchPetsFragment extends Fragment {
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
+
             Bundle savedInstanceState
     ) {
 
@@ -37,7 +37,17 @@ public class WatchPetsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        PetsAdapter pets_adapter = new PetsAdapter(this.getContext(),null,
+        1,
+        "name",
+        1111,
+        "2222",
+        1,
+        true,
+        4,
+        "description");
+        //recyclerView.setAdapter(pets_adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
     }
 
