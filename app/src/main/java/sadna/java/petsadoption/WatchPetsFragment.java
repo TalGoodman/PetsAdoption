@@ -11,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.parse.ParseObject;
+
+import java.util.List;
+
 import sadna.java.petsadoption.databinding.FragmentWatchPetsBinding;
 
 public class WatchPetsFragment extends Fragment {
@@ -31,24 +35,26 @@ public class WatchPetsFragment extends Fragment {
     ) {
 
         binding = FragmentWatchPetsBinding.inflate(inflater, container, false);
+        recyclerView = binding.rvWatchPetsList;
         return binding.getRoot();
 
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        List<ParseObject> petsList = DatabaseHandler.getAllPets();
         PetsAdapter pets_adapter = new PetsAdapter(this.getContext(),null,
-        1,
-        "name",
-        1111,
-        "2222",
-        1,
-        true,
-        4,
-        "description");
-        //recyclerView.setAdapter(pets_adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        
+                1,
+                "name",
+                1111,
+                "2222",
+                1,
+                true,
+                4,
+                "description");
+        recyclerView.setAdapter(pets_adapter);
+        //recyclerView.setLayoutManager(new recyclerView(this));
+
     }
 
     @Override
@@ -56,5 +62,4 @@ public class WatchPetsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }

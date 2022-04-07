@@ -33,20 +33,24 @@ public class DatabaseHandler {
         });
     }
 
-    public static void createPet(String owner_id,String species,String gander, String pet_name, byte[] pet_image) {
+    public static void createPet(String owner_id, String species, String gander, String pet_name, byte[] pet_image) throws ParseException {
         String pet_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
+        //ParseObject pet = ParseObject.createWithoutData("pets", pet_id);//new ParseObject("pets");
         ParseObject pet = new ParseObject("pets");
             pet.put("pet_id", pet_id);
             pet.put("owner_id",owner_id);
             pet.put("pet_name", pet_name);
-            pet.put("species", species);
+            pet.put("species",  species);
+            //pet.put("species", new ParseObject("Species")); //How do i set it to be a specific class?
             pet.put("gander", gander);
             pet.put("pet_image", new ParseFile(pet_name+".png", pet_image)); //Will Be The Pet Image
         pet.saveInBackground(e -> {
             if (e==null){
                 //Save was done
-                Log.d("PetCreated:",pet.getObjectId());
-                //pet.setObjectId(pet_id);
+                Log.d("PetCreated",pet.getObjectId());
+                pet.setObjectId(pet_id);
+                Log.d("PetUpdated",pet.getObjectId());
+                pet.saveInBackground();
             }else{
                 //Something went wrong
                 Log.d("PetCreationError",e.getMessage());
@@ -54,21 +58,21 @@ public class DatabaseHandler {
         });
     }
 
-    public static List<ParseObject> findPets() {
+    public static List<ParseObject> getAllPets() {
         //This find function works synchronously.
         //ToDo: Add a filter to match user pets only by user id
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         try {
-            List<ParseObject> list = query.find();
-            //ToDo: לעבור על הרשימה עם list.listIterator(i)
-            //Log.d("Finding Pets", "List: " + list.listIterator(1));
-            list.forEach(
+            List<ParseObject> pets_list = query.find();
+            //ToDo: לעבור על הרשימה עם pets_list.listIterator(i)
+            //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
+            pets_list.forEach(
                     (pet) -> {
                                 Log.d("Finding Pets", (String) pet.get("pet_name"));
                              }
             );
-//            Log.d("Pet: ", (String) list.get(1).get("pet_name"));
-            return list;
+//            Log.d("Pet: ", (String) pets_list.get(1).get("pet_name"));
+            return pets_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;
