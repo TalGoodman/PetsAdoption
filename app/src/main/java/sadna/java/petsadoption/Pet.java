@@ -1,5 +1,7 @@
 package sadna.java.petsadoption;
 
+import android.util.Log;
+
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -7,10 +9,12 @@ import com.parse.ParseUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 //Used Integers instead of ENUMS because ENUMS requires too much memory and
 //it might slow the application
 //https://stackoverflow.com/questions/9246934/working-with-enums-in-android
-public class Pet /*extends ParseObject*/ {
+public class Pet /*extends ParseObject*/{
     //TODO: add more animals
     private static final int GENUS_CAT = 11;
     private static final int GENUS_DOG = 12;
@@ -27,23 +31,23 @@ public class Pet /*extends ParseObject*/ {
     private static final int DIET_OMNIVORE = 33;
 
     private byte[] Image;
-    private int Specie;
+    private String Specie;
     private String Name;
-    private Integer PetId;
+    private String PetId;
     private String OwnerID;
     private String Breed;
-    private int Sex;
+    private String Sex;
     private Boolean Vaccinated;
     private int Diet;
     private String Description;
 
     public Pet(
             byte[] image,
-            int specie,
-            String name,
-            Integer pet_id,
+            String specie,
             String ownerID,
-            int sex,
+            String name,
+            String pet_id,
+            String sex,
             Boolean vaccinated,
             int diet,
             String description
@@ -66,10 +70,10 @@ public class Pet /*extends ParseObject*/ {
     }
 
     //Pet Species
-    public int getSpecies() {
+    public String getSpecies() {
         return this.Specie;
     }
-    public void setSpecie(int specie) {
+    public void setSpecie(String specie) {
         this.Specie = specie;
     }
 
@@ -82,10 +86,10 @@ public class Pet /*extends ParseObject*/ {
     }
 
     //Pet ID
-    public Integer getPetId() {
+    public String getPetId() {
         return this.PetId;
     }
-    public void setPetId(Integer identifier) {
+    public void setPetId(String identifier) {
         this.PetId = identifier;
     }
 
@@ -94,10 +98,10 @@ public class Pet /*extends ParseObject*/ {
     public void setOwnerID(String userID) { this.OwnerID = userID; }
 
     //Pet Sex
-    public int getSex() {
+    public String getSex() {
         return this.Sex;
     }
-    public void setSex(int sex) {
+    public void setSex(String sex) {
         this.Sex = sex;
     }
 
@@ -127,19 +131,19 @@ public class Pet /*extends ParseObject*/ {
 
     //Create A Jason
     public String toJSON(){
-        JSONObject jsonObject= new JSONObject();
+        JSONObject jsonPet= new JSONObject();
         try {
-            jsonObject.put("Image",getImage());
-            jsonObject.put("Species",getSpecies());
-            jsonObject.put("Name",getName());
-            jsonObject.put("pet_id",getPetId());
-            jsonObject.put("OwnerID",getOwnerID());
-            jsonObject.put("Sex",getSex());
-            jsonObject.put("Vaccinated",getVaccinated());
-            jsonObject.put("Diet",getDiet());
-            jsonObject.put("Description",getDescription());
+            jsonPet.put("Image",getImage());
+            jsonPet.put("Species",getSpecies());
+            jsonPet.put("Name",getName());
+            jsonPet.put("pet_id",getPetId());
+            jsonPet.put("OwnerID",getOwnerID());
+            jsonPet.put("Sex",getSex());
+            jsonPet.put("Vaccinated",getVaccinated());
+            jsonPet.put("Diet",getDiet());
+            jsonPet.put("Description",getDescription());
 
-            return jsonObject.toString();
+            return jsonPet.toString();
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -147,24 +151,46 @@ public class Pet /*extends ParseObject*/ {
         }
     }
 
+    public ParseObject toParseObject(){
+        return (new ParseObject(this.toJSON()));
+    }
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "Image=" + Arrays.toString(Image) +
+                ", Specie=" + Specie +
+                ", Name='" + Name + '\'' +
+                ", PetId='" + PetId + '\'' +
+                ", OwnerID='" + OwnerID + '\'' +
+                ", Breed='" + Breed + '\'' +
+                ", Sex=" + Sex +
+                ", Vaccinated=" + Vaccinated +
+                ", Diet=" + Diet +
+                ", Description='" + Description + '\'' +
+                ", created=" + created +
+                '}';
+    }
+
     boolean created = false;
     public void addToDatabase() {
 
-        ParseObject entity = new ParseObject("pets");
+        ParseObject pet = new ParseObject("pets");
 
-        entity.put("pet_id", "A string");
-        entity.put("owner_id", ParseUser.getCurrentUser());
-        entity.put("pet_name", "A string");
-        entity.put("species", new ParseObject("Species"));
-        entity.put("gander", "A string");
-        entity.put("pet_image", new ParseFile("resume.txt", "My string content".getBytes()));
+        pet.put("pet_id", "A string");
+        pet.put("owner_id", ParseUser.getCurrentUser());
+        pet.put("pet_name", "A string");
+        pet.put("species", new ParseObject("Species"));
+        pet.put("gander", "A string");
+        pet.put("pet_image", new ParseFile("resume.txt", "My string content".getBytes()));
 
         // Saves the new object.
         // Notice that the SaveCallback is totally optional!
-        entity.saveInBackground(e -> {
+        pet.saveInBackground(e -> {
             if (e==null){
                 //Save was done
-
+                created = true;
+                Log.d("addToDatabase()","New Pet Have Been Added To Database\n");
             }else{
                 //Something went wrong
                 //this. (this, e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.parse.ParseException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -43,32 +44,37 @@ public class AddPetFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //DEBUGGING SPECIES VALUE
+        Toast.makeText(getParentFragment().getActivity(), binding.spSexContentAdd.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
 
         //Add Pet Button
         binding.btnAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int Specie = binding.spSpecieContentAdd.getSelectedItemPosition();
+                String Specie = binding.spSpecieContentAdd.getSelectedItem().toString();
                 String Name = binding.etPetNameContentAdd.getText().toString();
                 if (Name.equals("")) {
                     Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
                     return;
                 }
-                Integer Identifier = 0;  //will be set later after the pet is added to the DB
-                String userID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
-                int Sex = binding.spSexContentAdd.getSelectedItemPosition();
+
+                String Identifier = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
+                String fbUserID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
+                String Sex = binding.spSexContentAdd.getSelectedItem().toString();
                 Boolean Vaccinated = binding.cbVaccinatedAdd.isChecked();
                 int Diet = binding.spDietContentAdd.getSelectedItemPosition();
                 String Description = binding.etDescriptionContentAdd.getText().toString();
 
-                Pet newPet = new Pet(petImageByteArray, Specie, Name, Identifier, userID, Sex,
+                Pet newPet = new Pet(petImageByteArray, Specie, fbUserID,Name,Identifier, Sex,
                         Vaccinated, Diet, Description);
                 String petJSON = newPet.toJSON();
                 Toast.makeText(getActivity(), petJSON, Toast.LENGTH_LONG).show();
 
-                //Web Request To Database
-                //createPet(String owner_id,String species,String gander, String pet_name, byte[] pet_image)
-                DatabaseHandler.createPet(newPet.getOwnerID(),newPet.getSpecies()+"", newPet.getSex()+"" ,newPet.getName(), newPet.getImage());
+                try {
+                    DatabaseHandler.createPet(newPet.getOwnerID(),newPet.getSpecies()+"", newPet.getSex()+"" ,newPet.getName(), newPet.getImage());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 NavHostFragment.findNavController(AddPetFragment.this)
                         .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);

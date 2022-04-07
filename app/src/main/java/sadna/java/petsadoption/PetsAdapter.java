@@ -33,7 +33,6 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsViewHolder
                        Boolean vaccinated,
                        int diet,
                        String description){
-
     }
 
 
