@@ -3,17 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ListItem">
 
 
     <ImageView
         android:id="@+id/ivPetSmallImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription='@string/desc_pet_image'
+        android:focusable="true"
+        android:scaleType="fitXY"
+        android:clickable="true"
+        android:src="@drawable/ic_empty_pet_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvPetNameRV"
@@ -51,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
         android:layout_marginTop="10dp"
-        android:text="Pet Species"
+        android:text="Pet Specie"
         android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@+id/ivPetSmallImage"
         app:layout_constraintStart_toStartOf="@+id/tvPetNameRV"

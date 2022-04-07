@@ -1,37 +1,50 @@
 package sadna.java.petsadoption;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
-    private ImageView[] petImagesList;
-    private String[] petTextsList;
-    private Button[] petButtonsList;
+    private ArrayList<String> petNamesTextList;
+    private ArrayList<String> petSpeciesTextList;
+    private ArrayList<Button> petButtonsList;
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView petImage;
         public TextView petName;
-        public TextView petSpecies;
+        public TextView petSpecie;
         public Button btnView;
 
         public ViewHolder(View v) {
             super(v);
             petImage = (ImageView) v.findViewById(R.id.ivPetSmallImage);
             petName = (TextView) v.findViewById(R.id.tvPetNameRV);
-            petSpecies = (TextView) v.findViewById(R.id.tvPetNameRV);
+            petSpecie = (TextView) v.findViewById(R.id.tvPetSpeciesRV);
             btnView = (Button) v.findViewById(R.id.btnViewPetRV);
         }
     }
 
-    public ListAdapter(ImageView[] petImagesList, String[] petTextsList, Button[] petButtonsList) {
-        this.petImagesList = petImagesList;
-        this.petTextsList = petTextsList;
+    public ListAdapter(ArrayList<String> petNamesList, ArrayList<String> petSpeciesTextList, ArrayList<Button> petButtonsList) {
+        this.petNamesTextList = petNamesList;
+        this.petSpeciesTextList = petSpeciesTextList;
         this.petButtonsList = petButtonsList;
     }
 
@@ -46,17 +59,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ImageView image = petImagesList[position];
-        String petText = petTextsList[position];
-        Button button = petButtonsList[position];
-        holder.petImage = image;
-        holder.petName.setText(petText);
+        String petName = petNamesTextList.get(position);
+        String petSpecie = petSpeciesTextList.get(position);
+        Button button = petButtonsList.get(position);
+        addImage(holder, petName);
+        holder.petName.setText(petName);
+        holder.petSpecie.setText(petSpecie);
         holder.btnView = button;
     }
 
     @Override
     public int getItemCount() {
-        return petTextsList.length;
+        return petNamesTextList.size();
 /*            int i;
             for (i = 0; i < petTextsList.length; i++) {
                 if (petTextsList[i] == "") {
@@ -64,5 +78,26 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                 }
             }
             return i;*/
+    }
+
+    private void addImage(ViewHolder holder, String petName){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("pets");
+        query.whereEqualTo("pet_name", petName);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (object != null) {
+                    ParseFile file = (ParseFile)object.get("pet_image");
+                    file.getDataInBackground(new GetDataCallback() {
+                        public void done(byte[] data, ParseException e) {
+                            if (e == null) {
+                                Bitmap bitmap;
+                                bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                holder.petImage.setImageBitmap(bitmap);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 }
