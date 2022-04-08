@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,13 +70,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     @Override
     public int getItemCount() {
         return petNamesTextList.size();
-/*            int i;
-            for (i = 0; i < petTextsList.length; i++) {
-                if (petTextsList[i] == "") {
-                    return i;
-                }
-            }
-            return i;*/
     }
 
     private void addImage(ViewHolder holder, String petName){

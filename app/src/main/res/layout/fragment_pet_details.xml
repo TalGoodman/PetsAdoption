@@ -27,7 +27,6 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
 
     <TextView
-        android:id="@+id/tvPetNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -50,7 +49,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
 
     <TextView
-        android:id="@+id/tvSpecieContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -73,7 +71,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSpecie" />
 
     <TextView
-        android:id="@+id/tvBreedContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -119,7 +116,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
 
     <TextView
-        android:id="@+id/tvAgeContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -165,7 +161,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSex" />
 
     <TextView
-        android:id="@+id/tvVaccinatedContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -188,7 +183,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
 
     <TextView
-        android:id="@+id/tvDietContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -235,7 +229,6 @@
         android:text="@string/request_to_adopt" />
 
     <Button
-        android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"

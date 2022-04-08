@@ -1,27 +1,18 @@
 package sadna.java.petsadoption;
 
-import android.app.ActionBar;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.parse.GetCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +49,14 @@ public class WatchPetsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<ParseObject> petsList = DatabaseHandler.getAllPets();
-        for(int i = 0; i < petsList.size(); i++){
-            petNamesTextList.add(i, petsList.get(i).get("pet_name").toString());
-            petSpeciesTextList.add(i, petsList.get(i).get("species").toString());
+        List<ParseObject> pets_list = DatabaseHandler.getAllPets();
+
+
+        for(int i = 0; i < pets_list.size(); i++){
+            petNamesTextList.add(i, pets_list.get(i).get("pet_name").toString());
+            petSpeciesTextList.add(i, pets_list.get(i).get("species").toString());
             Button button = new Button(getContext());
-            button.setText("View");
+            button.setText("Show Pet");
             buttonsList.add(i, button);
         }
         ListAdapter adapter = new ListAdapter(petNamesTextList, petSpeciesTextList, buttonsList);

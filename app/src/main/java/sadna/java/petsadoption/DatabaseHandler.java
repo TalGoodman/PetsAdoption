@@ -2,6 +2,7 @@ package sadna.java.petsadoption;
 
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -58,9 +59,29 @@ public class DatabaseHandler {
         });
     }
 
+    public static List<ParseObject> getUserPets() {
+        String user_id = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
+
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("owner_id", user_id);
+        try {
+            List<ParseObject> pets_list = query.find();
+            //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding User Pets", (String) pet.get("pet_name"));
+
+                    }
+            );
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static List<ParseObject> getAllPets() {
         //This find function works synchronously.
-        //ToDo: Add a filter to match user pets only by user id
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         try {
             List<ParseObject> pets_list = query.find();
@@ -79,8 +100,8 @@ public class DatabaseHandler {
         }
     }
 
+    //This find function works synchronously.
     public static List<ParseObject> find(String className) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>(className);
         try {
             List<ParseObject> list = query.find();
@@ -95,5 +116,3 @@ public class DatabaseHandler {
         }
     }
 };
-
-

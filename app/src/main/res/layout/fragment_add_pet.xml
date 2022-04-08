@@ -7,8 +7,6 @@
     tools:context=".AddPetFragment">
 
 
-    //ToDo: Make sure an image have been added
-
     <ImageView
         android:id="@+id/ivPetImageAdd"
         android:layout_width="120dp"
@@ -205,13 +203,11 @@
         app:layout_constraintTop_toTopOf="@+id/btnAddPet" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="spSexContentAdd" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/botomButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="btnAddPet,btnBackAdd"

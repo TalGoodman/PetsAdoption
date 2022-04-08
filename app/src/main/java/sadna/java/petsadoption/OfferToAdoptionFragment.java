@@ -1,16 +1,23 @@
 package sadna.java.petsadoption;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.parse.ParseObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import sadna.java.petsadoption.databinding.FragmentOfferToAdoptionBinding;
 
@@ -21,19 +28,45 @@ public class OfferToAdoptionFragment extends Fragment {
     private FragmentOfferToAdoptionBinding binding;
 
     private RecyclerView recyclerView;
-    private ImageView[] imagesList;
-    private String[] petsTextList;
-    private Button[] buttonsList;
+    private ArrayList<Bitmap> imagesList;
+    private ArrayList<String> petNamesTextList;
+    private ArrayList<String> petSpeciesTextList;
+    private ArrayList<Button> buttonsList;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentOfferToAdoptionBinding.inflate(inflater, container, false);
+        imagesList = new ArrayList<>();
+        petNamesTextList = new ArrayList<String>();
+        petSpeciesTextList = new ArrayList<String>();
+        buttonsList = new ArrayList<Button>();
+        recyclerView = binding.rvOfferToAdoptionList;
         return binding.getRoot();
     }
 
+
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        /****************************************************************/
+        //ToDo: Might be possible to filter the existing full pets list instead of getting it again to be more data efficient
+        List<ParseObject> pets_list = DatabaseHandler.getUserPets();
+
+        //ToDo: can we make something to create an item?
+        for(int i = 0; i < Objects.requireNonNull(pets_list).size(); i++){
+            petNamesTextList.add(i, Objects.requireNonNull(pets_list.get(i).get("pet_name")).toString());
+            petSpeciesTextList.add(i, Objects.requireNonNull(pets_list.get(i).get("species")).toString());
+            Button button = new Button(getContext());
+                button.setText("Show Pet");
+                button.setId(i);
+                buttonsList.add(i, button);
+        }
+        ListAdapter adapter = new ListAdapter(petNamesTextList, petSpeciesTextList, buttonsList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        /***************************************************************/
 
         binding.btnOfferPet.setOnClickListener(new View.OnClickListener() {
             @Override
