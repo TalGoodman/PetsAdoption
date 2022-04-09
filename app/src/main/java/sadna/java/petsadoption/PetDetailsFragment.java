@@ -1,6 +1,8 @@
 package sadna.java.petsadoption;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,20 +16,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
+
+import java.util.List;
+
 import sadna.java.petsadoption.databinding.FragmentPetDetailsBinding;
 
 public class PetDetailsFragment extends Fragment {
     private FragmentPetDetailsBinding binding;
 
     private String petId;
+    private String petName;
+    private String petSpecie;
+    private String petSex;
+    private String ownerId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPetDetailsBinding.inflate(inflater, container, false);
-        //petId = getArguments().getString("id");
-        //String text = "Hello";
-        //binding.tvPetNameContent.setText(text);
 
         // Inflate the layout for this fragment
         return binding.getRoot();
@@ -36,15 +43,22 @@ public class PetDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*((Activity) getActivity()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                binding.tvPetNameContent.
-            }
-        });*/
+
         petId = getArguments().getString("id");
-        binding.tvPetNameContent.setText(petId);
-        //binding.tvPetNameContent.setText("Hello");
+        petName = getArguments().getString("name");
+        petSpecie = getArguments().getString("specie");
+        petSex = getArguments().getString("sex");
+        ownerId = getArguments().getString("ownerId");
+
+        binding.tvPetNameContent.setText(petName);
+        binding.tvSpecieContent.setText(petSpecie);
+        binding.tvSexContent.setText(petSex);
+
+        byte[] data = getArguments().getByteArray("image_data");
+        if (data != null){
+            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
+            binding.ivPetImage.setImageBitmap(bmp);
+        }
     }
 
 
@@ -53,4 +67,5 @@ public class PetDetailsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

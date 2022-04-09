@@ -8,12 +8,15 @@
 
     <ImageView
         android:id="@+id/ivPetImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:contentDescription='@string/desc_pet_image'
+        android:focusable="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_empty_pet_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvPetName"
@@ -49,6 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
 
     <TextView
+        android:id="@+id/tvSpecieContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -60,28 +64,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
 
     <TextView
-        android:id="@+id/tvBreed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/breed"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpecie" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/content"
-        android:maxLines = "1"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvBreed"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpecie" />
-
-    <TextView
         android:id="@+id/tvSex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,7 +72,7 @@
         android:text="@string/sex"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecie" />
 
     <TextView
         android:id="@+id/tvSexContent"
@@ -98,69 +80,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
+        android:maxLines="1"
         android:text="@string/content"
-        android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvSex"
-        app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
-
-    <TextView
-        android:id="@+id/tvAge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp"
-        android:text="@string/age"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvSexContent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/content"
-        android:maxLines = "1"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvAge"
-        app:layout_constraintTop_toBottomOf="@+id/tvBreed" />
-
-    <TextView
-        android:id="@+id/tvWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/weight"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSex" />
-
-    <TextView
-        android:id="@+id/tvWeightContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/kg"
-        android:maxLines = "1"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvWeight"
-        app:layout_constraintTop_toBottomOf="@+id/tvAge" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecieContent" />
 
     <TextView
         android:id="@+id/tvVaccinated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="6dp"
         android:text="@string/vaccinated"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvWeightContent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSex" />
 
     <TextView
+        android:id="@+id/tvVaccinatedContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -169,7 +107,7 @@
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvVaccinated"
-        app:layout_constraintTop_toBottomOf="@+id/tvSex" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSexContent" />
 
     <TextView
         android:id="@+id/tvDiet"
@@ -180,9 +118,10 @@
         android:text="@string/diet"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
+        app:layout_constraintTop_toBottomOf="@+id/tvVaccinated" />
 
     <TextView
+        android:id="@+id/tvDietContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -191,7 +130,7 @@
         android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvDiet"
-        app:layout_constraintTop_toBottomOf="@+id/tvVaccinated" />
+        app:layout_constraintTop_toBottomOf="@+id/tvVaccinatedContent" />
 
     <TextView
         android:id="@+id/tvDescription"
@@ -214,7 +153,7 @@
         android:maxLines = "3"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvDescription"
-        app:layout_constraintTop_toBottomOf="@+id/tvDiet" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDietContent" />
 
     <Button
         android:id="@+id/btnRequestToAdopt"
