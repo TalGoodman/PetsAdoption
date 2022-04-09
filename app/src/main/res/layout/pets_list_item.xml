@@ -16,10 +16,9 @@
 
     <ImageView
         android:id="@+id/ivPetSmallImage"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_marginStart="16dp"
-        android:clickable="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
         android:contentDescription='@string/desc_pet_image'
         android:focusable="true"
         android:scaleType="fitXY"
@@ -33,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/tvPetNameListItem"
-        android:textSize="22sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvPetSpeciesRV"
         app:layout_constraintTop_toBottomOf="@+id/tvPetSpeciesRV"
@@ -44,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_list_item_pet_specie"
-        android:textSize="22sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnViewPetRV"
         app:layout_constraintHorizontal_bias="0.268"
@@ -58,8 +57,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
-        android:paddingHorizontal="15dp"
+        android:paddingHorizontal="10dp"
         android:paddingVertical="20dp"
+        android:editable="true"
+        android:textSize="10sp"
         android:text="@string/show_pet_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

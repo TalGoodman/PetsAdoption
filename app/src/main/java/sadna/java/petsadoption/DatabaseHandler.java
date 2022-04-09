@@ -1,9 +1,12 @@
 package sadna.java.petsadoption;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -114,5 +117,26 @@ public class DatabaseHandler {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void addImage(ListAdapter.ViewHolder holder, String petName){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("pets");
+        query.whereEqualTo("pet_name", petName);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (object != null) {
+                    ParseFile file = (ParseFile)object.get("pet_image");
+                    file.getDataInBackground(new GetDataCallback() {
+                        public void done(byte[] data, ParseException e) {
+                            if (e == null) {
+                                Bitmap bitmap;
+                                bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                holder.petImage.setImageBitmap(bitmap);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 };

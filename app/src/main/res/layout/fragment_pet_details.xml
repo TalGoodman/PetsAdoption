@@ -27,12 +27,12 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
 
     <TextView
+        android:id="@+id/tvPetNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
         android:text="@string/content"
-        android:maxLines = "1"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvPetName"
         app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />

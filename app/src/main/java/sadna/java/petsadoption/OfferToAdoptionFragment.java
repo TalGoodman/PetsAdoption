@@ -61,10 +61,10 @@ public class OfferToAdoptionFragment extends Fragment {
                 button.setText("Show Pet");
                 button.setId(i);
                 buttonsList.add(i, button);
-        }
+        }/*
         ListAdapter adapter = new ListAdapter(petNamesTextList, petSpeciesTextList, buttonsList);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));*/
 
         /***************************************************************/
 

@@ -2,13 +2,18 @@ package sadna.java.petsadoption;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.GetCallback;
@@ -23,7 +28,8 @@ import java.util.ArrayList;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     private ArrayList<String> petNamesTextList;
     private ArrayList<String> petSpeciesTextList;
-    private ArrayList<Button> petButtonsList;
+    private ArrayList<String> petIdsList;
+    private Fragment fragment;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -41,10 +47,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         }
     }
 
-    public ListAdapter(ArrayList<String> petNamesList, ArrayList<String> petSpeciesTextList, ArrayList<Button> petButtonsList) {
+    public ListAdapter(ArrayList<String> petNamesList, ArrayList<String> petSpeciesTextList, ArrayList<String> petIdsList, Fragment fragment) {
         this.petNamesTextList = petNamesList;
         this.petSpeciesTextList = petSpeciesTextList;
-        this.petButtonsList = petButtonsList;
+        this.petIdsList = petIdsList;
+        this.fragment = fragment;
     }
 
     @Override
@@ -60,11 +67,19 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
         String petName = petNamesTextList.get(position);
         String petSpecie = petSpeciesTextList.get(position);
-        Button button = petButtonsList.get(position);
-        addImage(holder, petName);
+        DatabaseHandler.addImage(holder, petName);
         holder.petName.setText(petName);
         holder.petSpecie.setText(petSpecie);
-        holder.btnView = button;
+        String petId = petIdsList.get(position);
+        Bundle bundle = new Bundle();
+        bundle.putString("id", petId);
+        holder.btnView .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_WatchPetsFragment_to_PetDetailsFragment, bundle);
+            }
+        });
     }
 
     @Override
@@ -72,24 +87,4 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         return petNamesTextList.size();
     }
 
-    private void addImage(ViewHolder holder, String petName){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("pets");
-        query.whereEqualTo("pet_name", petName);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (object != null) {
-                    ParseFile file = (ParseFile)object.get("pet_image");
-                    file.getDataInBackground(new GetDataCallback() {
-                        public void done(byte[] data, ParseException e) {
-                            if (e == null) {
-                                Bitmap bitmap;
-                                bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                holder.petImage.setImageBitmap(bitmap);
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    }
 }
