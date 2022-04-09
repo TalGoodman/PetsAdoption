@@ -1,8 +1,6 @@
 package sadna.java.petsadoption;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.parse.GetCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
 import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
+    private ArrayList<Bitmap> petImagesList;
     private ArrayList<String> petNamesTextList;
     private ArrayList<String> petSpeciesTextList;
     private ArrayList<String> petIdsList;
@@ -47,7 +38,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         }
     }
 
-    public ListAdapter(ArrayList<String> petNamesList, ArrayList<String> petSpeciesTextList, ArrayList<String> petIdsList, Fragment fragment) {
+    public ListAdapter(ArrayList<Bitmap> petImagesList, ArrayList<String> petNamesList, ArrayList<String> petSpeciesTextList, ArrayList<String> petIdsList, Fragment fragment) {
+        this.petImagesList = petImagesList;
         this.petNamesTextList = petNamesList;
         this.petSpeciesTextList = petSpeciesTextList;
         this.petIdsList = petIdsList;
@@ -67,12 +59,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
         String petName = petNamesTextList.get(position);
         String petSpecie = petSpeciesTextList.get(position);
+        //holder.petImage.setImageBitmap(petImagesList.get(position));
         DatabaseHandler.addImage(holder, petName);
-        holder.petName.setText(petName);
-        holder.petSpecie.setText(petSpecie);
         String petId = petIdsList.get(position);
         Bundle bundle = new Bundle();
         bundle.putString("id", petId);
+        holder.petName.setText(petName);
+        holder.petSpecie.setText(petSpecie);
         holder.btnView .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,5 +79,4 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     public int getItemCount() {
         return petNamesTextList.size();
     }
-
 }

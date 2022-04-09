@@ -83,6 +83,20 @@ public class DatabaseHandler {
         }
     }
 
+    //Gets A Pet By ID
+    public static ParseObject getPetByID(String pet_id) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("pet_id", pet_id);
+        try {
+            ParseObject pet = (ParseObject) query.find();
+            Log.d("Finding User Pets", (String) pet.get("pet_name"));
+            return pet;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static List<ParseObject> getAllPets() {
         //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
@@ -119,24 +133,56 @@ public class DatabaseHandler {
         }
     }
 
-    public static void addImage(ListAdapter.ViewHolder holder, String petName){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("pets");
-        query.whereEqualTo("pet_name", petName);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (object != null) {
-                    ParseFile file = (ParseFile)object.get("pet_image");
-                    file.getDataInBackground(new GetDataCallback() {
-                        public void done(byte[] data, ParseException e) {
-                            if (e == null) {
-                                Bitmap bitmap;
-                                bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                holder.petImage.setImageBitmap(bitmap);
+    //Get Pet Image From Parse Object
+    public static Bitmap getPetImage(ParseObject petObject)
+    {
+        final Bitmap[] bmp = new Bitmap[1];
+        ParseFile thumbnail = (ParseFile) petObject.get("pet_image");
+        thumbnail.getDataInBackground
+                (
+                    new GetDataCallback()
+                    {
+                        public void done(byte[] data, ParseException e)
+                        {
+                            Log.d("Getting Pet Image", "done");
+                            if (e == null)  {
+                                bmp[0] = BitmapFactory.decodeByteArray(data, 0,data.length);}
+                            Log.d("Getting Pet Image", "Pet Image Assigned: "+ bmp[0].toString());
+                        };
+                    }
+                );
+        return bmp[0];
+    };
+
+    //ToDo: Use this new addImage Method?
+    //Add Image To Pet Item In Adapter
+    public static void addImage2(ListAdapter.ViewHolder holder, ParseObject petObject)
+    {
+       Bitmap bitmap = getPetImage(petObject);
+       holder.petImage.setImageBitmap(bitmap);
+    };
+
+    //Add Image To Pet Item In Adapter
+    public static void addImage(ListAdapter.ViewHolder holder, String petName)
+    {
+       ParseQuery<ParseObject> query = ParseQuery.getQuery("pets");
+            query.whereEqualTo("pet_name", petName);
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    if (object != null) {
+                        ParseFile file = (ParseFile)object.get("pet_image");
+                        file.getDataInBackground(new GetDataCallback() {
+                            public void done(byte[] data, ParseException e) {
+                                if (e == null) {
+                                    Bitmap bitmap;
+                                    bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                    holder.petImage.setImageBitmap(bitmap);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            }
-        });
+            });
     }
+
 };

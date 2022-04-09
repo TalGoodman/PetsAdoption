@@ -10,7 +10,6 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.ParseObject;
@@ -61,10 +60,7 @@ public class OfferToAdoptionFragment extends Fragment {
                 button.setText("Show Pet");
                 button.setId(i);
                 buttonsList.add(i, button);
-        }/*
-        ListAdapter adapter = new ListAdapter(petNamesTextList, petSpeciesTextList, buttonsList);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));*/
+        }
 
         /***************************************************************/
 
