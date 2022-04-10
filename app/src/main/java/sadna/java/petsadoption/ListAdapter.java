@@ -84,7 +84,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         Bundle bundle = new Bundle();
         String name = object.get("pet_name").toString();
         String specie = object.get("species").toString();
-        String petId = object.getObjectId();
+        String petId = object.get("pet_id").toString();
         String sex = object.get("gander").toString();
         String ownerId = object.get("owner_id").toString();
         bundle.putString("name", name);

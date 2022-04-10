@@ -61,7 +61,7 @@
 
         <action
             android:id="@+id/action_PetDetailsFragment_to_WatchPetsFragment"
-            app:destination="@id/OfferToAdoptionFragment"/>
+            app:destination="@id/WatchPetsFragment"/>
     </fragment>
     <fragment
         android:id="@+id/PetListItemFragment"

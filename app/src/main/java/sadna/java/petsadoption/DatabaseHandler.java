@@ -16,6 +16,7 @@ import java.util.List;
 
 
 public class DatabaseHandler {
+
 //Create User
     public static void createUser(String user_name, String email) {
         ParseUser user = new ParseUser();
@@ -40,17 +41,21 @@ public class DatabaseHandler {
 
 
     //ToDo: add the nececeary users info
-    public static void createMessage(String pet_id) {
+    public static void createMessage(String pet_id, String owner_id) {
         ParseObject message = new ParseObject("messages");
+        String message_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
 
         message.put("pet_id", pet_id);
-        message.put("message_id", "A string");
-        message.put("owner_id", "A string");
-        message.put("sender_id", "A string");
+        message.put("message_id", message_id);
+        message.put("owner_id", owner_id);
+
+        String sender_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        message.put("sender_id", sender_id);
 
         // Saves the new object
         message.saveInBackground(e -> {
             if (e==null){
+                //message.setObjectId(message_id);
                 Log.d("createMessage", "createObject: "+message.toString());
             }else{
                 Log.d("createMessage", "createObject: "+e.getMessage());

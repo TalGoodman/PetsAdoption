@@ -168,6 +168,7 @@
         android:text="@string/request_to_adopt" />
 
     <Button
+        android:id="@+id/btnBackPetDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"

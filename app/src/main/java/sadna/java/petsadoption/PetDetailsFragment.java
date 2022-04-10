@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import sadna.java.petsadoption.databinding.FragmentPetDetailsBinding;
 
@@ -38,7 +39,7 @@ public class PetDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ownerId = getArguments().getString("ownerId");
-        petId = getArguments().getString("id");
+        petId = getArguments().getString("petId");
         petName = getArguments().getString("name");
         petSpecie = getArguments().getString("specie");
         petSex = getArguments().getString("sex");
@@ -52,9 +53,18 @@ public class PetDetailsFragment extends Fragment {
         binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseHandler.createMessage("petId");
+                DatabaseHandler.createMessage(petId, ownerId);
                 Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
+                NavHostFragment.findNavController(PetDetailsFragment.this)
+                        .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
+            }
+        });
 
+        binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(PetDetailsFragment.this)
+                        .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
             }
         });
 
