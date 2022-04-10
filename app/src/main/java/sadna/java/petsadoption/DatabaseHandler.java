@@ -3,42 +3,43 @@ package sadna.java.petsadoption;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
 
 public class DatabaseHandler {
-//Create Person
-    public static void createPerson(String person_name) {
-        //Saving your First data object on Back4App
-        ParseObject person = new ParseObject("Person");
-        person.put("name", person_name);
-        person.put("age", 27);
-        person.saveInBackground();
+//Create User
+    public static void createUser(String user_name) {
+        ParseUser user = new ParseUser();
+        user.setUsername(user_name);
+        user.setPassword("my pass");
+        user.setEmail("email@example.com");
 
-        //Reading your First Data Object from Back4App
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Person");
-        query.getInBackground("mhPFDlCahj", new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    // object will be your person
-                } else {
-                    // something went wrong
-                }
+        // Other fields can be set just like any other ParseObject,
+        // using the "put" method, like this: user.put("attribute", "its value");
+        // If this field does not exists, it will be automatically created
+
+        user.signUpInBackground(e -> {
+            if (e == null) {
+                // Hooray! Let them use the app now.
+            } else {
+                // Sign up didn't succeed. Look at the ParseException
+                // to figure out what went wrong
+                //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public static void createPet(String owner_id, String species, String gander, String pet_name, byte[] pet_image) throws ParseException {
+
+    public static void createPet(String owner_id, String species, String gender, Boolean vaccinated, String pet_name, byte[] pet_image) throws ParseException {
         String pet_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
         //ParseObject pet = ParseObject.createWithoutData("pets", pet_id);//new ParseObject("pets");
         ParseObject pet = new ParseObject("pets");
@@ -46,8 +47,9 @@ public class DatabaseHandler {
             pet.put("owner_id",owner_id);
             pet.put("pet_name", pet_name);
             pet.put("species",  species);
+            pet.put("vaccinated",  vaccinated);
             //pet.put("species", new ParseObject("Species")); //How do i set it to be a specific class?
-            pet.put("gander", gander);
+            pet.put("gander", gender);
             pet.put("pet_image", new ParseFile(pet_name+".png", pet_image)); //Will Be The Pet Image
         pet.saveInBackground(e -> {
             if (e==null){
@@ -84,10 +86,9 @@ public class DatabaseHandler {
         }
     }
 
-    //Gets A Pet By ID
+    //Synchronously Gets A Pet By ID.
     public static ParseObject getPetByID(String pet_id) {
-        //This find function works synchronously.
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("pet_id", pet_id);
+       ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("pet_id", pet_id);
         try {
             ParseObject pet = (ParseObject) query.find();
             Log.d("Finding User Pets", (String) pet.get("pet_name"));

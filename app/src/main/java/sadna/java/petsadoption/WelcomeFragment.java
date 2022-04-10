@@ -1,8 +1,8 @@
 package sadna.java.petsadoption;
 
-import android.app.Activity;
+import static sadna.java.petsadoption.DatabaseHandler.createUser;
+
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,17 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.android.gms.auth.api.identity.Identity;
-import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,16 +23,11 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserInfo;
-
-import java.util.concurrent.Executor;
 
 import sadna.java.petsadoption.databinding.FragmentWelcomeBinding;
 
@@ -178,9 +166,13 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
 
     private void updateUI(FirebaseUser user){
         if(user != null) {
-            binding.tvWelcome.setText("Logged in");
+            String user_name = user.getDisplayName();
+            binding.tvWelcome.setText("Logged in as "+user_name);
             TextView textView = (TextView) signInButton.getChildAt(0);
-            textView.setText("Sign out");
+                textView.setText("Sign out");
+            //ToDo: Check that it doesn't exist already
+            /*user.getEmail();
+            user.getUid();*/
         } else {
             binding.tvWelcome.setText("Welcome to Pets Adoption!");
             TextView textView = (TextView) signInButton.getChildAt(0);
@@ -197,10 +189,11 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             //progressBar.dismiss();
             Toast.makeText(getActivity(), "Login was successful",
                     Toast.LENGTH_SHORT).show();
+            createUser(user.getDisplayName()); //Create A User on login
             updateUI(user);
             Intent intent = new Intent(getActivity(),MainActivity.class);
             startActivity(intent);
-            //Intent intent = new Intent(this, MainActivity.class);
+
             //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //this.startActivity(intent);
             //finish();

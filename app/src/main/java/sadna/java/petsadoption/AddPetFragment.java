@@ -44,8 +44,9 @@ public class AddPetFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //DEBUGGING SPECIES VALUE
+        /*DEBUGGING SPECIES VALUE
         Toast.makeText(getParentFragment().getActivity(), binding.spSexContentAdd.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+         */
 
         //Add Pet Button
         binding.btnAddPet.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +72,13 @@ public class AddPetFragment extends Fragment {
                 Toast.makeText(getActivity(), petJSON, Toast.LENGTH_LONG).show();
 
                 try {
-                    DatabaseHandler.createPet(newPet.getOwnerID(),newPet.getSpecies()+"", newPet.getSex()+"" ,newPet.getName(), newPet.getImage());
+                    DatabaseHandler.createPet(
+                            newPet.getOwnerID(),
+                            newPet.getSpecies()+"",
+                            newPet.getSex()+"",
+                            newPet.getVaccinated() ,
+                            newPet.getName(),
+                            newPet.getImage());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
