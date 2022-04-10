@@ -189,7 +189,8 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             //progressBar.dismiss();
             Toast.makeText(getActivity(), "Login was successful",
                     Toast.LENGTH_SHORT).show();
-            createUser(user.getDisplayName()); //Create A User on login
+            String email = user.getEmail();
+            createUser(user.getDisplayName(), email); //Create A User on login
             updateUI(user);
             Intent intent = new Intent(getActivity(),MainActivity.class);
             startActivity(intent);

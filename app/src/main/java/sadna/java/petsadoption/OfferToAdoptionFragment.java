@@ -79,6 +79,7 @@ public class OfferToAdoptionFragment extends Fragment {
                         .navigate(R.id.action_OfferToAdoptionFragment_to_WelcomeFragment);
             }
         });
+
         DatabaseHandler.getAllPets();
     }
 

@@ -1,24 +1,16 @@
 package sadna.java.petsadoption;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.os.Handler;
-import android.os.Looper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.parse.ParseObject;
-
-import java.util.List;
 
 import sadna.java.petsadoption.databinding.FragmentPetDetailsBinding;
 
@@ -29,6 +21,7 @@ public class PetDetailsFragment extends Fragment {
     private String petName;
     private String petSpecie;
     private String petSex;
+    private Boolean petVaccinated;
     private String ownerId;
 
     @Override
@@ -44,15 +37,26 @@ public class PetDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ownerId = getArguments().getString("ownerId");
         petId = getArguments().getString("id");
         petName = getArguments().getString("name");
         petSpecie = getArguments().getString("specie");
         petSex = getArguments().getString("sex");
-        ownerId = getArguments().getString("ownerId");
+        petVaccinated = getArguments().getBoolean("vaccinated");
 
         binding.tvPetNameContent.setText(petName);
         binding.tvSpecieContent.setText(petSpecie);
         binding.tvSexContent.setText(petSex);
+        binding.tvVaccinatedContent.setText(petVaccinated.toString());
+
+        binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseHandler.createMessage("petId");
+                Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
+
+            }
+        });
 
         byte[] data = getArguments().getByteArray("image_data");
         if (data != null){
@@ -67,5 +71,4 @@ public class PetDetailsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }

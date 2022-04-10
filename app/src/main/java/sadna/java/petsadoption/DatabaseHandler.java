@@ -17,11 +17,11 @@ import java.util.List;
 
 public class DatabaseHandler {
 //Create User
-    public static void createUser(String user_name) {
+    public static void createUser(String user_name, String email) {
         ParseUser user = new ParseUser();
         user.setUsername(user_name);
         user.setPassword("my pass");
-        user.setEmail("email@example.com");
+        user.setEmail(email);
 
         // Other fields can be set just like any other ParseObject,
         // using the "put" method, like this: user.put("attribute", "its value");
@@ -38,6 +38,26 @@ public class DatabaseHandler {
         });
     }
 
+
+    //ToDo: add the nececeary users info
+    public static void createMessage(String pet_id) {
+        ParseObject message = new ParseObject("messages");
+
+        message.put("pet_id", pet_id);
+        message.put("message_id", "A string");
+        message.put("owner_id", "A string");
+        message.put("sender_id", "A string");
+
+        // Saves the new object
+        message.saveInBackground(e -> {
+            if (e==null){
+                Log.d("createMessage", "createObject: "+message.toString());
+            }else{
+                Log.d("createMessage", "createObject: "+e.getMessage());
+            }
+        });
+
+    }
 
     public static void createPet(String owner_id, String species, String gender, Boolean vaccinated, String pet_name, byte[] pet_image) throws ParseException {
         String pet_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
@@ -157,5 +177,4 @@ public class DatabaseHandler {
                 );
         return bmp[0];
     }
-
 }
