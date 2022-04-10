@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_OfferToAdoptionFragment_to_AddPetFragment"
             app:destination="@id/AddPetFragment" />
+        <action
+            android:id="@+id/action_OfferToAdoptionFragment_to_PetDetailsFragment"
+            app:destination="@id/PetDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/AddPetFragment"
@@ -62,6 +65,9 @@
         <action
             android:id="@+id/action_PetDetailsFragment_to_WatchPetsFragment"
             app:destination="@id/WatchPetsFragment"/>
+        <action
+            android:id="@+id/action_PetDetailsFragment_to_OfferToAdoptionFragment"
+            app:destination="@id/OfferToAdoptionFragment"/>
     </fragment>
     <fragment
         android:id="@+id/PetListItemFragment"

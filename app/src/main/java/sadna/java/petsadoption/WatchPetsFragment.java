@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -40,7 +41,8 @@ public class WatchPetsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<ParseObject> pets_list = DatabaseHandler.getAllPets();
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        List<ParseObject> pets_list = DatabaseHandler.getPetsOfOtherUsers(currentUserId);
 
         ListAdapter adapter = new ListAdapter(pets_list, WatchPetsFragment.this);
         recyclerView.setAdapter(adapter);

@@ -124,6 +124,23 @@ public class DatabaseHandler {
         }
     }
 
+    public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
+        try {
+            List<ParseObject> pets_list = query.find();
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
+                    }
+            );
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static List<ParseObject> getAllPets() {
         //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");

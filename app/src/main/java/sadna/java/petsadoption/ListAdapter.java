@@ -69,8 +69,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         holder.btnView .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(fragment)
-                        .navigate(R.id.action_WatchPetsFragment_to_PetDetailsFragment, bundle);
+                if(fragment.getClass() == WatchPetsFragment.class){
+                    NavHostFragment.findNavController(fragment)
+                            .navigate(R.id.action_WatchPetsFragment_to_PetDetailsFragment, bundle);
+                } else if(fragment.getClass() == OfferToAdoptionFragment.class){
+                    NavHostFragment.findNavController(fragment)
+                            .navigate(R.id.action_OfferToAdoptionFragment_to_PetDetailsFragment, bundle);
+                }
             }
         });
     }
