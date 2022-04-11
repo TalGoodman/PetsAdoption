@@ -27,6 +27,8 @@ public class PetDetailsFragment extends Fragment {
     private Boolean petVaccinated;
     private String ownerId;
 
+    private boolean isRequested;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,9 +44,8 @@ public class PetDetailsFragment extends Fragment {
 
         ownerId = getArguments().getString("ownerId");
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if(currentUserId.equals(ownerId)){
-            binding.btnRequestToAdopt.setVisibility(View.INVISIBLE);
-        }
+
+        isRequested = getArguments().getBoolean("isRequested");
 
         petId = getArguments().getString("petId");
         petName = getArguments().getString("name");
@@ -75,8 +76,21 @@ public class PetDetailsFragment extends Fragment {
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
                 }
             });
+            if(isRequested) {
+                binding.btnRequestToAdopt.setText("Already Requested");
+                binding.btnRequestToAdopt.setEnabled(false);
+            }
         } else {
-            binding.btnRequestToAdopt.setVisibility(View.INVISIBLE);
+            binding.btnRequestToAdopt.setText("Delete Pet");
+            binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DatabaseHandler.deletePetByID(petId);
+                    Log.d("btnRequestToAdopt.onClick", "DeletePet");
+                    NavHostFragment.findNavController(PetDetailsFragment.this)
+                            .navigate(R.id.action_PetDetailsFragment_to_OfferToAdoptionFragment);
+                }
+            });
             binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

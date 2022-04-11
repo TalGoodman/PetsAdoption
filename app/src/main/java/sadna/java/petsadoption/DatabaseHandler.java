@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.parse.DeleteCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -12,7 +13,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class DatabaseHandler {
@@ -113,18 +117,18 @@ public class DatabaseHandler {
 
     //Synchronously Gets A Pet By ID.
     public static ParseObject getPetByID(String pet_id) {
-       ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("pet_id", pet_id);
+       ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereEqualTo("pet_id", pet_id);
         try {
-            ParseObject pet = (ParseObject) query.find();
-            Log.d("Finding User Pets", (String) pet.get("pet_name"));
-            return pet;
+            List<ParseObject> pet =  query.find();
+            Log.d("Finding User Pets", (String) pet.get(0).get("pet_name"));
+            return pet.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;
         }
     }
-
-    public void deletePetByID(String pet_id) {
+/*Itay
+    public static void deletePetByID(String pet_id) {
         ParseObject pet_to_remove = getPetByID(pet_id);
         if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
             if (e == null) {
@@ -135,6 +139,18 @@ public class DatabaseHandler {
         });
         }
         ;
+    }*/
+
+    public static void deletePetByID(String pet_id) {
+        ParseObject pet_to_remove = getPetByID(pet_id);
+        if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
+            if (e == null) {
+                //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                Log.d("deletePet", pet_id+" delete successfuly");
+            }
+            ;
+        });
+        }
     }
 
     public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
@@ -145,6 +161,45 @@ public class DatabaseHandler {
             pets_list.forEach(
                     (pet) -> {
                         Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
+                    }
+            );
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<ParseObject> getRequestMessages(String user_id) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("sender_id", user_id);
+        try {
+            List<ParseObject> messages_list = query.find();
+            messages_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding User Messages", (String) pet.get("message_id"));
+                    }
+            );
+            return messages_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<ParseObject> getNotRequestedPets(String user_id) {
+        List<ParseObject> messages_list = getRequestMessages(user_id);
+        Set<String> requested_pets_ids = new HashSet<>();
+        for(int i = 0; i < messages_list.size(); i++) {
+            String pet_id = messages_list.get(i).get("pet_id").toString();
+            requested_pets_ids.add(pet_id);
+        }
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotContainedIn("pet_id", requested_pets_ids);
+        try {
+            List<ParseObject> pets_list = query.find();
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding Not Requested Pets", (String) pet.get("pet_name"));
                     }
             );
             return pets_list;

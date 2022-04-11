@@ -44,7 +44,10 @@ public class WatchPetsFragment extends Fragment {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         List<ParseObject> pets_list = DatabaseHandler.getPetsOfOtherUsers(currentUserId);
 
-        ListAdapter adapter = new ListAdapter(pets_list, WatchPetsFragment.this);
+        List<ParseObject> not_requested_pets_list = DatabaseHandler.getNotRequestedPets(currentUserId);
+
+
+        ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
