@@ -41,7 +41,7 @@ public class DatabaseHandler {
 
 
     //ToDo: add the nececeary users info
-    public static void createMessage(String pet_id) {
+    public static void createMessage(String petId, String pet_id) {
         ParseObject message = new ParseObject("messages");
 
         message.put("pet_id", pet_id);
@@ -60,6 +60,8 @@ public class DatabaseHandler {
 
     }
 
+
+
     public static void createPet(String owner_id, String species, String gender, Boolean vaccinated, String pet_name, byte[] pet_image) throws ParseException {
         String pet_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
         //ParseObject pet = ParseObject.createWithoutData("pets", pet_id);//new ParseObject("pets");
@@ -69,7 +71,6 @@ public class DatabaseHandler {
             pet.put("pet_name", pet_name);
             pet.put("species",  species);
             pet.put("vaccinated",  vaccinated);
-            //pet.put("species", new ParseObject("Species")); //How do i set it to be a specific class?
             pet.put("gander", gender);
             pet.put("pet_image", new ParseFile(pet_name+".png", pet_image)); //Will Be The Pet Image
         pet.saveInBackground(e -> {
@@ -97,7 +98,6 @@ public class DatabaseHandler {
             pets_list.forEach(
                     (pet) -> {
                         Log.d("Finding User Pets", (String) pet.get("pet_name"));
-
                     }
             );
             return pets_list;
@@ -106,6 +106,60 @@ public class DatabaseHandler {
             return null;
         }
     }
+
+    //ToDo: להשתמש ב fetchFromLocalDatastore()
+
+    //Get Other Users Pets
+    public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
+        //This find function works synchronously.
+        //ToDo: Change to "not contained in" with "get user pets" and "get all pets"
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
+        try {
+            List<ParseObject> pets_list = query.find();
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
+                    }
+            );
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<ParseObject> userAdoptionRequests(String user_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereContains("sender_id", user_id);
+        try {
+            List<ParseObject> messages = query.find();
+            Log.d("Finding Requests Messages", ""+(String) messages.get(1).get("pet_id"));
+            return messages;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*
+    //Get Pets Ids if requested to adopt them Requested
+    public static List<ParseObject> getRequestedPets(String user_id) {
+        //This find function works synchronously.
+        //ToDo: Change to "not contained in" with "get user pets" and "get all pets"
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
+        try {
+            List<ParseObject> pets_list = query.find();
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
+                    }
+            );
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+     */
 
     //Synchronously Gets A Pet By ID.
     public static ParseObject getPetByID(String pet_id) {
@@ -133,22 +187,7 @@ public class DatabaseHandler {
         ;
     }
 
-    public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
-        //This find function works synchronously.
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
-        try {
-            List<ParseObject> pets_list = query.find();
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
-                    }
-            );
-            return pets_list;
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 
     public static List<ParseObject> getAllPets() {
         //This find function works synchronously.
