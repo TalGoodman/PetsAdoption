@@ -124,6 +124,19 @@ public class DatabaseHandler {
         }
     }
 
+    public void deletePetByID(String pet_id) {
+        ParseObject pet_to_remove = getPetByID(pet_id);
+        if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
+            if (e == null) {
+                //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                Log.d("deletePet", pet_id+" delete successfuly");
+            }
+            ;
+        });
+        }
+        ;
+    }
+
     public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
         //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
