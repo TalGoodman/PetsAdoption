@@ -41,6 +41,7 @@ public class DatabaseHandler {
 
 
     //ToDo: add the nececeary users info
+    //ToDo: make sure it's unique
     public static void createMessage(String petId, String pet_id) {
         ParseObject message = new ParseObject("messages");
 
@@ -128,13 +129,14 @@ public class DatabaseHandler {
         }
     }
 
-    public static List<ParseObject> userAdoptionRequests(String user_id) {
+    public static List<ParseObject> getUserAdoptionRequests(String user_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereContains("sender_id", user_id);
         try {
             List<ParseObject> messages = query.find();
             Log.d("Finding Requests Messages", ""+(String) messages.get(1).get("pet_id"));
             return messages;
         } catch (com.parse.ParseException e) {
+            Log.d("Finding Requests Messages", "can't do that right now");
             e.printStackTrace();
             return null;
         }

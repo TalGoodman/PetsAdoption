@@ -191,8 +191,10 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                     Toast.LENGTH_SHORT).show();
             String email = user.getEmail();
             String display_name = user.getDisplayName();
-            String firebase_id = user.getUid();
+            //String firebase_id = user.getUid();
+            String firebase_id = user.getProviderId();
                 createUser(display_name, email, firebase_id); //Create A User on login
+                DatabaseHandler.getUserAdoptionRequests(firebase_id);
             updateUI(user);
             Intent intent = new Intent(getActivity(),MainActivity.class);
             startActivity(intent);
