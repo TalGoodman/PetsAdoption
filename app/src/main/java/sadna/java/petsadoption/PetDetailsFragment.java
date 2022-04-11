@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import sadna.java.petsadoption.databinding.FragmentPetDetailsBinding;
 
@@ -38,6 +41,11 @@ public class PetDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ownerId = getArguments().getString("ownerId");
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(currentUserId.equals(ownerId)){
+            binding.btnRequestToAdopt.setVisibility(View.INVISIBLE);
+        }
+
         petId = getArguments().getString("id");
         petName = getArguments().getString("name");
         petSpecie = getArguments().getString("specie");
@@ -49,14 +57,34 @@ public class PetDetailsFragment extends Fragment {
         binding.tvSexContent.setText(petSex);
         binding.tvVaccinatedContent.setText(petVaccinated.toString());
 
-        binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseHandler.createMessage("petId");
-                Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
+        if(!currentUserId.equals(ownerId)) {
+            binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DatabaseHandler.createMessage(petId, ownerId);
+                    Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
+                    NavHostFragment.findNavController(PetDetailsFragment.this)
+                            .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
+                }
+            });
 
-            }
-        });
+            binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavHostFragment.findNavController(PetDetailsFragment.this)
+                            .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
+                }
+            });
+        } else {
+            binding.btnRequestToAdopt.setVisibility(View.INVISIBLE);
+            binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavHostFragment.findNavController(PetDetailsFragment.this)
+                            .navigate(R.id.action_PetDetailsFragment_to_OfferToAdoptionFragment);
+                }
+            });
+        }
 
         byte[] data = getArguments().getByteArray("image_data");
         if (data != null){

@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.ParseObject;
@@ -51,6 +52,10 @@ public class OfferToAdoptionFragment extends Fragment {
         /****************************************************************/
         //ToDo: Might be possible to filter the existing full pets list instead of getting it again to be more data efficient
         List<ParseObject> pets_list = DatabaseHandler.getUserPets();
+        ListAdapter adapter = new ListAdapter(pets_list, OfferToAdoptionFragment.this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         //ToDo: can we make something to create an item?
         for(int i = 0; i < Objects.requireNonNull(pets_list).size(); i++){

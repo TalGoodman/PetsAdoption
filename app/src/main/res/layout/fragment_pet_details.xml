@@ -168,15 +168,16 @@
         android:text="@string/request_to_adopt" />
 
     <Button
+        android:id="@+id/btnBackPetDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
         android:layout_marginStart="36dp"
+        android:layout_marginTop="36dp"
         android:padding="14dip"
-        app:layout_constraintStart_toEndOf="@+id/btnRequestToAdopt"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"
+        android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/back"/>
+        app:layout_constraintStart_toEndOf="@+id/btnRequestToAdopt"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

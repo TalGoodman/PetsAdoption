@@ -17,11 +17,12 @@ import java.util.List;
 
 public class DatabaseHandler {
 //Create User
-    public static void createUser(String user_name, String email) {
+    public static void createUser(String user_name, String email, String firbase_id) {
         ParseUser user = new ParseUser();
         user.setUsername(user_name);
         user.setPassword("my pass");
         user.setEmail(email);
+        user.put("firbase_id",firbase_id);
 
         // Other fields can be set just like any other ParseObject,
         // using the "put" method, like this: user.put("attribute", "its value");
@@ -113,6 +114,36 @@ public class DatabaseHandler {
             ParseObject pet = (ParseObject) query.find();
             Log.d("Finding User Pets", (String) pet.get("pet_name"));
             return pet;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void deletePetByID(String pet_id) {
+        ParseObject pet_to_remove = getPetByID(pet_id);
+        if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
+                if (e == null) {
+                    //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                    Log.d("deletePet", pet_id+" delete successfuly");
+                }
+                ;
+            });
+        }
+        ;
+    }
+
+    public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
+        try {
+            List<ParseObject> pets_list = query.find();
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
+                    }
+            );
+            return pets_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;

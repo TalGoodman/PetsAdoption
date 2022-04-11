@@ -1,6 +1,5 @@
 package sadna.java.petsadoption;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
@@ -69,8 +67,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         holder.btnView .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(fragment)
-                        .navigate(R.id.action_WatchPetsFragment_to_PetDetailsFragment, bundle);
+                if(fragment.getClass() == WatchPetsFragment.class){
+                    NavHostFragment.findNavController(fragment)
+                            .navigate(R.id.action_WatchPetsFragment_to_PetDetailsFragment, bundle);
+                } else if(fragment.getClass() == OfferToAdoptionFragment.class){
+                    NavHostFragment.findNavController(fragment)
+                            .navigate(R.id.action_OfferToAdoptionFragment_to_PetDetailsFragment, bundle);
+                }
             }
         });
     }
