@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private String offerToAdoptionFragmentName;
     private String petDetailsFragmentName;
     private String addPetFragmentName;
+    private String watchMessagesFragmentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         offerToAdoptionFragmentName = OfferToAdoptionFragment.class.getName();
         petDetailsFragmentName = PetDetailsFragment.class.getName();
         addPetFragmentName = AddPetFragment.class.getName();
+        watchMessagesFragmentName = WatchMessagesFragment.class.getName();
         //TODO:
         //if GoogleSignInAccount returns null, then the user is not signed in already
         //else, the user is signed in
@@ -145,6 +147,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (addPetFragmentName.equals(currentFragmentName)) {
             NavHostFragment.findNavController(currentFragment)
                     .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
+            return true;
+        } else if (watchMessagesFragmentName.equals(currentFragmentName)) {
+            NavHostFragment.findNavController(currentFragment)
+                    .navigate(R.id.action_WatchMessagesFragment_to_WelcomeFragment);
             return true;
         } else if (petDetailsFragmentName.equals(currentFragmentName)){
             PetDetailsFragment currentPetDetailsFragment = (PetDetailsFragment)currentFragment;

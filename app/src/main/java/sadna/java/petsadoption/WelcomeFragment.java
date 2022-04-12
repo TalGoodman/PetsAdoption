@@ -102,6 +102,14 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             }
         });
 
+        binding.btnWatchMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(WelcomeFragment.this)
+                        .navigate(R.id.action_WelcomeFragment_to_WatchMessagesFragment);
+            }
+        });
+
         binding.btnOfferToAdoption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +198,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             Toast.makeText(getActivity(), "Login was successful",
                     Toast.LENGTH_SHORT).show();
             String email = user.getEmail();
-            createUser(user.getDisplayName(), email); //Create A User on login
+            createUser(user.getUid(), email, user.getDisplayName()); //Create A User on login
             updateUI(user);
             Intent intent = new Intent(getActivity(),MainActivity.class);
             startActivity(intent);

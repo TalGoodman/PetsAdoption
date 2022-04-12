@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.parse.DeleteCallback;
 import com.parse.GetDataCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -22,7 +23,7 @@ import java.util.Set;
 public class DatabaseHandler {
 
 //Create User
-    public static void createUser(String user_name, String email) {
+    public static void createUserItay(String user_name, String email) {
         ParseUser user = new ParseUser();
         user.setUsername(user_name);
         user.setPassword("my pass");
@@ -41,6 +42,15 @@ public class DatabaseHandler {
                 //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    //create user by tal
+    public static void createUser(String user_id, String user_email, String user_name) {
+        ParseObject user = new ParseObject("users");
+        user.put("user_id", user_id);
+        user.put("user_email",user_email);
+        user.put("user_name", user_name);
+        user.saveInBackground();
     }
 
 
@@ -115,6 +125,18 @@ public class DatabaseHandler {
         }
     }
 
+    public static ParseObject getUserByID(String user_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("users").whereEqualTo("user_id", user_id);
+        try {
+            List<ParseObject> user =  query.find();
+            Log.d("Finding User", (String) user.get(0).get("user_name"));
+            return user.get(0);
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     //Synchronously Gets A Pet By ID.
     public static ParseObject getPetByID(String pet_id) {
        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereEqualTo("pet_id", pet_id);
@@ -122,6 +144,18 @@ public class DatabaseHandler {
             List<ParseObject> pet =  query.find();
             Log.d("Finding User Pets", (String) pet.get(0).get("pet_name"));
             return pet.get(0);
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ParseObject getMessageByID(String message_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("message_id", message_id);
+        try {
+            List<ParseObject> message =  query.find();
+            Log.d("Finding Message", (String) message.get(0).get("message_id"));
+            return message.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;
@@ -141,7 +175,20 @@ public class DatabaseHandler {
         ;
     }*/
 
+    public static void deleteMessageByID(String message_id) {
+        ParseObject message_to_remove = getMessageByID(message_id);
+        if (message_to_remove != null) {message_to_remove.deleteInBackground(e -> {
+            if (e == null) {
+                //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                Log.d("deleteMessage", message_to_remove+" delete successfuly");
+            }
+            ;
+        });
+        }
+    }
+
     public static void deletePetByID(String pet_id) {
+        deleteMessagesByKeyAndValue("pet_id", pet_id);
         ParseObject pet_to_remove = getPetByID(pet_id);
         if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
             if (e == null) {
@@ -150,6 +197,14 @@ public class DatabaseHandler {
             }
             ;
         });
+        }
+    }
+
+    public static void deleteMessagesByKeyAndValue(String key, String value) {
+        List<ParseObject> messages_list = getMessagesByKeyAndValue(key, value);
+        for (ParseObject parseObj:messages_list
+             ) {
+            parseObj.deleteInBackground();
         }
     }
 
@@ -170,9 +225,9 @@ public class DatabaseHandler {
         }
     }
 
-    public static List<ParseObject> getRequestMessages(String user_id) {
+    public static List<ParseObject> getMessagesByKeyAndValue(String key, String value) {
         //This find function works synchronously.
-        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("sender_id", user_id);
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo(key, value);
         try {
             List<ParseObject> messages_list = query.find();
             messages_list.forEach(
@@ -187,8 +242,9 @@ public class DatabaseHandler {
         }
     }
 
+
     public static List<ParseObject> getNotRequestedPets(String user_id) {
-        List<ParseObject> messages_list = getRequestMessages(user_id);
+        List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
         Set<String> requested_pets_ids = new HashSet<>();
         for(int i = 0; i < messages_list.size(); i++) {
             String pet_id = messages_list.get(i).get("pet_id").toString();

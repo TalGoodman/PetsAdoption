@@ -14,6 +14,9 @@
             android:id="@+id/action_WelcomeFragment_to_WatchPetsFragment"
             app:destination="@id/WatchPetsFragment" />
         <action
+            android:id="@+id/action_WelcomeFragment_to_WatchMessagesFragment"
+            app:destination="@id/WatchMessagesFragment" />
+        <action
             android:id="@+id/action_WelcomeFragment_to_OfferToAdoptionFragment"
             app:destination="@id/OfferToAdoptionFragment" />
     </fragment>
@@ -23,6 +26,9 @@
         android:label="@string/watch_pets_fragment_label"
         tools:layout="@layout/fragment_watch_pets">
 
+        <action
+            android:id="@+id/action_WatchPetsFragment_to_WatchPetsFragment"
+            app:destination="@id/WatchPetsFragment" />
         <action
             android:id="@+id/action_WatchPetsFragment_to_WelcomeFragment"
             app:destination="@id/WelcomeFragment" />
@@ -36,6 +42,9 @@
         android:label="@string/offer_to_adoption_fragment_label"
         tools:layout="@layout/fragment_offer_to_adoption">
 
+        <action
+            android:id="@+id/action_OfferToAdoptionFragment_to_OfferToAdoptionFragment"
+            app:destination="@id/OfferToAdoptionFragment" />
         <action
             android:id="@+id/action_OfferToAdoptionFragment_to_WelcomeFragment"
             app:destination="@id/WelcomeFragment" />
@@ -78,6 +87,19 @@
         <action
             android:id="@+id/action_PetListItem_to_PetDetailsFragment"
             app:destination="@id/PetDetailsFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/WatchMessagesFragment"
+        android:name="sadna.java.petsadoption.WatchMessagesFragment"
+        android:label="@string/watch_messages1"
+        tools:layout="@layout/fragment_watch_messages">
+
+        <action
+            android:id="@+id/action_WatchMessagesFragment_to_WatchMessagesFragment"
+            app:destination="@id/WatchMessagesFragment"/>
+        <action
+            android:id="@+id/action_WatchMessagesFragment_to_WelcomeFragment"
+            app:destination="@id/WelcomeFragment"/>
     </fragment>
 
 </navigation>

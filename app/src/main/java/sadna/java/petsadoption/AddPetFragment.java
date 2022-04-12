@@ -1,6 +1,7 @@
 package sadna.java.petsadoption;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +32,8 @@ public class AddPetFragment extends Fragment {
 
     private byte[] petImageByteArray;
     private Pet newPet;
+
+    private ProgressDialog progress;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -164,5 +167,25 @@ public class AddPetFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "You haven't picked An Image",Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void showLoadingDialog(String title, String message) {
+        if (progress == null) {
+            progress = new ProgressDialog(getContext());
+            progress.setTitle(title);
+            progress.setMessage(message);
+        }
+        progress.show();
+    }
+
+    public void dismissLoadingDialog() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
+    }
+
+    public void onResume() {
+        dismissLoadingDialog();
+        super.onResume();
     }
 }
