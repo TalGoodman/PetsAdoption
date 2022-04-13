@@ -48,6 +48,7 @@ public class AddPetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        progress = null;
         /*DEBUGGING SPECIES VALUE
         Toast.makeText(getParentFragment().getActivity(), binding.spSexContentAdd.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
          */
@@ -75,6 +76,7 @@ public class AddPetFragment extends Fragment {
                 String petJSON = newPet.toJSON();
                 Toast.makeText(getActivity(), petJSON, Toast.LENGTH_LONG).show();
 
+                progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                 try {
                     DatabaseHandler.createPet(
                             newPet.getOwnerID(),
@@ -106,6 +108,7 @@ public class AddPetFragment extends Fragment {
         binding.btnBackAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                 NavHostFragment.findNavController(AddPetFragment.this)
                         .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
             }
@@ -116,6 +119,9 @@ public class AddPetFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
         super.onDestroyView();
         binding = null;
     }
@@ -169,23 +175,22 @@ public class AddPetFragment extends Fragment {
         }
     }
 
-    public void showLoadingDialog(String title, String message) {
-        if (progress == null) {
-            progress = new ProgressDialog(getContext());
-            progress.setTitle(title);
-            progress.setMessage(message);
-        }
-        progress.show();
+    public void startShowingProgressDialog(){
+        progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
     }
 
-    public void dismissLoadingDialog() {
+    @Override
+    public void onDestroy() {
         if (progress != null && progress.isShowing()) {
             progress.dismiss();
         }
+        super.onDestroy();
     }
 
     public void onResume() {
-        dismissLoadingDialog();
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
         super.onResume();
     }
 }

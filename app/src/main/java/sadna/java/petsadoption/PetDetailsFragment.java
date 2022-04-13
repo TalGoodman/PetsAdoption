@@ -69,14 +69,16 @@ public class PetDetailsFragment extends Fragment {
                 public void onClick(View view) {
                     DatabaseHandler.createMessage(petId, ownerId);
                     Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
-                    showLoadingDialog("Requesting pet", "Wait a second...");
+                    progress = ProgressDialog.show(getContext(), "Requesting", "Wait a second...");
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            dismissLoadingDialog();
+                            if (progress != null && progress.isShowing()){
+                                progress.dismiss();
+                            }
                         }
-                    }, 1500);   //5 seconds
-                    Toast.makeText(getContext(), "Pet Requested",Toast.LENGTH_SHORT).show();
+                    }, 1500);
+                    Toast.makeText(getContext(), "Pet Requested",Toast.LENGTH_LONG).show();
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
                 }
@@ -85,6 +87,7 @@ public class PetDetailsFragment extends Fragment {
             binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
                 }
@@ -101,13 +104,15 @@ public class PetDetailsFragment extends Fragment {
                     DatabaseHandler.deletePetByID(petId);
                     Log.d("btnRequestToAdopt.onClick", "DeletePet");
                     Handler handler = new Handler();
-                    showLoadingDialog("Deleteing", "Wait a second...");
+                    progress = ProgressDialog.show(getContext(), "Deleteing", "Wait a second...");
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            dismissLoadingDialog();
+                            if (progress != null && progress.isShowing()){
+                                progress.dismiss();
+                            }
                         }
-                    }, 1500);   //5 seconds
-                    Toast.makeText(getContext(), "Pet Deleted",Toast.LENGTH_SHORT).show();
+                    }, 1500);
+                    Toast.makeText(getContext(), "Pet Deleted",Toast.LENGTH_LONG).show();
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_OfferToAdoptionFragment);
                 }
@@ -115,6 +120,7 @@ public class PetDetailsFragment extends Fragment {
             binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_OfferToAdoptionFragment);
                 }
@@ -128,30 +134,23 @@ public class PetDetailsFragment extends Fragment {
         }
     }
 
+    public void startShowingProgressDialog(){
+        progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
+    }
 
     @Override
     public void onDestroyView() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
         super.onDestroyView();
         binding = null;
     }
 
-    public void showLoadingDialog(String title, String message) {
-        if (progress == null) {
-            progress = new ProgressDialog(getContext());
-            progress.setTitle(title);
-            progress.setMessage(message);
-        }
-        progress.show();
-    }
-
-    public void dismissLoadingDialog() {
-        if (progress != null && progress.isShowing()) {
+    public void onResume() {
+        if (progress != null && progress.isShowing()){
             progress.dismiss();
         }
-    }
-
-    public void onResume() {
-        dismissLoadingDialog();
         super.onResume();
     }
 }

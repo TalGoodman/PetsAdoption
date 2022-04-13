@@ -1,5 +1,6 @@
 package sadna.java.petsadoption;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -145,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
                     .navigate(R.id.action_OfferToAdoptionFragment_to_WelcomeFragment);
             return true;
         } else if (addPetFragmentName.equals(currentFragmentName)) {
+            AddPetFragment addPetFragment = (AddPetFragment)currentFragment;
+            addPetFragment.startShowingProgressDialog();
             NavHostFragment.findNavController(currentFragment)
                     .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
             return true;
@@ -153,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
                     .navigate(R.id.action_WatchMessagesFragment_to_WelcomeFragment);
             return true;
         } else if (petDetailsFragmentName.equals(currentFragmentName)){
+            PetDetailsFragment petDetailsFragment = (PetDetailsFragment)currentFragment;
+            petDetailsFragment.startShowingProgressDialog();
             PetDetailsFragment currentPetDetailsFragment = (PetDetailsFragment)currentFragment;
             String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             String owner_id = currentPetDetailsFragment.getArguments().getString("ownerId");
@@ -184,4 +189,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }
