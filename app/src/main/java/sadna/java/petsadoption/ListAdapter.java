@@ -1,5 +1,7 @@
 package sadna.java.petsadoption;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +18,12 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     private List<ParseObject> petsList;
+    private List<ParseObject> not_requested_pets_list;
     private Fragment fragment;
 
 
@@ -38,12 +42,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         }
     }
 
-    public ListAdapter(List<ParseObject> petsList, Fragment fragment) {
-        /*this.petImagesList = petImagesList;
-        this.petNamesTextList = petNamesList;
-        this.petSpeciesTextList = petSpeciesTextList;
-        this.petIdsList = petIdsList;*/
+    public ListAdapter(List<ParseObject> petsList, List<ParseObject> not_requested_pets_list, Fragment fragment) {
         this.petsList = petsList;
+        this.not_requested_pets_list = not_requested_pets_list;
         this.fragment = fragment;
     }
 
@@ -76,6 +77,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                 }
             }
         });
+        if(requested(petsList.get(position).get("pet_id").toString())){
+            bundle.putBoolean("isRequested", true);
+            holder.btnView.setText("View Pet\n(Requested)");
+            holder.btnView.setTextColor(Color.GREEN);
+        } else {
+            bundle.putBoolean("isRequested", false);
+        }
     }
 
     @Override
@@ -87,7 +95,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         Bundle bundle = new Bundle();
         String name = object.get("pet_name").toString();
         String specie = object.get("species").toString();
-        String petId = object.getObjectId();
+        String petId = object.get("pet_id").toString();
         String sex = object.get("gander").toString();
         String ownerId = object.get("owner_id").toString();
         bundle.putString("name", name);
@@ -104,5 +112,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         }
 
         return bundle;
+    }
+
+    private boolean requested(String pet_id) {
+        for(int i = 0; i < not_requested_pets_list.size(); i++){
+            String pet_num_i_id = not_requested_pets_list.get(i).get("pet_id").toString();
+            if(pet_id.equals(pet_num_i_id)){
+                return false;
+            }
+        }
+        return true;
     }
 }

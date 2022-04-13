@@ -1,5 +1,6 @@
 package sadna.java.petsadoption;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -25,24 +29,27 @@ public class WatchPetsFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+    private ProgressDialog progress;
 
-            Bundle savedInstanceState
-    ) {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentWatchPetsBinding.inflate(inflater, container, false);
         recyclerView = binding.rvWatchPetsList;
         return binding.getRoot();
-
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<ParseObject> pets_list = DatabaseHandler.getAllPets();
 
-        ListAdapter adapter = new ListAdapter(pets_list, WatchPetsFragment.this);
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        List<ParseObject> pets_list = DatabaseHandler.getPetsOfOtherUsers(currentUserId);
+
+        List<ParseObject> not_requested_pets_list = DatabaseHandler.getNotRequestedPets(currentUserId);
+
+
+        ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -52,5 +59,4 @@ public class WatchPetsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }

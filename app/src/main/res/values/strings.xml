@@ -4,6 +4,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="welcome_fragment_label">Welcome</string>
     <string name="watch_pets_fragment_label">Watch Pets</string>
+    <string name="watch_messages_fragment_label">Watch Messages</string>
     <string name="offer_to_adoption_fragment_label">Offer To Adoption Fragment</string>
     <string name="btn_watch_pets_text">Watch Pets</string>
     <string name="btn_offer_to_adopt_text">Offer Pet For Adoption</string>
@@ -33,6 +34,11 @@
     <string name="offer_a_pet_for_adoption">Offer a pet for adoption</string>
     <string name="pet_details">Pet Details</string>
     <string name="set_photo">Set Photo</string>
+    <string name="watch_messages_message">Hi _Some Name_ want to adopt _Some Pet Name_ _Some Name_ Email: _Some Email Address_</string>
+    <string name="copy_email">Copy\nEmail</string>
+    <string name="copy_name">Copy\nName</string>
+    <string name="send_email">Send\nEmail</string>
+    <string name="watch_messages1">Watch Messages</string>
     <string name="desc_pet_image">pet image</string>
     <string-array name="specieSelectionList">
         <item>Cat</item>
@@ -60,4 +66,7 @@
     <string name="tvPetNameListItem">Pet Name</string>
     <string name="show_pet_button">Show Pet</string>
     <string name="tv_list_item_pet_specie">Specie</string>
+    <string name="watch_messages">Watch Messages</string>
+    <string name="delete">Delete</string>
+
 </resources>

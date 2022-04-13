@@ -5,24 +5,29 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.parse.DeleteCallback;
 import com.parse.GetDataCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class DatabaseHandler {
+
 //Create User
-    public static void createUser(String user_name, String email, String firbase_id) {
+    public static void createUserItay(String user_name, String email) {
         ParseUser user = new ParseUser();
         user.setUsername(user_name);
         user.setPassword("my pass");
         user.setEmail(email);
-        user.put("firbase_id",firbase_id);
 
         // Other fields can be set just like any other ParseObject,
         // using the "put" method, like this: user.put("attribute", "its value");
@@ -39,20 +44,32 @@ public class DatabaseHandler {
         });
     }
 
+    //create user by tal
+    public static void createUser(String user_id, String user_email, String user_name) {
+        ParseObject user = new ParseObject("users");
+        user.put("user_id", user_id);
+        user.put("user_email",user_email);
+        user.put("user_name", user_name);
+        user.saveInBackground();
+    }
+
 
     //ToDo: add the nececeary users info
-    //ToDo: make sure it's unique
-    public static void createMessage(String petId, String pet_id) {
+    public static void createMessage(String pet_id, String owner_id) {
         ParseObject message = new ParseObject("messages");
+        String message_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
 
         message.put("pet_id", pet_id);
-        message.put("message_id", "A string");
-        message.put("owner_id", "A string");
-        message.put("sender_id", "A string");
+        message.put("message_id", message_id);
+        message.put("owner_id", owner_id);
+
+        String sender_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        message.put("sender_id", sender_id);
 
         // Saves the new object
         message.saveInBackground(e -> {
             if (e==null){
+                //message.setObjectId(message_id);
                 Log.d("createMessage", "createObject: "+message.toString());
             }else{
                 Log.d("createMessage", "createObject: "+e.getMessage());
@@ -60,8 +77,6 @@ public class DatabaseHandler {
         });
 
     }
-
-
 
     public static void createPet(String owner_id, String species, String gender, Boolean vaccinated, String pet_name, byte[] pet_image) throws ParseException {
         String pet_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
@@ -72,6 +87,7 @@ public class DatabaseHandler {
             pet.put("pet_name", pet_name);
             pet.put("species",  species);
             pet.put("vaccinated",  vaccinated);
+            //pet.put("species", new ParseObject("Species")); //How do i set it to be a specific class?
             pet.put("gander", gender);
             pet.put("pet_image", new ParseFile(pet_name+".png", pet_image)); //Will Be The Pet Image
         pet.saveInBackground(e -> {
@@ -99,6 +115,7 @@ public class DatabaseHandler {
             pets_list.forEach(
                     (pet) -> {
                         Log.d("Finding User Pets", (String) pet.get("pet_name"));
+
                     }
             );
             return pets_list;
@@ -108,88 +125,145 @@ public class DatabaseHandler {
         }
     }
 
-    //ToDo: להשתמש ב fetchFromLocalDatastore()
-
-    //Get Other Users Pets
-    public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
-        //This find function works synchronously.
-        //ToDo: Change to "not contained in" with "get user pets" and "get all pets"
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
+    public static ParseObject getUserByID(String user_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("users").whereEqualTo("user_id", user_id);
         try {
-            List<ParseObject> pets_list = query.find();
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
-                    }
-            );
-            return pets_list;
+            List<ParseObject> user =  query.find();
+            Log.d("Finding User", (String) user.get(0).get("user_name"));
+            return user.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;
         }
     }
-
-    public static List<ParseObject> getUserAdoptionRequests(String user_id) {
-        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereContains("sender_id", user_id);
-        try {
-            List<ParseObject> messages = query.find();
-            Log.d("Finding Requests Messages", ""+(String) messages.get(1).get("pet_id"));
-            return messages;
-        } catch (com.parse.ParseException e) {
-            Log.d("Finding Requests Messages", "can't do that right now");
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /*
-    //Get Pets Ids if requested to adopt them Requested
-    public static List<ParseObject> getRequestedPets(String user_id) {
-        //This find function works synchronously.
-        //ToDo: Change to "not contained in" with "get user pets" and "get all pets"
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
-        try {
-            List<ParseObject> pets_list = query.find();
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
-                    }
-            );
-            return pets_list;
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-     */
 
     //Synchronously Gets A Pet By ID.
     public static ParseObject getPetByID(String pet_id) {
-       ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("pet_id", pet_id);
+       ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereEqualTo("pet_id", pet_id);
         try {
-            ParseObject pet = (ParseObject) query.find();
-            Log.d("Finding User Pets", (String) pet.get("pet_name"));
-            return pet;
+            List<ParseObject> pet =  query.find();
+            Log.d("Finding User Pets", (String) pet.get(0).get("pet_name"));
+            return pet.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public void deletePetByID(String pet_id) {
+    public static ParseObject getMessageByID(String message_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("message_id", message_id);
+        try {
+            List<ParseObject> message =  query.find();
+            Log.d("Finding Message", (String) message.get(0).get("message_id"));
+            return message.get(0);
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+/*Itay
+    public static void deletePetByID(String pet_id) {
         ParseObject pet_to_remove = getPetByID(pet_id);
         if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
-                if (e == null) {
-                    //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                    Log.d("deletePet", pet_id+" delete successfuly");
-                }
-                ;
-            });
+            if (e == null) {
+                //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                Log.d("deletePet", pet_id+" delete successfuly");
+            }
+            ;
+        });
         }
         ;
+    }*/
+
+    public static void deleteMessageByID(String message_id) {
+        ParseObject message_to_remove = getMessageByID(message_id);
+        if (message_to_remove != null) {message_to_remove.deleteInBackground(e -> {
+            if (e == null) {
+                //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                Log.d("deleteMessage", message_to_remove+" delete successfuly");
+            }
+            ;
+        });
+        }
+    }
+
+    public static void deletePetByID(String pet_id) {
+        deleteMessagesByKeyAndValue("pet_id", pet_id);
+        ParseObject pet_to_remove = getPetByID(pet_id);
+        if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
+            if (e == null) {
+                //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                Log.d("deletePet", pet_id+" delete successfuly");
+            }
+            ;
+        });
+        }
+    }
+
+    public static void deleteMessagesByKeyAndValue(String key, String value) {
+        List<ParseObject> messages_list = getMessagesByKeyAndValue(key, value);
+        for (ParseObject parseObj:messages_list
+             ) {
+            parseObj.deleteInBackground();
+        }
+    }
+
+    public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
+        try {
+            List<ParseObject> pets_list = query.find();
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
+                    }
+            );
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<ParseObject> getMessagesByKeyAndValue(String key, String value) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo(key, value);
+        try {
+            List<ParseObject> messages_list = query.find();
+            messages_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding User Messages", (String) pet.get("message_id"));
+                    }
+            );
+            return messages_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
+    public static List<ParseObject> getNotRequestedPets(String user_id) {
+        List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
+        Set<String> requested_pets_ids = new HashSet<>();
+        for(int i = 0; i < messages_list.size(); i++) {
+            String pet_id = messages_list.get(i).get("pet_id").toString();
+            requested_pets_ids.add(pet_id);
+        }
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotContainedIn("pet_id", requested_pets_ids);
+        try {
+            List<ParseObject> pets_list = query.find();
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding Not Requested Pets", (String) pet.get("pet_name"));
+                    }
+            );
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static List<ParseObject> getAllPets() {
         //This find function works synchronously.

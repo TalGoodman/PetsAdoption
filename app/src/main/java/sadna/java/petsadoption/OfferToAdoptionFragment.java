@@ -57,6 +57,10 @@ public class OfferToAdoptionFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
+        ListAdapter adapter = new ListAdapter(pets_list, pets_list, OfferToAdoptionFragment.this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         //ToDo: can we make something to create an item?
         for(int i = 0; i < Objects.requireNonNull(pets_list).size(); i++){
             petNamesTextList.add(i, Objects.requireNonNull(pets_list.get(i).get("pet_name")).toString());

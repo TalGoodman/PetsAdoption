@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="3dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="3dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:pointerIcon="arrow"
+    android:background="@color/white"
+    app:barrierMargin="5dp"
+    tools:context=".ListItem">
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/watch_messages_message"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btnCopyEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="15dp"
+        android:textSize="11sp"
+        android:text="@string/copy_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessage"/>
+
+    <Button
+        android:id="@+id/btnCopyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="15dp"
+        android:textSize="11sp"
+        android:text="@string/copy_name"
+        app:layout_constraintStart_toEndOf="@id/btnCopyEmail"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessage"/>
+
+    <Button
+        android:id="@+id/btnSendEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="15dp"
+        android:textSize="11sp"
+        android:text="@string/send_email"
+        app:layout_constraintStart_toEndOf="@id/btnCopyName"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessage"/>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="22dp"
+        android:text="@string/delete"
+        android:textColor="@color/white"
+        android:background="?android:attr/selectableItemBackground"
+        android:foreground="@drawable/ic_baseline_delete_forever_24"
+        app:layout_constraintStart_toEndOf="@id/btnSendEmail"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessage"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

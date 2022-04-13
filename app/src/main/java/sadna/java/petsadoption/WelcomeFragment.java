@@ -2,6 +2,7 @@ package sadna.java.petsadoption;
 
 import static sadna.java.petsadoption.DatabaseHandler.createUser;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,8 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
     private GoogleSignInOptions gso;
 
     private SignInButton signInButton;
+
+    private ProgressDialog progress;
 
     @Override
     public View onCreateView(
@@ -97,8 +100,23 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding.btnWatchPets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
                 NavHostFragment.findNavController(WelcomeFragment.this)
                         .navigate(R.id.action_WelcomeFragment_to_WatchPetsFragment);
+            }
+        });
+
+        binding.btnWatchMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mAuth.getCurrentUser() != null) {
+                    progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
+                    NavHostFragment.findNavController(WelcomeFragment.this)
+                            .navigate(R.id.action_WelcomeFragment_to_WatchMessagesFragment);
+                } else {
+                    Toast.makeText(getActivity(), "Please Sign In in order to watch messages",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -106,6 +124,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             @Override
             public void onClick(View view) {
                 if(mAuth.getCurrentUser() != null) {
+                    progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
                     NavHostFragment.findNavController(WelcomeFragment.this)
                             .navigate(R.id.action_WelcomeFragment_to_OfferToAdoptionFragment);
                 } else {
@@ -118,6 +137,9 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
 
     @Override
     public void onDestroyView() {
+        if (progress != null && progress.isShowing()){
+            progress.dismiss();
+        }
         super.onDestroyView();
         binding = null;
     }
@@ -190,11 +212,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             Toast.makeText(getActivity(), "Login was successful",
                     Toast.LENGTH_SHORT).show();
             String email = user.getEmail();
-            String display_name = user.getDisplayName();
-            //String firebase_id = user.getUid();
-            String firebase_id = user.getProviderId();
-                createUser(display_name, email, firebase_id); //Create A User on login
-                DatabaseHandler.getUserAdoptionRequests(firebase_id);
+            createUser(user.getUid(), email, user.getDisplayName()); //Create A User on login
             updateUI(user);
             Intent intent = new Intent(getActivity(),MainActivity.class);
             startActivity(intent);
@@ -213,4 +231,12 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         //hideProgressDialog();
         // [END_EXCLUDE]
     }
+
+    public void onResume() {
+        if (progress != null && progress.isShowing()){
+            progress.dismiss();
+        }
+        super.onResume();
+    }
+
 }

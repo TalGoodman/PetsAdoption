@@ -1,6 +1,7 @@
 package sadna.java.petsadoption;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +33,8 @@ public class AddPetFragment extends Fragment {
     private byte[] petImageByteArray;
     private Pet newPet;
 
+    private ProgressDialog progress;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class AddPetFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        progress = null;
         /*DEBUGGING SPECIES VALUE
         Toast.makeText(getParentFragment().getActivity(), binding.spSexContentAdd.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
          */
@@ -71,6 +76,7 @@ public class AddPetFragment extends Fragment {
                 String petJSON = newPet.toJSON();
                 Toast.makeText(getActivity(), petJSON, Toast.LENGTH_LONG).show();
 
+                progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                 try {
                     DatabaseHandler.createPet(
                             newPet.getOwnerID(),
@@ -102,6 +108,7 @@ public class AddPetFragment extends Fragment {
         binding.btnBackAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                 NavHostFragment.findNavController(AddPetFragment.this)
                         .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
             }
@@ -112,6 +119,9 @@ public class AddPetFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
         super.onDestroyView();
         binding = null;
     }
@@ -163,5 +173,24 @@ public class AddPetFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "You haven't picked An Image",Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void startShowingProgressDialog(){
+        progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
+    }
+
+    @Override
+    public void onDestroy() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
+        super.onDestroy();
+    }
+
+    public void onResume() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
+        super.onResume();
     }
 }
