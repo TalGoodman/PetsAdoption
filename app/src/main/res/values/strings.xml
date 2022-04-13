@@ -68,5 +68,7 @@
     <string name="tv_list_item_pet_specie">Specie</string>
     <string name="watch_messages">Watch Messages</string>
     <string name="delete">Delete</string>
+    <string name="bttnAlreadyRequested">Already Requested</string>
+    <string name="bttnTextDeletPet">Delete Pet</string>
 
 </resources>

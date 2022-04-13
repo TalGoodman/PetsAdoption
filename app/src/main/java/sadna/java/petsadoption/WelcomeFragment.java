@@ -217,14 +217,10 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             Intent intent = new Intent(getActivity(),MainActivity.class);
             startActivity(intent);
 
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //this.startActivity(intent);
-            //finish();
         } else {
             //progressBar.dismiss();
             Exception err = task.getException();
-            Toast.makeText(getActivity(), err.getMessage(),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), err.getMessage(), Toast.LENGTH_SHORT).show();
             updateUI(null);
         }
         // [START_EXCLUDE]

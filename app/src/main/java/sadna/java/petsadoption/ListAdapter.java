@@ -1,6 +1,5 @@
 package sadna.java.petsadoption;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
@@ -42,6 +40,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         }
     }
 
+    //ToDo: is it possible to do it with a list of requested pets? it should be much smaller
     public ListAdapter(List<ParseObject> petsList, List<ParseObject> not_requested_pets_list, Fragment fragment) {
         this.petsList = petsList;
         this.not_requested_pets_list = not_requested_pets_list;

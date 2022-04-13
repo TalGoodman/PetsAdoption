@@ -38,7 +38,7 @@ public class Pet /*extends ParseObject*/{
     private String Breed;
     private String Sex;
     private Boolean Vaccinated;
-    private int Diet;
+    private String Diet;
     private String Description;
 
     public Pet(
@@ -49,7 +49,7 @@ public class Pet /*extends ParseObject*/{
             String pet_id,
             String sex,
             Boolean vaccinated,
-            int diet,
+            String diet,
             String description
     ) {
         this.Image = image;
@@ -114,10 +114,10 @@ public class Pet /*extends ParseObject*/{
     }
 
     //Pet Diet
-    public int getDiet() {
+    public String getDiet() {
         return this.Diet;
     }
-    public void setDiet(int diet) {
+    public void setDiet(String diet) {
         this.Diet = diet;
     }
 
