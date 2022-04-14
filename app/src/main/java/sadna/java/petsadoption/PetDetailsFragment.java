@@ -23,14 +23,9 @@ import sadna.java.petsadoption.databinding.FragmentPetDetailsBinding;
 public class PetDetailsFragment extends Fragment {
     private FragmentPetDetailsBinding binding;
 
-    private String petId;
-    private String petName;
-    private String petSpecie;
-    private String petSex;
-    private Boolean petVaccinated;
     private String ownerId;
+    private String petId;
 
-    private boolean isRequested;
 
     private ProgressDialog progress;
 
@@ -50,18 +45,22 @@ public class PetDetailsFragment extends Fragment {
         ownerId = getArguments().getString("ownerId");
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        isRequested = getArguments().getBoolean("isRequested");
+        boolean isRequested = getArguments().getBoolean("isRequested");
 
         petId = getArguments().getString("petId");
-        petName = getArguments().getString("name");
-        petSpecie = getArguments().getString("specie");
-        petSex = getArguments().getString("sex");
-        petVaccinated = getArguments().getBoolean("vaccinated");
+        String petName = getArguments().getString("name");
+        String petSpecie = getArguments().getString("specie");
+        String petSex = getArguments().getString("sex");
+        boolean petVaccinated = getArguments().getBoolean("vaccinated");
+        String petDiet = getArguments().getString("diet");
+        String petDescription = getArguments().getString("description");
 
         binding.tvPetNameContent.setText(petName);
         binding.tvSpecieContent.setText(petSpecie);
         binding.tvSexContent.setText(petSex);
-        binding.tvVaccinatedContent.setText(petVaccinated.toString());
+        binding.tvVaccinatedContent.setText(Boolean.toString(petVaccinated));
+        binding.tvDietContent.setText(petDiet);
+        binding.tvDescriptionContent.setText(petDescription);
 
         if(!currentUserId.equals(ownerId)) {
             binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
@@ -93,18 +92,18 @@ public class PetDetailsFragment extends Fragment {
                 }
             });
             if(isRequested) {
-                binding.btnRequestToAdopt.setText("Already Requested");
+                binding.btnRequestToAdopt.setText(R.string.bttnAlreadyRequested);
                 binding.btnRequestToAdopt.setEnabled(false);
             }
         } else {
-            binding.btnRequestToAdopt.setText("Delete Pet");
+            binding.btnRequestToAdopt.setText(R.string.bttnTextDeletPet);
             binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DatabaseHandler.deletePetByID(petId);
-                    Log.d("btnRequestToAdopt.onClick", "DeletePet");
+                    String toastString = DatabaseHandler.deletePetByID(petId);
+                    Log.d("btnRequestToAdopt.onClick", "deletePetByID");
                     Handler handler = new Handler();
-                    progress = ProgressDialog.show(getContext(), "Deleteing", "Wait a second...");
+                    progress = ProgressDialog.show(getContext(), "Deleting", "Wait a second...");
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             if (progress != null && progress.isShowing()){
@@ -112,7 +111,7 @@ public class PetDetailsFragment extends Fragment {
                             }
                         }
                     }, 1500);
-                    Toast.makeText(getContext(), "Pet Deleted",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), toastString,Toast.LENGTH_LONG).show();
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_OfferToAdoptionFragment);
                 }
@@ -127,10 +126,14 @@ public class PetDetailsFragment extends Fragment {
             });
         }
 
-        byte[] data = getArguments().getByteArray("image_data");
-        if (data != null){
-            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
-            binding.ivPetImage.setImageBitmap(bmp);
+        if(getArguments()!=null)
+        {
+            byte[] data = getArguments().getByteArray("image_data");
+            if (data != null)
+            {
+                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
+                binding.ivPetImage.setImageBitmap(bmp);
+            }
         }
     }
 

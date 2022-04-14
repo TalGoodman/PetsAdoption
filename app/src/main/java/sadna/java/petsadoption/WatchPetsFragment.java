@@ -1,23 +1,19 @@
 package sadna.java.petsadoption;
 
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.parse.ParseObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sadna.java.petsadoption.databinding.FragmentWatchPetsBinding;
@@ -45,7 +41,6 @@ public class WatchPetsFragment extends Fragment {
 
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         List<ParseObject> pets_list = DatabaseHandler.getPetsOfOtherUsers(currentUserId);
-
         List<ParseObject> not_requested_pets_list = DatabaseHandler.getNotRequestedPets(currentUserId);
 
 

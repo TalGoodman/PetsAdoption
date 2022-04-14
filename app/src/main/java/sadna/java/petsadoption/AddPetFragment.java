@@ -68,7 +68,7 @@ public class AddPetFragment extends Fragment {
                 String fbUserID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
                 String Sex = binding.spSexContentAdd.getSelectedItem().toString();
                 Boolean Vaccinated = binding.cbVaccinatedAdd.isChecked();
-                int Diet = binding.spDietContentAdd.getSelectedItemPosition();
+                String Diet = binding.spDietContentAdd.getSelectedItem().toString();
                 String Description = binding.etDescriptionContentAdd.getText().toString();
 
                 Pet newPet = new Pet(petImageByteArray, Specie, fbUserID,Name,Identifier, Sex,
@@ -84,6 +84,7 @@ public class AddPetFragment extends Fragment {
                             newPet.getSex()+"",
                             newPet.getVaccinated() ,
                             newPet.getName(),
+                            newPet.getDescription(),
                             newPet.getImage());
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -96,6 +97,16 @@ public class AddPetFragment extends Fragment {
 
         //Add Photo Button
         binding.btnSetPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 9002);
+            }
+        });
+
+        //Tap Photo to upload
+        binding.ivPetImageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);

@@ -5,19 +5,17 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.parse.DeleteCallback;
 import com.parse.GetDataCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class DatabaseHandler {
@@ -78,18 +76,26 @@ public class DatabaseHandler {
 
     }
 
-    public static void createPet(String owner_id, String species, String gender, Boolean vaccinated, String pet_name, byte[] pet_image) throws ParseException {
+    //https://parse-dashboard.back4app.com/apps/2e930e57-26cb-49bf-a16a-38c9effd1503/browser/pets
+    public static void createPet(String owner_id,
+                                 String species,
+                                 String gender,
+                                 Boolean vaccinated,
+                                 String pet_name,
+                                 String description,
+                                 byte[] pet_image) throws ParseException {
         String pet_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
         //ParseObject pet = ParseObject.createWithoutData("pets", pet_id);//new ParseObject("pets");
         ParseObject pet = new ParseObject("pets");
-            pet.put("pet_id", pet_id);
-            pet.put("owner_id",owner_id);
-            pet.put("pet_name", pet_name);
-            pet.put("species",  species);
-            pet.put("vaccinated",  vaccinated);
-            //pet.put("species", new ParseObject("Species")); //How do i set it to be a specific class?
-            pet.put("gander", gender);
-            pet.put("pet_image", new ParseFile(pet_name+".png", pet_image)); //Will Be The Pet Image
+        pet.put("pet_id", pet_id);
+        pet.put("owner_id",owner_id);
+        pet.put("pet_name", pet_name);
+        pet.put("species",  species);
+        pet.put("vaccinated",  vaccinated);
+        //pet.put("species", new ParseObject("Species")); //How do i set it to be a specific class?
+        pet.put("gander", gender);
+        pet.put("description", description);
+        pet.put("pet_image", new ParseFile(pet_name+".png", pet_image)); //Will Be The Pet Image
         pet.saveInBackground(e -> {
             if (e==null){
                 //Save was done
@@ -161,19 +167,17 @@ public class DatabaseHandler {
             return null;
         }
     }
-/*Itay
-    public static void deletePetByID(String pet_id) {
-        ParseObject pet_to_remove = getPetByID(pet_id);
-        if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
-            if (e == null) {
-                //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                Log.d("deletePet", pet_id+" delete successfuly");
-            }
-            ;
-        });
+
+    public static List<ParseObject> getMessagesByPetID(String pet_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("pet_id", pet_id);
+        try {
+            List<ParseObject> messages =  query.find();
+            return messages;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
         }
-        ;
-    }*/
+    }
 
     public static void deleteMessageByID(String message_id) {
         ParseObject message_to_remove = getMessageByID(message_id);
@@ -187,17 +191,20 @@ public class DatabaseHandler {
         }
     }
 
-    public static void deletePetByID(String pet_id) {
+    public static String deletePetByID(String pet_id) {
+        AtomicReference<String> deletage_message = new AtomicReference<>("");
         deleteMessagesByKeyAndValue("pet_id", pet_id);
         ParseObject pet_to_remove = getPetByID(pet_id);
         if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
             if (e == null) {
                 //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                Log.d("deletePet", pet_id+" delete successfuly");
+                deletage_message.set(pet_id + " delete successfuly");
+                Log.d("deletePetByID", deletage_message.get());
             }
             ;
         });
         }
+        return deletage_message.get();
     }
 
     public static void deleteMessagesByKeyAndValue(String key, String value) {
@@ -232,7 +239,7 @@ public class DatabaseHandler {
             List<ParseObject> messages_list = query.find();
             messages_list.forEach(
                     (pet) -> {
-                        Log.d("Finding User Messages", (String) pet.get("message_id"));
+                        Log.d("getMessagesByKeyAndValue", (String) pet.get("message_id"));
                     }
             );
             return messages_list;
@@ -241,7 +248,6 @@ public class DatabaseHandler {
             return null;
         }
     }
-
 
     public static List<ParseObject> getNotRequestedPets(String user_id) {
         List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
@@ -255,7 +261,7 @@ public class DatabaseHandler {
             List<ParseObject> pets_list = query.find();
             pets_list.forEach(
                     (pet) -> {
-                        Log.d("Finding Not Requested Pets", (String) pet.get("pet_name"));
+                        Log.d("getNotRequestedPets", (String) pet.get("pet_name"));
                     }
             );
             return pets_list;
@@ -312,12 +318,12 @@ public class DatabaseHandler {
                     {
                         public void done(byte[] data, ParseException e)
                         {
-                            Log.d("Getting Pet Image", "done");
+                            Log.d("getPetImage", "done");
                             if (e == null)  {
                                 bmp[0] = BitmapFactory.decodeByteArray(data, 0,data.length);
                                 holder.petImage.setImageBitmap(bmp[0]);
                             }
-                            Log.d("Getting Pet Image", "Pet Image Assigned: "+ bmp[0].toString());
+                            Log.d("getPetImage", "Pet Image Assigned: "+ bmp[0].toString());
                         };
                     }
                 );
