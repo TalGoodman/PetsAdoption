@@ -1,6 +1,7 @@
 package sadna.java.petsadoption;
 
 import static sadna.java.petsadoption.DatabaseHandler.createUser;
+import static sadna.java.petsadoption.DatabaseHandler.createUserItay;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
