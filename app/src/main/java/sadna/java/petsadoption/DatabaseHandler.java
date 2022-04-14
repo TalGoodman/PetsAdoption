@@ -146,11 +146,11 @@ public class DatabaseHandler {
     }
     */
 
-    public static ParseObject getUserByID(String user_id) {
-        ParseQuery<ParseObject> query = new ParseQuery<>("User").whereEqualTo("firebase_id", user_id);
+    public static ParseUser getUserByID(String user_id) {
+        ParseQuery<ParseUser> query = ParseUser.getQuery().whereEqualTo("firebase_id", user_id);
         try {
-            List<ParseObject> user =  query.find();
-            Log.d("getUserByID", (String) user.get(0).get("user_name"));
+            List<ParseUser> user =  query.find();
+            Log.d("getUserByID", (String) user.get(0).get("firebase_id"));
             return user.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();

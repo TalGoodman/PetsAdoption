@@ -23,6 +23,7 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -66,11 +67,11 @@ public class MessagesListAdapter extends RecyclerView.Adapter<MessagesListAdapte
     public void onBindViewHolder(MessagesListAdapter.ViewHolder holder, int position) {
         String sender_id = messagesList.get(position).get("sender_id").toString();
         String pet_id = messagesList.get(position).get("pet_id").toString();
-        ParseObject userParseObject = DatabaseHandler.getUserByID(sender_id);
+        ParseUser userParseUser = DatabaseHandler.getUserByID(sender_id);
         ParseObject petParseObject = DatabaseHandler.getPetByID(pet_id);
 
-        String user_name = userParseObject.get("user_name").toString();
-        String user_email = userParseObject.get("user_email").toString();
+        String user_name = userParseUser.getUsername();
+        String user_email = userParseUser.getEmail();
         String pet_name = petParseObject.get("pet_name").toString();
 
         String message_text = "Hi! " + user_name + " wants to adopt " + pet_name +
