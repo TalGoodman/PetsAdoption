@@ -276,7 +276,6 @@ public class DatabaseHandler {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         try {
             List<ParseObject> pets_list = query.find();
-            //ToDo: לעבור על הרשימה עם pets_list.listIterator(i)
             //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
             pets_list.forEach(
                     (pet) -> {
