@@ -21,8 +21,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class DatabaseHandler {
 
 //Create User
-    public static void createUserItay(String user_name, String email) {
+    public static void createUser(String user_id, String email,String user_name) {
         ParseUser user = new ParseUser();
+        user.put("firebase_id", user_id);
         user.setUsername(user_name);
         user.setPassword("my pass");
         user.setEmail(email);
@@ -43,7 +44,7 @@ public class DatabaseHandler {
     }
 
     //create user by tal
-    public static void createUser(String user_id, String user_email, String user_name) {
+    public static void createUserTal(String user_id, String user_email, String user_name) {
         ParseObject user = new ParseObject("users");
         user.put("user_id", user_id);
         user.put("user_email",user_email);
@@ -131,11 +132,25 @@ public class DatabaseHandler {
         }
     }
 
+    /*
     public static ParseObject getUserByID(String user_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("users").whereEqualTo("user_id", user_id);
         try {
             List<ParseObject> user =  query.find();
             Log.d("Finding User", (String) user.get(0).get("user_name"));
+            return user.get(0);
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    */
+
+    public static ParseObject getUserByID(String user_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("User").whereEqualTo("firebase_id", user_id);
+        try {
+            List<ParseObject> user =  query.find();
+            Log.d("getUserByID", (String) user.get(0).get("user_name"));
             return user.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();

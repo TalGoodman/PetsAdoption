@@ -29,7 +29,7 @@ public class WatchPetsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentWatchPetsBinding.inflate(inflater, container, false);
         recyclerView = binding.rvWatchPetsList;
@@ -39,7 +39,7 @@ public class WatchPetsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ToDo: Method invocation 'getUid' may produce 'NullPointerException'
         List<ParseObject> pets_list = DatabaseHandler.getPetsOfOtherUsers(currentUserId);
         List<ParseObject> not_requested_pets_list = DatabaseHandler.getNotRequestedPets(currentUserId);
 
