@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 
@@ -41,6 +44,7 @@ public class AddPetFragment extends Fragment {
 
         // Inflate the layout for this fragment
         binding = FragmentAddPetBinding.inflate(inflater, container, false);
+
         return binding.getRoot();
     }
 
@@ -54,6 +58,25 @@ public class AddPetFragment extends Fragment {
         /*DEBUGGING SPECIES VALUE
         Toast.makeText(getParentFragment().getActivity(), binding.spSexContentAdd.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
          */
+
+        /**********************************************************/
+
+        // Spinner element
+        Spinner spinner = binding.spSexContentAdd;
+
+        // Spinner Drop down elements
+        List<String> categories = DatabaseHandler.getSpeciesNames();
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>( spinner.getContext(), android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+
+    /*********************************************************/
 
         //Add Pet Button
         binding.btnAddPet.setOnClickListener(new View.OnClickListener() {

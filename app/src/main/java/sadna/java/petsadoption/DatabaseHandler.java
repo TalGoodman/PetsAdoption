@@ -12,6 +12,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -128,6 +129,26 @@ public class DatabaseHandler {
                     }
             );
             return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<String> getSpeciesNames() {
+        ArrayList<String> species_names = new ArrayList<String>();
+
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("Species");
+        try {
+            List<ParseObject> species = query.find();
+            //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
+            species.forEach(
+                    (specie) -> {
+                        species_names.add(specie.getString("species_name").toString());
+                    }
+            );
+            return species_names;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;
