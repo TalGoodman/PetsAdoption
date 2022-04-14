@@ -70,5 +70,6 @@
     <string name="delete">Delete</string>
     <string name="bttnAlreadyRequested">Already Requested</string>
     <string name="bttnTextDeletPet">Delete Pet</string>
+    <string name="nothing_to_see_here_yet">Nothing To See Here Yet</string>
 
 </resources>

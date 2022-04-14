@@ -38,12 +38,13 @@ public class AddPetFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         binding = FragmentAddPetBinding.inflate(inflater, container, false);
-        binding.spSpecieContentAdd.setSelection(0);
-
         return binding.getRoot();
     }
+
+
 
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {

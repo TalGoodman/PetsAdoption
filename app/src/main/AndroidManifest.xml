@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -37,6 +38,10 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
+        <meta-data android:name="com.parse.push.gcm_sender_id"
+            android:value="id:649176801512" />
+
+
 
     </application>
 

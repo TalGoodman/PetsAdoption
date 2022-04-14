@@ -7,8 +7,12 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/request_to_adopt_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:autoLink="email"
+        android:background="#0A3407FF"
+        android:layoutDirection="ltr"
         android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>
