@@ -215,8 +215,8 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             String email = user.getEmail();
             DatabaseHandler.createUser(user.getUid(), email, user.getDisplayName()); //Create A User on login
             updateUI(user);
-            Intent intent = new Intent(getActivity(),MainActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(getActivity(),MainActivity.class);
+            //startActivity(intent);
 
         } else {
             //progressBar.dismiss();
