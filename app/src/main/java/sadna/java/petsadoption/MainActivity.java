@@ -1,7 +1,9 @@
 package sadna.java.petsadoption;
 
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -178,6 +180,9 @@ public class MainActivity extends AppCompatActivity {
                     {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                                clearAppData();
+                            }
                             finish();
                             System.exit(0);
                         }
@@ -188,6 +193,24 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void clearAppData() {
+        try {
+            // clearing app data
+            if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
+                ((ActivityManager)getSystemService(MainActivity.ACTIVITY_SERVICE)).clearApplicationUserData();
+            } else {
+                String packageName = getApplicationContext().getPackageName();
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("pm clear "+packageName);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.exit(0);
+        }
     }
 
 }
