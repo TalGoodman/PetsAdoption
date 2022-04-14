@@ -250,6 +250,7 @@ public class DatabaseHandler {
         }
     }
 
+    
     public static List<ParseObject> getNotRequestedPets(String user_id) {
         List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
         Set<String> requested_pets_ids = new HashSet<>();
