@@ -132,11 +132,25 @@ public class DatabaseHandler {
         }
     }
 
+    /*
     public static ParseObject getUserByID(String user_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("users").whereEqualTo("user_id", user_id);
         try {
             List<ParseObject> user =  query.find();
             Log.d("Finding User", (String) user.get(0).get("user_name"));
+            return user.get(0);
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    */
+
+    public static ParseObject getUserByID(String user_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("User").whereEqualTo("firebase_id", user_id);
+        try {
+            List<ParseObject> user =  query.find();
+            Log.d("getUserByID", (String) user.get(0).get("user_name"));
             return user.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -250,7 +264,6 @@ public class DatabaseHandler {
         }
     }
 
-    
     public static List<ParseObject> getNotRequestedPets(String user_id) {
         List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
         Set<String> requested_pets_ids = new HashSet<>();
