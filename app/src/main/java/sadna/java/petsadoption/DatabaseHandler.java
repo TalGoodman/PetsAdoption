@@ -63,7 +63,9 @@ public class DatabaseHandler {
         message.put("owner_id", owner_id);
 
         String sender_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String sender_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         message.put("sender_id", sender_id);
+        message.put("sender_email", sender_email);
 
         // Saves the new object
         message.saveInBackground(e -> {

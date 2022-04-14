@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -71,7 +73,7 @@ public class MessagesListAdapter extends RecyclerView.Adapter<MessagesListAdapte
         ParseObject petParseObject = DatabaseHandler.getPetByID(pet_id);
 
         String user_name = userParseUser.getUsername();
-        String user_email = userParseUser.getEmail();
+        String user_email = messagesList.get(position).get("sender_email").toString();
         String pet_name = petParseObject.get("pet_name").toString();
 
         String message_text = "Hi! " + user_name + " wants to adopt " + pet_name +
