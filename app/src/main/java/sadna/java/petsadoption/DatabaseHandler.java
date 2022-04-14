@@ -21,8 +21,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class DatabaseHandler {
 
 //Create User
-    public static void createUserItay(String user_name, String email) {
+    public static void createUser(String user_id, String email,String user_name) {
         ParseUser user = new ParseUser();
+        user.put("firebase_id", user_id);
         user.setUsername(user_name);
         user.setPassword("my pass");
         user.setEmail(email);
@@ -43,7 +44,7 @@ public class DatabaseHandler {
     }
 
     //create user by tal
-    public static void createUser(String user_id, String user_email, String user_name) {
+    public static void createUserTal(String user_id, String user_email, String user_name) {
         ParseObject user = new ParseObject("users");
         user.put("user_id", user_id);
         user.put("user_email",user_email);
