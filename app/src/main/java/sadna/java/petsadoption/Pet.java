@@ -16,12 +16,14 @@ import java.util.Arrays;
 //https://stackoverflow.com/questions/9246934/working-with-enums-in-android
 public class Pet /*extends ParseObject*/{
     //TODO: add more animals
+    /*
     private static final int GENUS_CAT = 11;
     private static final int GENUS_DOG = 12;
     private static final int GENUS_FISH = 13;
     private static final int GENUS_CHICKEN = 14;
     private static final int GENUS_RABBIT = 15;
     private static final int GENUS_OTHER = 16;
+    */
 
     private static final int SEX_MALE = 21;
     private static final int SEX_FEMALE = 22;
