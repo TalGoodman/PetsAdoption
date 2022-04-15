@@ -96,17 +96,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         String specie = object.get("species").toString();
         String petId = object.get("pet_id").toString();
         String sex = object.get("gander").toString();
-        String diet = object.get("diet").toString();
-        boolean vaccinated = object.getBoolean("vaccinated");
-        String description = object.get("description").toString();
         String ownerId = object.get("owner_id").toString();
         bundle.putString("name", name);
         bundle.putString("specie", specie);
         bundle.putString("petId", petId);
         bundle.putString("sex", sex);
-        bundle.putString("diet", diet);
-        bundle.putBoolean("vaccinated", vaccinated);
-        bundle.putString("description", description);
         bundle.putString("ownerId", ownerId);
         ParseFile parseFile = (ParseFile) object.get("pet_image");
         try {

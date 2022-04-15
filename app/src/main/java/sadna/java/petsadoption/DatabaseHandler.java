@@ -15,7 +15,6 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -86,7 +85,6 @@ public class DatabaseHandler {
                                  String species,
                                  String gender,
                                  Boolean vaccinated,
-                                 String diet,
                                  String pet_name,
                                  String description,
                                  byte[] pet_image) throws ParseException {
@@ -98,7 +96,6 @@ public class DatabaseHandler {
         pet.put("pet_name", pet_name);
         pet.put("species",  species);
         pet.put("vaccinated",  vaccinated);
-        pet.put("diet",  diet);
         //pet.put("species", new ParseObject("Species")); //How do i set it to be a specific class?
         pet.put("gander", gender);
         pet.put("description", description);
@@ -129,26 +126,6 @@ public class DatabaseHandler {
                     (pet) -> {
                         Log.d("Finding User Pets", (String) pet.get("pet_name"));
 
-                    }
-            );
-            return pets_list;
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static List<ParseObject> getPetsByKeysAndValues(String user_id, Map<String, Object> filterMap) {
-        //This find function works synchronously.
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);;
-        for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
-            query = query.whereEqualTo(entry.getKey(), entry.getValue());
-        }
-        try {
-            List<ParseObject> pets_list = query.find();
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("getPetsByKeysAndValues", (String) pet.get("pet_id"));
                     }
             );
             return pets_list;

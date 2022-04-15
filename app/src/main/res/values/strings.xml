@@ -57,18 +57,6 @@
         <item>Omnivore</item>
     </string-array>
 
-    <string-array name="sexSelectionListFilter">
-        <item>Any Sex</item>
-        <item>Male</item>
-        <item>Female</item>
-    </string-array>
-    <string-array name="dietSelectionListFilter">
-        <item>Any Diet</item>
-        <item>Vegetarian</item>
-        <item>Carnivore</item>
-        <item>Omnivore</item>
-    </string-array>
-
     //Back4App
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
 
@@ -83,6 +71,5 @@
     <string name="bttnAlreadyRequested">Already Requested</string>
     <string name="bttnTextDeletPet">Delete Pet</string>
     <string name="nothing_to_see_here_yet">Nothing To See Here Yet</string>
-    <string name="filter">Filter</string>
 
 </resources>
