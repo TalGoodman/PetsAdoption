@@ -1,13 +1,7 @@
 package sadna.java.petsadoption;
 
-import static sadna.java.petsadoption.DatabaseHandler.createUser;
-
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,8 +27,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import java.io.File;
 
 import sadna.java.petsadoption.databinding.FragmentWelcomeBinding;
 
@@ -62,6 +54,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 
         //TODO: fix default_web_client_id2 string resource
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
