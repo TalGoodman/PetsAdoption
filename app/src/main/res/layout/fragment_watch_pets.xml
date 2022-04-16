@@ -13,7 +13,7 @@
         android:entries="@array/specieSelectionList"
         android:minWidth="100dp"
         android:minHeight="48dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +24,7 @@
         android:entries="@array/sexSelectionListFilter"
         android:minWidth="100dp"
         android:minHeight="48dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spSpecieFilter"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +36,7 @@
         android:entries="@array/dietSelectionListFilter"
         android:minWidth="100dp"
         android:minHeight="48dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spSpecieFilter" />
 
@@ -47,7 +47,7 @@
         android:button="@null"
         android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
         android:text="@string/vaccinated"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spDietFilter"
         app:layout_constraintTop_toBottomOf="@+id/spSexFilter" />
@@ -55,11 +55,12 @@
     <Button
         android:id="@+id/btnFilter"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/buttons_height"
+        android:layout_height="40sp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
-        android:padding="14dip"
+        android:layout_marginBottom="10dp"
+        android:padding="7dip"
         android:text="@string/filter"
+        android:textSize="11sp"
         app:layout_constraintTop_toBottomOf="@+id/spDietFilter"
         app:layout_constraintStart_toStartOf="parent"/>
 

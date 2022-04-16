@@ -94,6 +94,9 @@ public class AddPetFragment extends Fragment {
                 if (Name.equals("")) {
                     Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
                     return;
+                } else if (Name.length() > 10) {
+                    Toast.makeText(getActivity(), "Pet Name is too long",Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Description.equals("")) {
                     Toast.makeText(getActivity(), "Please Add Description",Toast.LENGTH_LONG).show();
                     return;
