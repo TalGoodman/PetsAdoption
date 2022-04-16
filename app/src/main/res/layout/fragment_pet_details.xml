@@ -22,158 +22,158 @@
         android:focusable="true"
         android:padding="5dp"
         android:src="@drawable/ic_empty_pet_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="28dp"
         android:text="@string/title_pet_Description"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDiet" />
 
     <TextView
         android:id="@+id/tvVaccinated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="28dp"
         android:text="@string/vaccinated"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSex" />
 
     <TextView
         android:id="@+id/tvDiet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="20dp"
         android:text="@string/diet"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvVaccinated" />
 
     <TextView
         android:id="@+id/tvPetNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="36dp"
         android:text="@string/content"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvPetName"
+        app:layout_constraintLeft_toRightOf="@+id/tvPetName"
         app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
 
     <TextView
         android:id="@+id/tvSexContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="20dp"
         android:maxLines="1"
         android:text="@string/content"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvSex"
+        app:layout_constraintLeft_toRightOf="@+id/tvSex"
         app:layout_constraintTop_toBottomOf="@+id/tvSpecieContent" />
 
     <TextView
         android:id="@+id/tvSpecie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="28dp"
         android:text="@string/specie"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
 
     <TextView
         android:id="@+id/tvSex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="20dp"
         android:text="@string/sex"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSpecie" />
 
     <TextView
         android:id="@+id/tvVaccinatedContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="28dp"
         android:maxLines="1"
         android:text="@string/content"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvVaccinated"
+        app:layout_constraintLeft_toRightOf="@+id/tvVaccinated"
         app:layout_constraintTop_toBottomOf="@+id/tvSexContent" />
 
     <TextView
         android:id="@+id/tvSpecieContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="28dp"
         android:maxLines="1"
         android:text="@string/content"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvSpecie"
+        app:layout_constraintLeft_toRightOf="@+id/tvSpecie"
         app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
 
     <TextView
         android:id="@+id/tvPetName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="36dp"
         android:text="@string/pet_name"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
 
     <TextView
         android:id="@+id/tvDietContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="20dp"
         android:maxLines="1"
         android:text="@string/content"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvDiet"
+        app:layout_constraintLeft_toRightOf="@+id/tvDiet"
         app:layout_constraintTop_toBottomOf="@+id/tvVaccinatedContent" />
 
     <TextView
         android:id="@+id/tvDescriptionContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="28dp"
         android:maxWidth="200dp"
         android:text="@string/content"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvDescription"
+        app:layout_constraintLeft_toRightOf="@+id/tvDescription"
         app:layout_constraintTop_toBottomOf="@+id/tvDietContent" />
 
     <Button
         android:id="@+id/btnRequestToAdopt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
         android:text="@string/request_to_adopt"
         app:barrierMargin="-20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"
         app:layout_constraintVertical_bias="0.961" />
 
@@ -181,12 +181,12 @@
         android:id="@+id/btnBackPetDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"/>
 
 

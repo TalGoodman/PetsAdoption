@@ -13,8 +13,8 @@
         android:text="@string/your_pets"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/rvMyPetsList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Group
@@ -27,26 +27,26 @@
         android:id="@+id/btnOfferPet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
         android:textSize="11sp"
         android:text="@string/offer_a_pet_for_adoption"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvMyPetsList" />
 
     <Button
         android:id="@+id/btnBackMyPets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
         android:textSize="11sp"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnOfferPet"
+        app:layout_constraintLeft_toRightOf="@+id/btnOfferPet"
         app:layout_constraintTop_toBottomOf="@+id/rvMyPetsList" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -59,9 +59,9 @@
         android:textAlignment="gravity"
         android:textDirection="ltr"
         app:layout_constraintBottom_toTopOf="@+id/btnOfferPet"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvYourPets"
         tools:listitem="@layout/pets_list_item"></androidx.recyclerview.widget.RecyclerView>
 
@@ -76,8 +76,8 @@
         android:text="@string/nothing_to_see_here_yet"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvYourPets" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

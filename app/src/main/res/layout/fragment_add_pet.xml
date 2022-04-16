@@ -18,34 +18,34 @@
         android:id="@+id/ivPetImageAdd"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         android:clickable="true"
         android:contentDescription='@string/desc_pet_image'
         android:focusable="true"
         android:scaleType="fitXY"
         android:src="@drawable/ic_empty_pet_image"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnSetPhoto"
         android:layout_width="120dp"
         android:layout_height="@dimen/buttons_height"
-        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="1dp"
         android:padding="14dip"
         android:text="@string/set_photo"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPetImageAdd" />
 
     <EditText
         android:id="@+id/etPetNameContentAdd"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="57dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="57dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/name"
@@ -53,8 +53,8 @@
         android:maxLines="1"
         android:minHeight="48dp"
         android:textSize="@dimen/input_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivPetImageAdd"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/ivPetImageAdd"
         app:layout_constraintTop_toBottomOf="@+id/tvPetNameAdd" />
 
     <TextView
@@ -65,7 +65,7 @@
         android:text="@string/pet_name"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/etPetNameContentAdd"
-        app:layout_constraintStart_toStartOf="@+id/etPetNameContentAdd"
+        app:layout_constraintLeft_toLeftOf="@+id/etPetNameContentAdd"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -77,8 +77,8 @@
         android:minWidth="100dp"
         android:minHeight="48dp"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSpecieAdd" />
 
     <TextView
@@ -86,13 +86,13 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="145dp"
+        android:layout_marginRight="145dp"
         android:width="120dp"
         android:text="@string/specie"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/spSpecieContentAdd"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/spSpecieContentAdd"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/spSpecieContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
 
     <TextView
@@ -103,7 +103,7 @@
         android:text="@string/sex"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/spSexContentAdd"
-        app:layout_constraintStart_toStartOf="@+id/spSexContentAdd"
+        app:layout_constraintLeft_toLeftOf="@+id/spSexContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/btnSetPhoto" />
 
     <Spinner
@@ -114,7 +114,7 @@
         android:minWidth="100dp"
         android:minHeight="48dp"
         android:textSize="@dimen/input_text_size"
-        app:layout_constraintStart_toStartOf="@+id/spDietContentAdd"
+        app:layout_constraintLeft_toLeftOf="@+id/spDietContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/tvSexAdd" />
 
     <CheckBox
@@ -122,12 +122,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
-        android:layout_marginEnd="57dp"
+        android:layout_marginRight="57dp"
         android:button="@null"
-        android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
         android:text="@string/vaccinated"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spSpecieContentAdd" />
 
     <TextView
@@ -138,7 +138,7 @@
         android:text="@string/diet"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/spDietContentAdd"
-        app:layout_constraintStart_toStartOf="@+id/spDietContentAdd"
+        app:layout_constraintLeft_toLeftOf="@+id/spDietContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/spSexContentAdd" />
 
     <TextView
@@ -148,22 +148,22 @@
         android:layout_marginTop="30dp"
         android:text="@string/title_pet_Description"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/spDietContentAdd"
+        app:layout_constraintLeft_toLeftOf="@+id/spDietContentAdd"
         app:layout_constraintTop_toBottomOf="@+id/spDietContentAdd" />
 
     <Spinner
         android:id="@+id/spDietContentAdd"
         android:layout_width="190dp"
         android:layout_height="48dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="209dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="209dp"
         android:entries="@array/dietSelectionList"
         android:minWidth="100dp"
         android:minHeight="48dp"
         android:textSize="@dimen/input_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.166"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDietAdd" />
 
     <EditText
@@ -180,9 +180,9 @@
         android:textColorHint="#757575"
         android:textSize="@dimen/input_text_size"
         app:layout_constraintBottom_toTopOf="@+id/btnBackAdd"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvDescriptionTitle"
+        app:layout_constraintLeft_toLeftOf="@+id/tvDescriptionTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvDescriptionTitle"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -190,23 +190,23 @@
         android:id="@+id/btnAddPet"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/buttons_height"
-        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:layout_marginBottom="28dp"
         android:padding="14dip"
         android:text="@string/add_pet"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/btnBackAdd"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/buttons_height"
-        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:padding="14dip"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnAddPet" />
 
     <androidx.constraintlayout.widget.Group

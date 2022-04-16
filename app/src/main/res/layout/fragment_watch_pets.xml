@@ -14,7 +14,7 @@
         android:minWidth="100dp"
         android:minHeight="48dp"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
@@ -25,8 +25,8 @@
         android:minWidth="100dp"
         android:minHeight="48dp"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spSpecieFilter"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/spSpecieFilter"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
@@ -37,7 +37,7 @@
         android:minWidth="100dp"
         android:minHeight="48dp"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spSpecieFilter" />
 
     <CheckBox
@@ -45,24 +45,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:button="@null"
-        android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
         android:text="@string/vaccinated"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spDietFilter"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/spDietFilter"
         app:layout_constraintTop_toBottomOf="@+id/spSexFilter" />
 
     <Button
         android:id="@+id/btnFilter"
         android:layout_width="wrap_content"
         android:layout_height="40sp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
         android:padding="7dip"
         android:text="@string/filter"
         android:textSize="11sp"
         app:layout_constraintTop_toBottomOf="@+id/spDietFilter"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWatchPetsList"
@@ -78,9 +78,9 @@
         android:scrollbars="vertical"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnFilter"
         tools:itemCount="6"
         tools:listitem="@layout/pets_list_item"></androidx.recyclerview.widget.RecyclerView>

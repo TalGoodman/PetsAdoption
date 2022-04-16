@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="3dp"
+    android:layout_marginLeft="3dp"
     android:layout_marginTop="3dp"
-    android:layout_marginEnd="3dp"
+    android:layout_marginRight="3dp"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
     android:pointerIcon="arrow"
@@ -18,12 +18,12 @@
         android:id="@+id/ivPetSmallImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
         android:contentDescription='@string/desc_pet_image'
         android:focusable="true"
         android:scaleType="fitXY"
         android:src="@drawable/ic_empty_pet_image"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -33,9 +33,9 @@
         android:layout_marginTop="4dp"
         android:text="@string/tvPetNameListItem"
         android:textSize="14sp"
-        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivPetSmallImage"
+        app:layout_constraintLeft_toRightOf="@+id/ivPetSmallImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:text="@string/tv_list_item_pet_specie"
         android:textSize="16sp"
-        android:layout_marginStart="6dp"
-        app:layout_constraintStart_toEndOf="@+id/ivPetSmallImage"
+        android:layout_marginLeft="6dp"
+        app:layout_constraintLeft_toRightOf="@+id/ivPetSmallImage"
         app:layout_constraintTop_toBottomOf="@+id/tvPetNameRV" />
 
     <Button
@@ -53,12 +53,12 @@
         android:layout_width="105dp"
         android:layout_height="75dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
         android:paddingVertical="0dp"
         android:paddingHorizontal="0dp"
         android:textSize="10sp"
         android:text="@string/show_pet_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

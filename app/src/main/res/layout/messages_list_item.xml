@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="3dp"
+    android:layout_marginLeft="3dp"
     android:layout_marginTop="3dp"
-    android:layout_marginEnd="3dp"
+    android:layout_marginRight="3dp"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
     android:pointerIcon="arrow"
@@ -22,7 +22,7 @@
         android:text="@string/watch_messages_message"
         android:textSize="20sp"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
@@ -30,11 +30,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="15dp"
         android:textSize="11sp"
         android:text="@string/copy_email"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMessage"/>
 
     <Button
@@ -42,12 +43,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="15dp"
         android:textSize="11sp"
         android:text="@string/copy_name"
-        app:layout_constraintStart_toEndOf="@id/btnCopyEmail"
+        app:layout_constraintLeft_toRightOf="@id/btnCopyEmail"
         app:layout_constraintTop_toBottomOf="@+id/tvMessage"/>
 
     <Button
@@ -55,12 +56,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="15dp"
         android:textSize="11sp"
         android:text="@string/send_email"
-        app:layout_constraintStart_toEndOf="@id/btnCopyName"
+        app:layout_constraintLeft_toRightOf="@id/btnCopyName"
         app:layout_constraintTop_toBottomOf="@+id/tvMessage"/>
 
     <Button
@@ -68,14 +69,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="22dp"
         android:text="@string/delete"
         android:textColor="@color/white"
         android:background="?android:attr/selectableItemBackground"
         android:foreground="@drawable/ic_baseline_delete_forever_24"
-        app:layout_constraintStart_toEndOf="@id/btnSendEmail"
+        app:layout_constraintLeft_toRightOf="@id/btnSendEmail"
         app:layout_constraintTop_toBottomOf="@+id/tvMessage"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
