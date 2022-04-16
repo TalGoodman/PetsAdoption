@@ -1,14 +1,11 @@
 package sadna.java.petsadoption;
 
 import android.app.ActivityManager;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,10 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.parse.ParseObject;
-
-import java.util.Date;
-import java.util.List;
 
 import sadna.java.petsadoption.databinding.ActivityMainBinding;
 
@@ -50,23 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Parse.com Object
-        ParseObject entity = new ParseObject("FirstClass");
-
-        entity.put("message", (new Date()).toString());
-
-        // Saves the new object.
-        // Notice that the SaveCallback is totally optional!
-        entity.saveInBackground(e -> {
-            if (e==null){
-                Log.v("SAVE", "Save was done");
-            }else{
-                //Something went wrong
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        FirebaseApp.initializeApp(this);
+         FirebaseApp.initializeApp(this);
         /*gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();

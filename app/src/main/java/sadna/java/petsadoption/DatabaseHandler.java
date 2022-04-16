@@ -332,6 +332,33 @@ public class DatabaseHandler {
         }
     }
 
+    //getPetsByFilter
+    public static List<ParseObject> getPetsByFilter(            String specie,
+                                                                String gander,
+                                                                Boolean vaccinated,
+                                                                String diet) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets");
+        query.whereMatches("specie", specie);
+        query.whereMatches("vaccinated", vaccinated.toString());
+        query.whereMatches("gander", gander);
+        query.whereMatches("diet", diet);
+        try {
+            List<ParseObject> pets_list = query.find();
+            //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
+            pets_list.forEach(
+                    (pet) -> {
+                        Log.d("Finding Pets", (String) pet.get("pet_name"));
+                    }
+            );
+//            Log.d("Pet: ", (String) pets_list.get(1).get("pet_name"));
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static List<ParseObject> getAllPets() {
         //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");

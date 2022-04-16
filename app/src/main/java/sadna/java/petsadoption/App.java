@@ -3,6 +3,7 @@ package sadna.java.petsadoption;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.livequery.ParseLiveQueryClient;
 
 public class App extends Application {
     @Override
@@ -13,5 +14,6 @@ public class App extends Application {
                 .clientKey(getString(R.string.back4app_client_key))
                 .server(getString(R.string.back4app_server_url))
                 .build());
+        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
     }
 }
