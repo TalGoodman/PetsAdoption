@@ -31,6 +31,10 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
     private RecyclerView recyclerView;
 
     private ProgressDialog progress;
+    
+    private List<ParseObject> pets_list;
+    private List<ParseObject> not_requested_pets_list;
+    
 
 
     @Override
@@ -61,11 +65,14 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         
-
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ToDo: Method invocation 'getUid' may produce 'NullPointerException'
-        List<ParseObject> pets_list = DatabaseHandler.getPetsOfOtherUsers(currentUserId);
-        List<ParseObject> not_requested_pets_list = DatabaseHandler.getNotRequestedPets(currentUserId);
-
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ToDo: Method invocation 'getUid' may produce 'NullPointerException'
+            pets_list = DatabaseHandler.getPetsOfOtherUsers(currentUserId);
+            not_requested_pets_list = DatabaseHandler.getNotRequestedPets(currentUserId);
+        } else {
+            pets_list = DatabaseHandler.getAllPets();
+            not_requested_pets_list = pets_list;
+        }
 
         ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
         recyclerView.setAdapter(adapter);
@@ -99,9 +106,9 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
         }
         filterMap.put("vaccinated", vaccinated);
 
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ToDo: Method invocation 'getUid' may produce 'NullPointerException'
-        List<ParseObject> pets_list = DatabaseHandler.getPetsByKeysAndValues(currentUserId, filterMap);
-        List<ParseObject> not_requested_pets_list = DatabaseHandler.getNotRequestedPets(currentUserId);
+
+        List<ParseObject> pets_list = filterList(this.pets_list, filterMap);
+        List<ParseObject> not_requested_pets_list = filterList(this.not_requested_pets_list, filterMap);
 
         ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
         recyclerView.setAdapter(adapter);
@@ -116,5 +123,23 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
             progress.dismiss();
         }
         super.onResume();
+    }
+    
+    private List<ParseObject> filterList(List<ParseObject> petsList, Map<String, Object> filterMap) {
+        List<ParseObject> filteredList = new ArrayList<>();
+        int size = petsList.size();
+        for (int i = 0; i < size; i++){
+            ParseObject currentPet = petsList.get(i);
+            boolean add_pet = true;
+            for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
+                if (!currentPet.get(entry.getKey()).equals(entry.getValue())){
+                    add_pet = false;
+                }
+            }
+            if (add_pet) {
+                filteredList.add(currentPet);
+            }
+        }
+        return filteredList;
     }
 }

@@ -205,6 +205,10 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             binding.tvWelcome.setText("Logged in as "+user_name);
             TextView textView = (TextView) signInButton.getChildAt(0);
                 textView.setText("Sign out");
+            binding.btnWatchMessages.setEnabled(true);
+            binding.btnOfferToAdoption.setEnabled(true);
+            binding.btnMyPets.setEnabled(true);
+            binding.tvSignInInfo.setVisibility(View.INVISIBLE);
             //ToDo: Check that it doesn't exist already
             /*user.getEmail();
             user.getUid();*/
@@ -212,6 +216,10 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             binding.tvWelcome.setText("Welcome to Pets Adoption!");
             TextView textView = (TextView) signInButton.getChildAt(0);
             textView.setText("Sign in");
+            binding.btnWatchMessages.setEnabled(false);
+            binding.btnOfferToAdoption.setEnabled(false);
+            binding.btnMyPets.setEnabled(false);
+            binding.tvSignInInfo.setVisibility(View.VISIBLE);
         }
     }
 

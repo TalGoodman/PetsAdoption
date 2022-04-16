@@ -3,6 +3,7 @@ package sadna.java.petsadoption;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import sadna.java.petsadoption.databinding.FragmentPetDetailsBinding;
 
@@ -43,7 +45,11 @@ public class PetDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ownerId = getArguments().getString("ownerId");
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String currentUserId = null;
+        if (firebaseUser != null) {
+            currentUserId = firebaseUser.getUid();
+        }
 
         boolean isRequested = getArguments().getBoolean("isRequested");
 
@@ -62,7 +68,7 @@ public class PetDetailsFragment extends Fragment {
         binding.tvDietContent.setText(petDiet);
         binding.tvDescriptionContent.setText(petDescription);
 
-        if(!currentUserId.equals(ownerId)) {
+        if(firebaseUser != null && !currentUserId.equals(ownerId)) {
             binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -93,9 +99,10 @@ public class PetDetailsFragment extends Fragment {
             });
             if(isRequested) {
                 binding.btnRequestToAdopt.setText(R.string.bttnAlreadyRequested);
+                binding.btnRequestToAdopt.setTextColor(Color.GREEN);
                 binding.btnRequestToAdopt.setEnabled(false);
             }
-        } else {
+        } else if (ownerId.equals(currentUserId)){
             binding.btnRequestToAdopt.setText(R.string.bttnTextDeletPet);
             binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,6 +129,16 @@ public class PetDetailsFragment extends Fragment {
                     progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
+                }
+            });
+        } else if (currentUserId == null) {
+            binding.btnRequestToAdopt.setEnabled(false);
+            binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
+                    NavHostFragment.findNavController(PetDetailsFragment.this)
+                            .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
                 }
             });
         }

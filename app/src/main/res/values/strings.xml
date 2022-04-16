@@ -76,7 +76,7 @@
     <string name="back4app_app_id">OXRjW8j4dQmxGS2xYcnMgwOH4uzBH9NiFTajqBVJ</string>
     <string name="back4app_client_key">w85QEiafF4uaDk17gSHMGKwD6f37vTv1C7sAaZIm</string>
     <string name="tvPetNameListItem">Pet Name</string>
-    <string name="show_pet_button">Show Pet</string>
+    <string name="show_pet_button">Details</string>
     <string name="tv_list_item_pet_specie">Specie</string>
     <string name="watch_messages">Watch Messages</string>
     <string name="delete">Delete</string>
@@ -85,5 +85,6 @@
     <string name="nothing_to_see_here_yet">Nothing To See Here Yet</string>
     <string name="filter">Filter</string>
     <string name="my_pets">My Pets</string>
+    <string name="you_can_only_watch_pets_while_not_signed_in">You can only watch pets while not signed in\nSign In to access all the features</string>
 
 </resources>

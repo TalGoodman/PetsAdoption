@@ -78,7 +78,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         });
         if(requested(petsList.get(position).get("pet_id").toString())){
             bundle.putBoolean("isRequested", true);
-            holder.btnView.setText("View Pet\n(Requested)");
+            holder.btnView.setText("Details\n(Requested)");
             holder.btnView.setTextColor(Color.GREEN);
         } else {
             bundle.putBoolean("isRequested", false);

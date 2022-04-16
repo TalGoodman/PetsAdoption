@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/svPetDetails"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,13 +15,12 @@
 
     <ImageView
         android:id="@+id/ivPetImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
         android:contentDescription='@string/desc_pet_image'
         android:focusable="true"
-        android:padding="10dp"
-        android:requiresFadingEdge="horizontal|vertical"
-        android:scaleType="fitCenter"
+        android:padding="5dp"
         android:src="@drawable/ic_empty_pet_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +157,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="28dp"
-        android:maxLines="3"
+        android:maxWidth="200dp"
         android:text="@string/content"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvDescription"
@@ -176,15 +181,15 @@
         android:id="@+id/btnBackPetDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
         android:text="@string/back"
-        app:barrierMargin="-20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnRequestToAdopt"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"
-        app:layout_constraintVertical_bias="0.966" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionContent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
