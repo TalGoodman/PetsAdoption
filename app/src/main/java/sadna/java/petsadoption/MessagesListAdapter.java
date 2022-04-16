@@ -1,11 +1,13 @@
 package sadna.java.petsadoption;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,8 +124,18 @@ public class MessagesListAdapter extends RecyclerView.Adapter<MessagesListAdapte
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog progress;
+                Handler handler = new Handler();
                 try {
                     DatabaseHandler.deleteMessageByID(message_id);
+                    progress = ProgressDialog.show(fragment.getContext(), "Deleting Message", "Wait a second...");
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            if (progress != null && progress.isShowing()){
+                                progress.dismiss();
+                            }
+                        }
+                    }, 1500);
                     Toast.makeText(fragment.getContext(), "Message Deleted",Toast.LENGTH_SHORT).show();
                     NavHostFragment.findNavController(fragment).navigate(R.id.action_WatchMessagesFragment_to_WatchMessagesFragment);
                 } catch (Exception e) {

@@ -62,7 +62,7 @@ public class AddPetFragment extends Fragment {
         /**********************************************************/
 
         // Spinner element
-        Spinner spinner = binding.spSexContentAdd;
+        Spinner spinner = binding.spSpecieContentAdd;
 
         // Spinner Drop down elements
         List<String> categories = DatabaseHandler.getSpeciesNames();
@@ -84,17 +84,20 @@ public class AddPetFragment extends Fragment {
             public void onClick(View view) {
                 String Specie = binding.spSpecieContentAdd.getSelectedItem().toString();
                 String Name = binding.etPetNameContentAdd.getText().toString();
-                if (Name.equals("")) {
-                    Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
-                    return;
-                }
-
                 String Identifier = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
                 String fbUserID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
                 String Sex = binding.spSexContentAdd.getSelectedItem().toString();
                 Boolean Vaccinated = binding.cbVaccinatedAdd.isChecked();
                 String Diet = binding.spDietContentAdd.getSelectedItem().toString();
                 String Description = binding.etDescriptionContentAdd.getText().toString();
+
+                if (Name.equals("")) {
+                    Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
+                    return;
+                } else if (Description.equals("")) {
+                    Toast.makeText(getActivity(), "Please Add Description",Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 Pet newPet = new Pet(petImageByteArray, Specie, fbUserID,Name,Identifier, Sex,
                         Vaccinated, Diet, Description);
@@ -108,6 +111,7 @@ public class AddPetFragment extends Fragment {
                             newPet.getSpecies()+"",
                             newPet.getSex()+"",
                             newPet.getVaccinated() ,
+                            newPet.getDiet(),
                             newPet.getName(),
                             newPet.getDescription(),
                             newPet.getImage());
