@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String welcomeFragmentName;
     private String watchPetsFragmentName;
-    private String offerToAdoptionFragmentName;
+    private String myPetsFragmentName;
     private String petDetailsFragmentName;
     private String addPetFragmentName;
     private String watchMessagesFragmentName;
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         welcomeFragmentName = WelcomeFragment.class.getName();
         watchPetsFragmentName = WatchPetsFragment.class.getName();
-        offerToAdoptionFragmentName = OfferToAdoptionFragment.class.getName();
+        myPetsFragmentName = MyPetsFragment.class.getName();
         petDetailsFragmentName = PetDetailsFragment.class.getName();
         addPetFragmentName = AddPetFragment.class.getName();
         watchMessagesFragmentName = WatchMessagesFragment.class.getName();
@@ -120,15 +120,14 @@ public class MainActivity extends AppCompatActivity {
             NavHostFragment.findNavController(currentFragment)
                     .navigate(R.id.action_WatchPetsFragment_to_WelcomeFragment);
             return true;
-        } else if (offerToAdoptionFragmentName.equals(currentFragmentName)) {
+        } else if (myPetsFragmentName.equals(currentFragmentName)) {
             NavHostFragment.findNavController(currentFragment)
-                    .navigate(R.id.action_OfferToAdoptionFragment_to_WelcomeFragment);
+                    .navigate(R.id.action_MyPetsFragment_to_WelcomeFragment);
             return true;
         } else if (addPetFragmentName.equals(currentFragmentName)) {
             AddPetFragment addPetFragment = (AddPetFragment)currentFragment;
-            addPetFragment.startShowingProgressDialog();
             NavHostFragment.findNavController(currentFragment)
-                    .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
+                    .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
             return true;
         } else if (watchMessagesFragmentName.equals(currentFragmentName)) {
             NavHostFragment.findNavController(currentFragment)
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                         .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
             } else {
                 NavHostFragment.findNavController(currentFragment)
-                        .navigate(R.id.action_PetDetailsFragment_to_OfferToAdoptionFragment);
+                        .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
             }
             return false;
         } else if (welcomeFragmentName.equals(currentFragmentName)){

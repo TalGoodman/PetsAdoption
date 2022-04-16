@@ -120,7 +120,7 @@ public class AddPetFragment extends Fragment {
                 }
 
                 NavHostFragment.findNavController(AddPetFragment.this)
-                        .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
+                        .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
             }
         });
 
@@ -148,9 +148,8 @@ public class AddPetFragment extends Fragment {
         binding.btnBackAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                 NavHostFragment.findNavController(AddPetFragment.this)
-                        .navigate(R.id.action_AddPetFragment_to_OfferToAdoptionFragment);
+                        .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
             }
         });
 

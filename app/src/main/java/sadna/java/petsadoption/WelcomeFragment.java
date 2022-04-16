@@ -124,11 +124,24 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             @Override
             public void onClick(View view) {
                 if(mAuth.getCurrentUser() != null) {
-                    progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
                     NavHostFragment.findNavController(WelcomeFragment.this)
-                            .navigate(R.id.action_WelcomeFragment_to_OfferToAdoptionFragment);
+                            .navigate(R.id.action_WelcomeFragment_to_AddPetFragment);
                 } else {
                     Toast.makeText(getActivity(), "Please Sign In in order to offer a pet",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        binding.btnMyPets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mAuth.getCurrentUser() != null) {
+                    progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
+                    NavHostFragment.findNavController(WelcomeFragment.this)
+                            .navigate(R.id.action_WelcomeFragment_to_MyPetsFragment);
+                } else {
+                    Toast.makeText(getActivity(), "Please Sign In in order to watch your pets",
                             Toast.LENGTH_LONG).show();
                 }
             }

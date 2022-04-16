@@ -70,9 +70,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                 if(fragment.getClass() == WatchPetsFragment.class){
                     NavHostFragment.findNavController(fragment)
                             .navigate(R.id.action_WatchPetsFragment_to_PetDetailsFragment, bundle);
-                } else if(fragment.getClass() == OfferToAdoptionFragment.class){
+                } else if(fragment.getClass() == MyPetsFragment.class){
                     NavHostFragment.findNavController(fragment)
-                            .navigate(R.id.action_OfferToAdoptionFragment_to_PetDetailsFragment, bundle);
+                            .navigate(R.id.action_MyPetsFragment_to_PetDetailsFragment, bundle);
                 }
             }
         });

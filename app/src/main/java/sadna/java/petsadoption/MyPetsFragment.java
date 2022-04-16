@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import sadna.java.petsadoption.databinding.FragmentOfferToAdoptionBinding;
+import sadna.java.petsadoption.databinding.FragmentMyPetsBinding;
 
 
-public class OfferToAdoptionFragment extends Fragment {
+public class MyPetsFragment extends Fragment {
     public static final int MAX_LIST_SIZE = 50;
 
-    private FragmentOfferToAdoptionBinding binding;
+    private FragmentMyPetsBinding binding;
 
     private RecyclerView recyclerView;
     private ArrayList<Bitmap> imagesList;
@@ -35,12 +35,12 @@ public class OfferToAdoptionFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentOfferToAdoptionBinding.inflate(inflater, container, false);
+        binding = FragmentMyPetsBinding.inflate(inflater, container, false);
         imagesList = new ArrayList<>();
         petNamesTextList = new ArrayList<String>();
         petSpeciesTextList = new ArrayList<String>();
         buttonsList = new ArrayList<Button>();
-        recyclerView = binding.rvOfferToAdoptionList;
+        recyclerView = binding.rvMyPetsList;
         return binding.getRoot();
     }
 
@@ -58,7 +58,7 @@ public class OfferToAdoptionFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));*/
 
 
-        ListAdapter adapter = new ListAdapter(pets_list, pets_list, OfferToAdoptionFragment.this);
+        ListAdapter adapter = new ListAdapter(pets_list, pets_list, MyPetsFragment.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -77,16 +77,16 @@ public class OfferToAdoptionFragment extends Fragment {
         binding.btnOfferPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(OfferToAdoptionFragment.this)
-                        .navigate(R.id.action_OfferToAdoptionFragment_to_AddPetFragment);
+                NavHostFragment.findNavController(MyPetsFragment.this)
+                        .navigate(R.id.action_MyPetsFragment_to_AddPetFragment);
             }
         });
 
-        binding.btnBackOfferToAdoption.setOnClickListener(new View.OnClickListener() {
+        binding.btnBackMyPets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(OfferToAdoptionFragment.this)
-                        .navigate(R.id.action_OfferToAdoptionFragment_to_WelcomeFragment);
+                NavHostFragment.findNavController(MyPetsFragment.this)
+                        .navigate(R.id.action_MyPetsFragment_to_WelcomeFragment);
             }
         });
 

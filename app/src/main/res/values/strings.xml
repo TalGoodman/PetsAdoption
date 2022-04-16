@@ -4,8 +4,8 @@
     <!-- Strings used for fragments for navigation -->
     <string name="welcome_fragment_label">Welcome</string>
     <string name="watch_pets_fragment_label">Watch Pets</string>
-    <string name="watch_messages_fragment_label">Watch Messages</string>
-    <string name="offer_to_adoption_fragment_label">Offer To Adoption Fragment</string>
+    <string name="watch_messages_fragment_label">Messages</string>
+    <string name="my_pets_fragment_label">My Pets</string>
     <string name="btn_watch_pets_text">Watch Pets</string>
     <string name="btn_offer_to_adopt_text">Offer Pet For Adoption</string>
 
@@ -38,7 +38,7 @@
     <string name="copy_email">Copy\nEmail</string>
     <string name="copy_name">Copy\nName</string>
     <string name="send_email">Send\nEmail</string>
-    <string name="watch_messages1">Watch Messages</string>
+    <string name="watch_messages1">Messages</string>
     <string name="desc_pet_image">pet image</string>
     <string-array name="specieSelectionList">
         <item>Cat</item>
@@ -84,5 +84,6 @@
     <string name="bttnTextDeletPet">Delete Pet</string>
     <string name="nothing_to_see_here_yet">Nothing To See Here Yet</string>
     <string name="filter">Filter</string>
+    <string name="my_pets">My Pets</string>
 
 </resources>

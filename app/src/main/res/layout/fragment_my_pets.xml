@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OfferToAdoptionFragment">
+    tools:context=".MyPetsFragment">
 
     <TextView
         android:id="@+id/tvYourPets"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/your_pets"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/rvOfferToAdoptionList"
+        app:layout_constraintBottom_toTopOf="@id/rvMyPetsList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +20,7 @@
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="btnOfferPet,btnBackOfferToAdoption"
+        app:constraint_referenced_ids="btnOfferPet,btnBackMyPets"
         tools:layout_editor_absoluteY="27dp" />
 
     <Button
@@ -34,10 +34,10 @@
         android:text="@string/offer_a_pet_for_adoption"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvOfferToAdoptionList" />
+        app:layout_constraintTop_toBottomOf="@+id/rvMyPetsList" />
 
     <Button
-        android:id="@+id/btnBackOfferToAdoption"
+        android:id="@+id/btnBackMyPets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -47,10 +47,10 @@
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnOfferPet"
-        app:layout_constraintTop_toBottomOf="@+id/rvOfferToAdoptionList" />
+        app:layout_constraintTop_toBottomOf="@+id/rvMyPetsList" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvOfferToAdoptionList"
+        android:id="@+id/rvMyPetsList"
         android:layout_width="411dp"
         android:layout_height="535dp"
         android:paddingLeft="6dp"

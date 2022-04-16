@@ -113,7 +113,7 @@ public class PetDetailsFragment extends Fragment {
                     }, 1500);
                     Toast.makeText(getContext(), toastString,Toast.LENGTH_LONG).show();
                     NavHostFragment.findNavController(PetDetailsFragment.this)
-                            .navigate(R.id.action_PetDetailsFragment_to_OfferToAdoptionFragment);
+                            .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
                 }
             });
             binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class PetDetailsFragment extends Fragment {
                 public void onClick(View view) {
                     progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                     NavHostFragment.findNavController(PetDetailsFragment.this)
-                            .navigate(R.id.action_PetDetailsFragment_to_OfferToAdoptionFragment);
+                            .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
                 }
             });
         }

@@ -17,8 +17,11 @@
             android:id="@+id/action_WelcomeFragment_to_WatchMessagesFragment"
             app:destination="@id/WatchMessagesFragment" />
         <action
-            android:id="@+id/action_WelcomeFragment_to_OfferToAdoptionFragment"
-            app:destination="@id/OfferToAdoptionFragment" />
+            android:id="@+id/action_WelcomeFragment_to_MyPetsFragment"
+            app:destination="@id/MyPetsFragment" />
+        <action
+            android:id="@+id/action_WelcomeFragment_to_AddPetFragment"
+            app:destination="@id/AddPetFragment" />
     </fragment>
     <fragment
         android:id="@+id/WatchPetsFragment"
@@ -37,22 +40,22 @@
             app:destination="@id/PetDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/OfferToAdoptionFragment"
-        android:name="sadna.java.petsadoption.OfferToAdoptionFragment"
-        android:label="@string/offer_to_adoption_fragment_label"
-        tools:layout="@layout/fragment_offer_to_adoption">
+        android:id="@+id/MyPetsFragment"
+        android:name="sadna.java.petsadoption.MyPetsFragment"
+        android:label="@string/my_pets_fragment_label"
+        tools:layout="@layout/fragment_my_pets">
 
         <action
-            android:id="@+id/action_OfferToAdoptionFragment_to_OfferToAdoptionFragment"
-            app:destination="@id/OfferToAdoptionFragment" />
+            android:id="@+id/action_OfferToAdoptionFragment_to_MyPetsFragment"
+            app:destination="@id/MyPetsFragment" />
         <action
-            android:id="@+id/action_OfferToAdoptionFragment_to_WelcomeFragment"
+            android:id="@+id/action_MyPetsFragment_to_WelcomeFragment"
             app:destination="@id/WelcomeFragment" />
         <action
-            android:id="@+id/action_OfferToAdoptionFragment_to_AddPetFragment"
+            android:id="@+id/action_MyPetsFragment_to_AddPetFragment"
             app:destination="@id/AddPetFragment" />
         <action
-            android:id="@+id/action_OfferToAdoptionFragment_to_PetDetailsFragment"
+            android:id="@+id/action_MyPetsFragment_to_PetDetailsFragment"
             app:destination="@id/PetDetailsFragment" />
     </fragment>
     <fragment
@@ -62,8 +65,11 @@
         tools:layout="@layout/fragment_add_pet">
 
         <action
-            android:id="@+id/action_AddPetFragment_to_OfferToAdoptionFragment"
-            app:destination="@id/OfferToAdoptionFragment"/>
+            android:id="@+id/action_AddPetFragment_to_MyPetsFragment"
+            app:destination="@id/MyPetsFragment"/>
+        <action
+            android:id="@+id/action_AddPetFragment_to_WelcomeFragment"
+            app:destination="@id/WelcomeFragment"/>
     </fragment>
     <fragment
         android:id="@+id/PetDetailsFragment"
@@ -75,8 +81,8 @@
             android:id="@+id/action_PetDetailsFragment_to_WatchPetsFragment"
             app:destination="@id/WatchPetsFragment"/>
         <action
-            android:id="@+id/action_PetDetailsFragment_to_OfferToAdoptionFragment"
-            app:destination="@id/OfferToAdoptionFragment"/>
+            android:id="@+id/action_PetDetailsFragment_to_MyPetsFragment"
+            app:destination="@id/MyPetsFragment"/>
     </fragment>
     <fragment
         android:id="@+id/PetListItemFragment"
