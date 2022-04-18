@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class MyPetsFragment extends Fragment {
     private ArrayList<String> petNamesTextList;
     private ArrayList<String> petSpeciesTextList;
     private ArrayList<Button> buttonsList;
+    private String currentUserId;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +50,11 @@ public class MyPetsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } else {
+            currentUserId = null;
+        }
 
         /****************************************************************/
         //ToDo: Might be possible to filter the existing full pets list instead of getting it again to be more data efficient
@@ -58,7 +65,7 @@ public class MyPetsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));*/
 
 
-        ListAdapter adapter = new ListAdapter(pets_list, pets_list, MyPetsFragment.this);
+        ListAdapter adapter = new ListAdapter(pets_list, currentUserId, MyPetsFragment.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

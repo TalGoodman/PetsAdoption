@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".AddPetFragment">
 
 
@@ -45,7 +44,6 @@
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="57dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/name"
@@ -53,7 +51,6 @@
         android:maxLines="1"
         android:minHeight="48dp"
         android:textSize="@dimen/input_text_size"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/ivPetImageAdd"
         app:layout_constraintTop_toBottomOf="@+id/tvPetNameAdd" />
 
@@ -62,10 +59,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
         android:text="@string/pet_name"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/etPetNameContentAdd"
-        app:layout_constraintLeft_toLeftOf="@+id/etPetNameContentAdd"
+        app:layout_constraintLeft_toRightOf="@+id/ivPetImageAdd"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -74,11 +72,11 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:entries="@array/specieSelectionList"
+        android:layout_marginLeft="20dp"
         android:minWidth="100dp"
         android:minHeight="48dp"
         android:textSize="20sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/ivPetImageAdd"
         app:layout_constraintTop_toBottomOf="@+id/tvSpecieAdd" />
 
     <TextView
@@ -86,13 +84,11 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:layout_marginRight="145dp"
+        android:layout_marginLeft="20dp"
         android:width="120dp"
         android:text="@string/specie"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/spSpecieContentAdd"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/spSpecieContentAdd"
+        app:layout_constraintLeft_toRightOf="@+id/ivPetImageAdd"
         app:layout_constraintTop_toBottomOf="@+id/etPetNameContentAdd" />
 
     <TextView

@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -146,16 +148,46 @@ public class DatabaseHandler {
         }
         try {
             List<ParseObject> pets_list = query.find();
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("getPetsByKeysAndValues", (String) pet.get("pet_id"));
-                    }
-            );
             return pets_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static List<ParseObject> getPetsByKeysAndValuesWithLimit(String user_id, Map<String, Object> filterMap, int limit, int skip) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
+        if (user_id != null) {
+            query = query.whereNotEqualTo("owner_id", user_id);
+        }
+        for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
+            query = query.whereEqualTo(entry.getKey(), entry.getValue());
+        }
+        try {
+            List<ParseObject> pets_list = query.find();
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static int getNumberOfPetsByKeysAndValue(String user_id, Map<String, Object> filterMap) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets");
+        if (user_id != null) {
+            query = query.whereNotEqualTo("owner_id", user_id);
+        }
+        for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
+            query = query.whereEqualTo(entry.getKey(), entry.getValue());
+        }
+        int number = 0;
+        try {
+            number = query.count();
+        } catch (com.parse.ParseException e) {
+            return number;
+        }
+        return number;
     }
 
     public static ArrayList<String> getSpeciesNames() {
@@ -293,16 +325,41 @@ public class DatabaseHandler {
         }
     }
 
+    public static List<ParseObject> getPetsOfOtherUsersWithLimit(String user_id, int limit, int skip) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip).whereNotEqualTo("owner_id", user_id);
+        try {
+            List<ParseObject> pets_list = query.find();
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static boolean findIfPetRequested(String pet_id, String user_id) {
+        if (user_id == null) {
+            return false;
+        }
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("pet_id", pet_id).whereEqualTo("sender_id", user_id);
+        try {
+            List<ParseObject> message =  query.find();
+            if (message.size() > 0) {
+                if (pet_id.equals(message.get(0).getString("pet_id"))){
+                    return true;
+                }
+            }
+            return false;
+        } catch (com.parse.ParseException e) {
+            return false;
+        }
+    }
+
     public static List<ParseObject> getMessagesByKeyAndValue(String key, String value) {
         //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo(key, value);
         try {
             List<ParseObject> messages_list = query.find();
-            messages_list.forEach(
-                    (pet) -> {
-                        Log.d("getMessagesByKeyAndValue", (String) pet.get("message_id"));
-                    }
-            );
             return messages_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -332,6 +389,49 @@ public class DatabaseHandler {
         }
     }
 
+    public static Set<String> getRequestedPetsIds(String user_id) {
+        List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
+        Set<String> requested_pets_ids = new HashSet<>();
+        for (int i = 0; i < messages_list.size(); i++) {
+            String pet_id = messages_list.get(i).get("pet_id").toString();
+            requested_pets_ids.add(pet_id);
+        }
+        return requested_pets_ids;
+    }
+
+    public static int getNumberOfPets() {
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets");
+        int number = 0;
+        try {
+            number = query.count();
+        } catch (com.parse.ParseException e) {
+            return number;
+        }
+        return number;
+    }
+
+    public static int getNumberOfPetsOfOtherUsers(String user_id) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
+        int number = 0;
+        try {
+            number = query.count();
+        } catch (com.parse.ParseException e) {
+            return number;
+        }
+        return number;
+    }
+
+    public static List<ParseObject> getNotRequestedPetsWithLimit(Set<String> requested_pets_ids, int limit, int skip) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip).whereNotContainedIn("pet_id", requested_pets_ids);
+        try {
+            List<ParseObject> pets_list = query.find();
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            return null;
+        }
+    }
+
     //getPetsByFilter
     public static List<ParseObject> getPetsByFilter(            String specie,
                                                                 String gander,
@@ -345,19 +445,14 @@ public class DatabaseHandler {
         query.whereMatches("diet", diet);
         try {
             List<ParseObject> pets_list = query.find();
-            //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("Finding Pets", (String) pet.get("pet_name"));
-                    }
-            );
-//            Log.d("Pet: ", (String) pets_list.get(1).get("pet_name"));
             return pets_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
 
     public static List<ParseObject> getAllPets() {
         //This find function works synchronously.
@@ -371,6 +466,18 @@ public class DatabaseHandler {
                              }
             );
 //            Log.d("Pet: ", (String) pets_list.get(1).get("pet_name"));
+            return pets_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<ParseObject> getAllPetsWithLimit(int limit, int skip) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
+        try {
+            List<ParseObject> pets_list = query.find();
             return pets_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -395,7 +502,7 @@ public class DatabaseHandler {
     }
 
     //Get Pet Image From Parse Object
-    public static Bitmap getPetImage(ParseObject petObject, ListAdapter.ViewHolder holder)
+    public static Bitmap getPetImage(ParseObject petObject, ListAdapter.ItemViewHolder holder)
     {
         final Bitmap[] bmp = new Bitmap[1];
         ParseFile thumbnail = (ParseFile) petObject.get("pet_image");
@@ -405,12 +512,10 @@ public class DatabaseHandler {
                     {
                         public void done(byte[] data, ParseException e)
                         {
-                            Log.d("getPetImage", "done");
                             if (e == null)  {
                                 bmp[0] = BitmapFactory.decodeByteArray(data, 0,data.length);
                                 holder.petImage.setImageBitmap(bmp[0]);
                             }
-                            Log.d("getPetImage", "Pet Image Assigned: "+ bmp[0].toString());
                         };
                     }
                 );

@@ -2,6 +2,7 @@ package sadna.java.petsadoption;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.parse.Parse;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -25,15 +27,25 @@ import sadna.java.petsadoption.databinding.FragmentWatchPetsBinding;
 
 public class WatchPetsFragment extends Fragment implements View.OnClickListener {
     public static final int MAX_LIST_SIZE = 50;
+    public static final int ITEMS_TO_LOAD = 3;
 
     private FragmentWatchPetsBinding binding;
 
     private RecyclerView recyclerView;
+    private ListAdapter recyclerViewAdapter;
 
     private ProgressDialog progress;
     
     private List<ParseObject> pets_list;
-    private List<ParseObject> not_requested_pets_list;
+
+    private String currentUserId;
+
+    private boolean isLoading;
+    private boolean isFilter;
+    private int itemsLoaded;
+    private int numberOfPets;
+
+    private Map<String, Object> filterMap;
     
 
 
@@ -64,19 +76,28 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        isLoading = false;
+        isFilter = false;
+        itemsLoaded = 0;
         
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ToDo: Method invocation 'getUid' may produce 'NullPointerException'
-            pets_list = DatabaseHandler.getPetsOfOtherUsers(currentUserId);
-            not_requested_pets_list = DatabaseHandler.getNotRequestedPets(currentUserId);
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ToDo: Method invocation 'getUid' may produce 'NullPointerException'
+            numberOfPets = DatabaseHandler.getNumberOfPetsOfOtherUsers(currentUserId);
         } else {
-            pets_list = DatabaseHandler.getAllPets();
-            not_requested_pets_list = pets_list;
+            currentUserId = null;
+            numberOfPets = DatabaseHandler.getNumberOfPets();
         }
 
-        ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        pets_list = new ArrayList<>();
+
+
+        populateData();
+        initAdapter();
+        initScrollListener();
+
+        //ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
+        //recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -88,12 +109,14 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View view) {
         progress = ProgressDialog.show(getContext(), "Filtering", "Please wait...");
+        isFilter = true;
+        isLoading = false;
+        itemsLoaded = 0;
+        filterMap = new TreeMap<>();
         String specie = binding.spSpecieFilter.getSelectedItem().toString();
         String sex = binding.spSexFilter.getSelectedItem().toString();
         String diet = binding.spDietFilter.getSelectedItem().toString();
         boolean vaccinated = binding.cbVaccinatedFilter.isChecked();
-
-        Map<String, Object> filterMap = new TreeMap<>();
 
         if (!specie.equals("Any")) {
             filterMap.put("species", specie);
@@ -106,13 +129,17 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
         }
         filterMap.put("vaccinated", vaccinated);
 
+        numberOfPets = DatabaseHandler.getNumberOfPetsByKeysAndValue(currentUserId, filterMap);
+        pets_list = new ArrayList<>();
+        populateData();
+        initAdapter();
+        initScrollListener();
+        //List<ParseObject> pets_list = filterList(this.pets_list, filterMap);
+        //List<ParseObject> not_requested_pets_list = filterList(this.not_requested_pets_list, filterMap);
 
-        List<ParseObject> pets_list = filterList(this.pets_list, filterMap);
-        List<ParseObject> not_requested_pets_list = filterList(this.not_requested_pets_list, filterMap);
-
-        ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
+        //recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (progress != null && progress.isShowing()){
             progress.dismiss();
         }
@@ -123,6 +150,93 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
             progress.dismiss();
         }
         super.onResume();
+    }
+
+    private void populateData() {
+        if (currentUserId != null && !isFilter) {
+            pets_list = DatabaseHandler.getPetsOfOtherUsersWithLimit(currentUserId, 5, itemsLoaded);
+        } else if (isFilter) {
+            pets_list = DatabaseHandler.getPetsByKeysAndValuesWithLimit(currentUserId, filterMap, 5, itemsLoaded);
+        } else {
+            pets_list = DatabaseHandler.getAllPetsWithLimit(5, itemsLoaded);
+        }
+        itemsLoaded = 5;
+    }
+
+    private void initAdapter() {
+        recyclerViewAdapter = new ListAdapter(pets_list, currentUserId, WatchPetsFragment.this);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void initScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (itemsLoaded >= numberOfPets) {
+                    recyclerView.removeOnScrollListener(this);
+                    return;
+                }
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int lastCompletelyVisibleItemPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (!isLoading) {
+                    if (linearLayoutManager != null && lastCompletelyVisibleItemPosition == itemsLoaded - 1) {
+                        //bottom of list!
+                        loadMore();
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    private void loadMore() {
+        pets_list.add(null);
+        recyclerViewAdapter.notifyItemInserted(pets_list.size() - 1);
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pets_list.remove(pets_list.size() - 1);
+                int scrollPosition = pets_list.size();
+                recyclerViewAdapter.notifyItemRemoved(scrollPosition);
+                int nextLimit = itemsLoaded + ITEMS_TO_LOAD;
+                List<ParseObject> append_list = new ArrayList<>();
+
+                if (itemsLoaded < nextLimit) {
+                    if (currentUserId != null && !isFilter) {
+                        append_list = DatabaseHandler.getPetsOfOtherUsersWithLimit(currentUserId, ITEMS_TO_LOAD, itemsLoaded);
+                    } else if (isFilter) {
+                        append_list = DatabaseHandler.getPetsByKeysAndValuesWithLimit(currentUserId, filterMap, ITEMS_TO_LOAD, itemsLoaded);
+                    } else {
+                        append_list = DatabaseHandler.getAllPetsWithLimit(ITEMS_TO_LOAD, itemsLoaded);
+                    }
+                    pets_list.addAll(append_list);
+                    itemsLoaded += ITEMS_TO_LOAD;
+                    if (itemsLoaded > numberOfPets) {
+                        itemsLoaded = numberOfPets;
+                    }
+                }
+
+                //recyclerViewAdapter.notifyDataSetChanged();
+                recyclerViewAdapter.notifyItemRangeInserted(pets_list.size() - append_list.size(), append_list.size());
+                recyclerView.scrollToPosition(itemsLoaded - 5);
+                isLoading = false;
+            }
+        }, 1500);
+
+
     }
     
     private List<ParseObject> filterList(List<ParseObject> petsList, Map<String, Object> filterMap) {
