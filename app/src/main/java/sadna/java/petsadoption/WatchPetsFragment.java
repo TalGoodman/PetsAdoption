@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -107,6 +108,11 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
+        if (!DatabaseHandler.isConnected(WatchPetsFragment.this.getContext())) {
+            Toast.makeText(getActivity(), "No Internet Connection",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         progress = ProgressDialog.show(getContext(), "Filtering", "Please wait...");
         isFilter = true;
         isLoading = false;
@@ -187,7 +193,11 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
                 int lastCompletelyVisibleItemPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (!isLoading) {
                     if (linearLayoutManager != null && lastCompletelyVisibleItemPosition == itemsLoaded - 1) {
-                        //bottom of list!
+                        if (!DatabaseHandler.isConnected(WatchPetsFragment.this.getContext())) {
+                            Toast.makeText(getActivity(), "No Internet Connection",
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         loadMore();
                         isLoading = true;
                     }

@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -114,7 +115,11 @@ public class WatchMessagesFragment extends Fragment {
                 int lastCompletelyVisibleItemPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (!isLoading) {
                     if (linearLayoutManager != null && lastCompletelyVisibleItemPosition == itemsLoaded - 1) {
-                        //bottom of list!
+                        if (!DatabaseHandler.isConnected(WatchMessagesFragment.this.getContext())) {
+                            Toast.makeText(getActivity(), "No Internet Connection",
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         loadMore();
                         isLoading = true;
                     }

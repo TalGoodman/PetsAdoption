@@ -72,6 +72,11 @@ public class PetDetailsFragment extends Fragment {
             binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
+                        Toast.makeText(getActivity(), "No Internet Connection",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     DatabaseHandler.createMessage(petId, ownerId);
                     Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
                     progress = ProgressDialog.show(getContext(), "Requesting", "Wait a second...");
@@ -92,6 +97,11 @@ public class PetDetailsFragment extends Fragment {
             binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
+                        Toast.makeText(getActivity(), "No Internet Connection",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
@@ -107,6 +117,11 @@ public class PetDetailsFragment extends Fragment {
             binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
+                        Toast.makeText(getActivity(), "No Internet Connection",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     String toastString = DatabaseHandler.deletePetByID(petId);
                     Log.d("btnRequestToAdopt.onClick", "deletePetByID");
                     Handler handler = new Handler();
@@ -126,6 +141,11 @@ public class PetDetailsFragment extends Fragment {
             binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
+                        Toast.makeText(getActivity(), "No Internet Connection",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
@@ -136,6 +156,11 @@ public class PetDetailsFragment extends Fragment {
             binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
+                        Toast.makeText(getActivity(), "No Internet Connection",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);

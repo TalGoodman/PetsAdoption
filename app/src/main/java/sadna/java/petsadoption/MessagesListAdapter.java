@@ -136,6 +136,11 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 itemHolder.btnSendEmail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (!DatabaseHandler.isConnected(fragment.getContext())) {
+                            Toast.makeText(fragment.getContext(), "No Internet Connection",
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         final Intent emailIntent = new Intent( android.content.Intent.ACTION_SEND);
                         emailIntent.setType("plain/text");
                         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
@@ -151,6 +156,11 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 itemHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (!DatabaseHandler.isConnected(fragment.getContext())) {
+                            Toast.makeText(fragment.getContext(), "No Internet Connection",
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         ProgressDialog progress;
                         Handler handler = new Handler();
                         try {

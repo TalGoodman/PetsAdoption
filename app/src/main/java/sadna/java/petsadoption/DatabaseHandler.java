@@ -1,7 +1,12 @@
 package sadna.java.petsadoption;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -547,5 +552,35 @@ public class DatabaseHandler {
                     }
                 );
         return bmp[0];
+    }
+
+    public static boolean isConnected(Context context) {
+        boolean result = false;
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (cm != null) {
+                NetworkCapabilities capabilities = cm.getNetworkCapabilities(cm.getActiveNetwork());
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN)) {
+                        result = true;
+                    }
+                }
+            }
+        } else {
+            if (cm != null) {
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                if (activeNetwork != null) {
+                    // connected to the internet
+                    if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI ||
+                            activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE ||
+                            activeNetwork.getType() == ConnectivityManager.TYPE_VPN) {
+                        result = true;
+                    }
+                }
+            }
+        }
+        return result;
     }
 }

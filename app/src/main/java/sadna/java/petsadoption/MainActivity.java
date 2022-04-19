@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -147,6 +148,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        if (!DatabaseHandler.isConnected(this)) {
+            Toast.makeText(this, "No Internet Connection",
+                    Toast.LENGTH_LONG).show();
+            return false;
+        }
         return navigateBack();
         /*NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
@@ -155,6 +161,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (!DatabaseHandler.isConnected(this)) {
+            Toast.makeText(this, "No Internet Connection",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         navigateBack();
     }
 

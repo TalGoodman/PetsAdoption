@@ -1,6 +1,7 @@
 package sadna.java.petsadoption;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -55,7 +57,21 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (!DatabaseHandler.isConnected(this.getContext())) {
+            new AlertDialog.Builder(this.getContext())
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("No Internet Connection")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                            System.exit(0);
+                        }
 
+                    })
+                    .show();
+        }
         //TODO: fix default_web_client_id2 string resource
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id2))
@@ -85,8 +101,11 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                //launcher.launch(signInIntent);
+                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(mAuth.getCurrentUser() == null){
                     Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                     startActivityForResult(signInIntent, 9001);
@@ -100,6 +119,11 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding.btnWatchPets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
                 NavHostFragment.findNavController(WelcomeFragment.this)
                         .navigate(R.id.action_WelcomeFragment_to_WatchPetsFragment);
@@ -109,6 +133,11 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding.btnWatchMessages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(mAuth.getCurrentUser() != null) {
                     progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
                     NavHostFragment.findNavController(WelcomeFragment.this)
@@ -123,6 +152,11 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding.btnOfferToAdoption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(mAuth.getCurrentUser() != null) {
                     NavHostFragment.findNavController(WelcomeFragment.this)
                             .navigate(R.id.action_WelcomeFragment_to_AddPetFragment);
@@ -136,6 +170,11 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding.btnMyPets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(mAuth.getCurrentUser() != null) {
                     progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
                     NavHostFragment.findNavController(WelcomeFragment.this)

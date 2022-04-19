@@ -82,6 +82,11 @@ public class AddPetFragment extends Fragment {
         binding.btnAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 String Specie = binding.spSpecieContentAdd.getSelectedItem().toString();
                 String Name = binding.etPetNameContentAdd.getText().toString();
                 String Identifier = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
@@ -131,6 +136,11 @@ public class AddPetFragment extends Fragment {
         binding.btnSetPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, 9002);
@@ -141,6 +151,11 @@ public class AddPetFragment extends Fragment {
         binding.ivPetImageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, 9002);
@@ -151,6 +166,11 @@ public class AddPetFragment extends Fragment {
         binding.btnBackAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 NavHostFragment.findNavController(AddPetFragment.this)
                         .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
             }

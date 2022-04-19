@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -84,6 +85,11 @@ public class MyPetsFragment extends Fragment {
         binding.btnOfferPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!DatabaseHandler.isConnected(MyPetsFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 NavHostFragment.findNavController(MyPetsFragment.this)
                         .navigate(R.id.action_MyPetsFragment_to_AddPetFragment);
             }
