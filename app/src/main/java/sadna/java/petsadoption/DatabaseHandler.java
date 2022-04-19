@@ -367,6 +367,33 @@ public class DatabaseHandler {
         }
     }
 
+    public static List<ParseObject> getMessagesByKeyAndValueWithLimit(String key, String value, int limit, int skip) {
+        //This find function works synchronously.
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages").setLimit(limit).setSkip(skip).whereEqualTo(key, value);
+        try {
+            List<ParseObject> messages_list = query.find();
+            return messages_list;
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static int getNumberOfMessagesByUser(String user_id) {
+        ParseQuery<ParseObject> query = new ParseQuery<>("messages");
+        if (user_id == null) {
+            return 0;
+        }
+        query = query.whereEqualTo("owner_id", user_id);
+        int number = 0;
+        try {
+            number = query.count();
+        } catch (com.parse.ParseException e) {
+            return number;
+        }
+        return number;
+    }
+
     public static List<ParseObject> getNotRequestedPets(String user_id) {
         List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
         Set<String> requested_pets_ids = new HashSet<>();

@@ -26,7 +26,6 @@ import java.util.TreeMap;
 import sadna.java.petsadoption.databinding.FragmentWatchPetsBinding;
 
 public class WatchPetsFragment extends Fragment implements View.OnClickListener {
-    public static final int MAX_LIST_SIZE = 50;
     public static final int ITEMS_TO_LOAD = 3;
 
     private FragmentWatchPetsBinding binding;
@@ -235,25 +234,5 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
                 isLoading = false;
             }
         }, 1500);
-
-
-    }
-    
-    private List<ParseObject> filterList(List<ParseObject> petsList, Map<String, Object> filterMap) {
-        List<ParseObject> filteredList = new ArrayList<>();
-        int size = petsList.size();
-        for (int i = 0; i < size; i++){
-            ParseObject currentPet = petsList.get(i);
-            boolean add_pet = true;
-            for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
-                if (!currentPet.get(entry.getKey()).equals(entry.getValue())){
-                    add_pet = false;
-                }
-            }
-            if (add_pet) {
-                filteredList.add(currentPet);
-            }
-        }
-        return filteredList;
     }
 }

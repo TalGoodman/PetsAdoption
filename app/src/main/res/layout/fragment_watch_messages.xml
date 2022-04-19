@@ -10,6 +10,7 @@
         android:id="@+id/rvWatchMessagesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutMode="clipBounds"
         android:background="@color/black"
         android:scrollbars="vertical"
         app:layout_constrainedHeight="true"
