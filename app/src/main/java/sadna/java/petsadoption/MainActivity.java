@@ -1,6 +1,7 @@
 package sadna.java.petsadoption;
 
-import android.app.ActivityManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private String petDetailsFragmentName;
     private String addPetFragmentName;
     private String watchMessagesFragmentName;
+
+    public static ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,9 +133,6 @@ public class MainActivity extends AppCompatActivity {
                     {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                                clearAppData();
-                            }
                             finish();
                             System.exit(0);
                         }
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (petDetailsFragmentName.equals(currentFragmentName)){
             PetDetailsFragment petDetailsFragment = (PetDetailsFragment)currentFragment;
-            petDetailsFragment.startShowingProgressDialog();
+            MainActivity.startShowingProgressDialog(petDetailsFragment.getContext());
             PetDetailsFragment currentPetDetailsFragment = (PetDetailsFragment)currentFragment;
             String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             String owner_id = currentPetDetailsFragment.getArguments().getString("ownerId");
@@ -213,9 +213,6 @@ public class MainActivity extends AppCompatActivity {
                     {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                                clearAppData();
-                            }
                             finish();
                             System.exit(0);
                         }
@@ -228,22 +225,13 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private void clearAppData() {
-        try {
-            // clearing app data
-            if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
-                ((ActivityManager)getSystemService(MainActivity.ACTIVITY_SERVICE)).clearApplicationUserData();
-            } else {
-                String packageName = getApplicationContext().getPackageName();
-                Runtime runtime = Runtime.getRuntime();
-                runtime.exec("pm clear "+packageName);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.exit(0);
-        }
+    public static void startShowingProgressDialog(Context c){
+        progress = ProgressDialog.show(c, "Loading", "Wait a second...");
     }
 
+    public static void dismissProgressDialog(){
+        if (progress != null && progress.isShowing()){
+            progress.dismiss();
+        }
+    }
 }

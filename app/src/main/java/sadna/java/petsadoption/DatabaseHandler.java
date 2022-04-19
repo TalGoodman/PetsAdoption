@@ -9,8 +9,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -534,7 +532,7 @@ public class DatabaseHandler {
     }
 
     //Get Pet Image From Parse Object
-    public static Bitmap getPetImage(ParseObject petObject, ListAdapter.ItemViewHolder holder)
+    public static Bitmap getPetImage(ParseObject petObject, PetsListAdapter.ItemViewHolder holder)
     {
         final Bitmap[] bmp = new Bitmap[1];
         ParseFile thumbnail = (ParseFile) petObject.get("pet_image");

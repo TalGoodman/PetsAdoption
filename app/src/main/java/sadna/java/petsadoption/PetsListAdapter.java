@@ -1,9 +1,7 @@
 package sadna.java.petsadoption;
 
-import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
@@ -59,7 +55,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     //ToDo: is it possible to do it with a list of requested pets? it should be much smaller
-    public ListAdapter(List<ParseObject> petsList, String currentUserId, Fragment fragment) {
+    public PetsListAdapter(List<ParseObject> petsList, String currentUserId, Fragment fragment) {
         this.petsList = petsList;
         this.currentUserId = currentUserId;
         this.fragment = fragment;
@@ -86,7 +82,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         if (holder instanceof LoadingViewHolder) {
             return;
         }
-        ListAdapter.ItemViewHolder itemHolder = (ListAdapter.ItemViewHolder)holder;
+        PetsListAdapter.ItemViewHolder itemHolder = (PetsListAdapter.ItemViewHolder)holder;
         String petName = petsList.get(position).get("pet_name").toString();
         String petSpecie = petsList.get(position).get("species").toString();
         String petId = petsList.get(position).get("pet_id").toString();
@@ -109,7 +105,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     itemHolder.btnView.setTextColor(Color.GREEN);
                 } else {
                     itemHolder.btnView.setText("Details");
-                    itemHolder.btnView.setTextColor(Color.BLACK);
+                    itemHolder.btnView.setTextColor(Color.LTGRAY);
                 }
 
                 itemHolder.btnView .setOnClickListener(new View.OnClickListener() {
@@ -169,4 +165,5 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         return bundle;
     }
+
 }

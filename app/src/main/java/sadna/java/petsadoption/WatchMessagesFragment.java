@@ -94,7 +94,13 @@ public class WatchMessagesFragment extends Fragment {
     private void initAdapter() {
         recyclerViewAdapter = new MessagesListAdapter(messages_list, WatchMessagesFragment.this);
         recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
+            @Override
+            public void onLayoutCompleted(RecyclerView.State state) {
+                super.onLayoutCompleted(state);
+                MainActivity.dismissProgressDialog();
+            }
+        });
     }
 
     private void initScrollListener() {

@@ -1,6 +1,5 @@
 package sadna.java.petsadoption;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,10 +37,9 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
 
     private FirebaseAuth mAuth;
     private GoogleSignInOptions gso;
+    GoogleSignInClient mGoogleSignInClient;
 
     private SignInButton signInButton;
-
-    private ProgressDialog progress;
 
     @Override
     public View onCreateView(
@@ -78,7 +76,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                 .requestEmail()
                 .build();
 
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -111,6 +109,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                     startActivityForResult(signInIntent, 9001);
                 } else {
                     mAuth.signOut();
+                    mGoogleSignInClient.signOut();
                     updateUI(null);
                 }
             }
@@ -124,7 +123,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                             Toast.LENGTH_LONG).show();
                     return;
                 }
-                progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
+                MainActivity.startShowingProgressDialog(getContext());
                 NavHostFragment.findNavController(WelcomeFragment.this)
                         .navigate(R.id.action_WelcomeFragment_to_WatchPetsFragment);
             }
@@ -139,7 +138,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                     return;
                 }
                 if(mAuth.getCurrentUser() != null) {
-                    progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
+                    MainActivity.startShowingProgressDialog(getContext());
                     NavHostFragment.findNavController(WelcomeFragment.this)
                             .navigate(R.id.action_WelcomeFragment_to_WatchMessagesFragment);
                 } else {
@@ -176,7 +175,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                     return;
                 }
                 if(mAuth.getCurrentUser() != null) {
-                    progress = ProgressDialog.show(getContext(), "Loading", "Please wait...");
+                    MainActivity.startShowingProgressDialog(getContext());
                     NavHostFragment.findNavController(WelcomeFragment.this)
                             .navigate(R.id.action_WelcomeFragment_to_MyPetsFragment);
                 } else {
@@ -191,9 +190,6 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        if (progress != null && progress.isShowing()){
-            progress.dismiss();
-        }
     }
 
     @Override
@@ -205,13 +201,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                //if(progressBar.isShowing()){
-                //    progressBar.dismiss();
-                //}
-                // [START_EXCLUDE]
                 updateUI(null);
-                // [END_EXCLUDE]
             }
         }
     }
@@ -229,9 +219,6 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("GoogleActivity", "firebaseAuthWithGoogle:" + acct.getId());
-        // [START_EXCLUDE silent]
-        //showProgressDialog();
-        // [END_EXCLUDE]
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -249,8 +236,6 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             binding.btnMyPets.setEnabled(true);
             binding.tvSignInInfo.setVisibility(View.INVISIBLE);
             //ToDo: Check that it doesn't exist already
-            /*user.getEmail();
-            user.getUid();*/
         } else {
             binding.tvWelcome.setText("Welcome to Pets Adoption!");
             TextView textView = (TextView) signInButton.getChildAt(0);
@@ -268,32 +253,22 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             // Sign in success, update UI with the signed-in user's information
             Log.d("GoogleActivity", "signInWithCredential:success");
             FirebaseUser user = mAuth.getCurrentUser();
-            //progressBar.dismiss();
             Toast.makeText(getActivity(), "Login was successful",
                     Toast.LENGTH_SHORT).show();
             String email = user.getEmail();
             DatabaseHandler.createUser(user.getUid(), email, user.getDisplayName()); //Create A User on login
             updateUI(user);
-            //Intent intent = new Intent(getActivity(),MainActivity.class);
-            //startActivity(intent);
-
         } else {
-            //progressBar.dismiss();
             Exception err = task.getException();
             Toast.makeText(getActivity(), err.getMessage(), Toast.LENGTH_SHORT).show();
             updateUI(null);
         }
-        // [START_EXCLUDE]
-        //hideProgressDialog();
-        // [END_EXCLUDE]
     }
 
 
     public void onResume() {
-        if (progress != null && progress.isShowing()){
-            progress.dismiss();
-        }
         super.onResume();
+        MainActivity.dismissProgressDialog();
     }
 
 

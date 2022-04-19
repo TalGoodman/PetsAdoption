@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.parse.Parse;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -32,8 +31,7 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
     private FragmentWatchPetsBinding binding;
 
     private RecyclerView recyclerView;
-    private ListAdapter recyclerViewAdapter;
-
+    private PetsListAdapter recyclerViewAdapter;
     private ProgressDialog progress;
     
     private List<ParseObject> pets_list;
@@ -79,9 +77,10 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
         isLoading = false;
         isFilter = false;
         itemsLoaded = 0;
-        
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ToDo: Method invocation 'getUid' may produce 'NullPointerException'
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            currentUserId = firebaseUser.getUid(); //ToDo: Method invocation 'getUid' may produce 'NullPointerException'
             numberOfPets = DatabaseHandler.getNumberOfPetsOfOtherUsers(currentUserId);
         } else {
             currentUserId = null;
@@ -90,14 +89,9 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
 
         pets_list = new ArrayList<>();
 
-
         populateData();
         initAdapter();
         initScrollListener();
-
-        //ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
-        //recyclerView.setAdapter(adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -108,12 +102,15 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
+        progress = ProgressDialog.show(getContext(), "Filtering", "Please wait...");
         if (!DatabaseHandler.isConnected(WatchPetsFragment.this.getContext())) {
             Toast.makeText(getActivity(), "No Internet Connection",
                     Toast.LENGTH_LONG).show();
+            if (progress != null && progress.isShowing()){
+                progress.dismiss();
+            }
             return;
         }
-        progress = ProgressDialog.show(getContext(), "Filtering", "Please wait...");
         isFilter = true;
         isLoading = false;
         itemsLoaded = 0;
@@ -139,22 +136,15 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
         populateData();
         initAdapter();
         initScrollListener();
-        //List<ParseObject> pets_list = filterList(this.pets_list, filterMap);
-        //List<ParseObject> not_requested_pets_list = filterList(this.not_requested_pets_list, filterMap);
-
-        //ListAdapter adapter = new ListAdapter(pets_list, not_requested_pets_list, WatchPetsFragment.this);
-        //recyclerView.setAdapter(adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (progress != null && progress.isShowing()){
-            progress.dismiss();
-        }
-    }
-
-    public void onResume() {
-        if (progress != null && progress.isShowing()){
-            progress.dismiss();
-        }
-        super.onResume();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && progress.isShowing()){
+                    progress.dismiss();
+                }
+            }
+        }, 1000);
     }
 
     private void populateData() {
@@ -169,9 +159,15 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
     }
 
     private void initAdapter() {
-        recyclerViewAdapter = new ListAdapter(pets_list, currentUserId, WatchPetsFragment.this);
+        recyclerViewAdapter = new PetsListAdapter(pets_list, currentUserId, WatchPetsFragment.this);
         recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
+            @Override
+            public void onLayoutCompleted(RecyclerView.State state) {
+                super.onLayoutCompleted(state);
+                MainActivity.dismissProgressDialog();
+            }
+        });
     }
 
     private void initScrollListener() {

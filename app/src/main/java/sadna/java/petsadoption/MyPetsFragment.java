@@ -60,15 +60,17 @@ public class MyPetsFragment extends Fragment {
         /****************************************************************/
         //ToDo: Might be possible to filter the existing full pets list instead of getting it again to be more data efficient
         List<ParseObject> pets_list = DatabaseHandler.getUserPets();
-        /*
-        ListAdapter adapter = new ListAdapter(pets_list, OfferToAdoptionFragment.this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));*/
 
 
-        ListAdapter adapter = new ListAdapter(pets_list, currentUserId, MyPetsFragment.this);
+        PetsListAdapter adapter = new PetsListAdapter(pets_list, currentUserId, MyPetsFragment.this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
+            @Override
+            public void onLayoutCompleted(RecyclerView.State state) {
+                super.onLayoutCompleted(state);
+                MainActivity.dismissProgressDialog();
+            }
+        });
 
         //ToDo: can we make something to create an item?
         for(int i = 0; i < Objects.requireNonNull(pets_list).size(); i++){

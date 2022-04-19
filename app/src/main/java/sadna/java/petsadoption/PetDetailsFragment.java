@@ -29,8 +29,6 @@ public class PetDetailsFragment extends Fragment {
     private String petId;
 
 
-    private ProgressDialog progress;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,7 +77,7 @@ public class PetDetailsFragment extends Fragment {
                     }
                     DatabaseHandler.createMessage(petId, ownerId);
                     Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
-                    progress = ProgressDialog.show(getContext(), "Requesting", "Wait a second...");
+                    ProgressDialog progress = ProgressDialog.show(getContext(), "Requesting", "Wait a second...");
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -102,7 +100,7 @@ public class PetDetailsFragment extends Fragment {
                                 Toast.LENGTH_LONG).show();
                         return;
                     }
-                    progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
+                    MainActivity.startShowingProgressDialog(getContext());
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
                 }
@@ -125,7 +123,7 @@ public class PetDetailsFragment extends Fragment {
                     String toastString = DatabaseHandler.deletePetByID(petId);
                     Log.d("btnRequestToAdopt.onClick", "deletePetByID");
                     Handler handler = new Handler();
-                    progress = ProgressDialog.show(getContext(), "Deleting", "Wait a second...");
+                    ProgressDialog progress = ProgressDialog.show(getContext(), "Deleting", "Wait a second...");
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             if (progress != null && progress.isShowing()){
@@ -146,7 +144,7 @@ public class PetDetailsFragment extends Fragment {
                                 Toast.LENGTH_LONG).show();
                         return;
                     }
-                    progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
+                    MainActivity.startShowingProgressDialog(getContext());
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
                 }
@@ -161,7 +159,7 @@ public class PetDetailsFragment extends Fragment {
                                 Toast.LENGTH_LONG).show();
                         return;
                     }
-                    progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
+                    MainActivity.startShowingProgressDialog(getContext());
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
                 }
@@ -179,23 +177,10 @@ public class PetDetailsFragment extends Fragment {
         }
     }
 
-    public void startShowingProgressDialog(){
-        progress = ProgressDialog.show(getContext(), "Loading", "Wait a second...");
-    }
-
     @Override
     public void onDestroyView() {
-        if (progress != null && progress.isShowing()) {
-            progress.dismiss();
-        }
         super.onDestroyView();
         binding = null;
     }
 
-    public void onResume() {
-        if (progress != null && progress.isShowing()){
-            progress.dismiss();
-        }
-        super.onResume();
-    }
 }
