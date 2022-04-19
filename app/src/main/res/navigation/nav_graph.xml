@@ -83,6 +83,9 @@
         <action
             android:id="@+id/action_PetDetailsFragment_to_MyPetsFragment"
             app:destination="@id/MyPetsFragment"/>
+        <action
+            android:id="@+id/action_PetDetailsFragment_to_WelcomeFragment"
+            app:destination="@id/WelcomeFragment"/>
     </fragment>
     <fragment
         android:id="@+id/PetListItemFragment"

@@ -92,7 +92,53 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_to_welcome_fragment) {
+            Fragment currentFragment = getSupportFragmentManager().getFragments().get(0).getChildFragmentManager()
+                    .getFragments().get(0);
+            String currentFragmentName = currentFragment.getClass().getName();
+            if (watchPetsFragmentName.equals(currentFragmentName)) {
+                NavHostFragment.findNavController(currentFragment)
+                        .navigate(R.id.action_WatchPetsFragment_to_WelcomeFragment);
+                return true;
+            } else if (myPetsFragmentName.equals(currentFragmentName)) {
+                NavHostFragment.findNavController(currentFragment)
+                        .navigate(R.id.action_MyPetsFragment_to_WelcomeFragment);
+                return true;
+            } else if (addPetFragmentName.equals(currentFragmentName)) {
+                AddPetFragment addPetFragment = (AddPetFragment)currentFragment;
+                NavHostFragment.findNavController(currentFragment)
+                        .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
+                return true;
+            } else if (watchMessagesFragmentName.equals(currentFragmentName)) {
+                NavHostFragment.findNavController(currentFragment)
+                        .navigate(R.id.action_WatchMessagesFragment_to_WelcomeFragment);
+                return true;
+            } else if (petDetailsFragmentName.equals(currentFragmentName)){
+                NavHostFragment.findNavController(currentFragment)
+                        .navigate(R.id.action_PetDetailsFragment_to_WelcomeFragment);
+                return true;
+            } else if (welcomeFragmentName.equals(currentFragmentName)){
+                return false;
+            }
+        } else if (id == R.id.action_exit) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Closing Application")
+                    .setMessage("Are you sure you want to close the application?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                                clearAppData();
+                            }
+                            finish();
+                            System.exit(0);
+                        }
+
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
             return true;
         }
 

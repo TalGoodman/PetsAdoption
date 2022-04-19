@@ -150,11 +150,11 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
 
     @Override
     public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
         if (progress != null && progress.isShowing()){
             progress.dismiss();
         }
-        super.onDestroyView();
-        binding = null;
     }
 
     @Override
