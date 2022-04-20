@@ -19,6 +19,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import sadna.java.petsadoption.databinding.FragmentPetDetailsBinding;
 
@@ -59,12 +61,16 @@ public class PetDetailsFragment extends Fragment {
         String petDiet = getArguments().getString("diet");
         String petDescription = getArguments().getString("description");
 
+        ParseUser ownerParseObject = DatabaseHandler.getUserByID(ownerId);
+        String ownerName = ownerParseObject.getUsername();
+
         binding.tvPetNameContent.setText(petName);
         binding.tvSpecieContent.setText(petSpecie);
         binding.tvSexContent.setText(petSex);
         binding.tvVaccinatedContent.setText(Boolean.toString(petVaccinated));
         binding.tvDietContent.setText(petDiet);
         binding.tvDescriptionContent.setText(petDescription);
+        binding.tvOwnerNameContent.setText(ownerName);
 
         if(firebaseUser != null && !currentUserId.equals(ownerId)) {
             binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {

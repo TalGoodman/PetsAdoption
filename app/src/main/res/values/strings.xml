@@ -88,5 +88,6 @@
     <string name="you_can_only_watch_pets_while_not_signed_in">You can only watch pets while not signed in\nSign In to access all the features</string>
     <string name="home_page">Home Page</string>
     <string name="exit">Exit</string>
+    <string name="owner_name">User name:</string>
 
 </resources>

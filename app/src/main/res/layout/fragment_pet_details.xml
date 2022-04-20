@@ -63,7 +63,7 @@
         android:id="@+id/tvPetNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="36dp"
         android:text="@string/content"
         android:textSize="20sp"
@@ -74,7 +74,7 @@
         android:id="@+id/tvSexContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="20dp"
         android:maxLines="1"
         android:text="@string/content"
@@ -91,7 +91,7 @@
         android:text="@string/specie"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
+        app:layout_constraintTop_toBottomOf="@+id/tvOwnerName" />
 
     <TextView
         android:id="@+id/tvSex"
@@ -108,7 +108,7 @@
         android:id="@+id/tvVaccinatedContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="28dp"
         android:maxLines="1"
         android:text="@string/content"
@@ -120,13 +120,13 @@
         android:id="@+id/tvSpecieContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="28dp"
         android:maxLines="1"
         android:text="@string/content"
         android:textSize="20sp"
         app:layout_constraintLeft_toRightOf="@+id/tvSpecie"
-        app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
+        app:layout_constraintTop_toBottomOf="@+id/tvOwnerName" />
 
     <TextView
         android:id="@+id/tvPetName"
@@ -140,10 +140,33 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPetImage" />
 
     <TextView
+        android:id="@+id/tvOwnerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/owner_name"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
+
+    <TextView
+        android:id="@+id/tvOwnerNameContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="28dp"
+        android:maxLines="1"
+        android:text="@string/content"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@+id/tvOwnerName"
+        app:layout_constraintTop_toBottomOf="@+id/tvPetName" />
+
+    <TextView
         android:id="@+id/tvDietContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="20dp"
         android:maxLines="1"
         android:text="@string/content"
@@ -155,7 +178,7 @@
         android:id="@+id/tvDescriptionContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="28dp"
         android:maxWidth="200dp"
         android:text="@string/content"
