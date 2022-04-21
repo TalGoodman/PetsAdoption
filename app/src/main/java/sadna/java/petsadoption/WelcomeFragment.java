@@ -270,7 +270,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             updateUI(null);
         }
     }
-    
+
     public void onResume() {
         super.onResume();
         MainActivity.dismissProgressDialog();
