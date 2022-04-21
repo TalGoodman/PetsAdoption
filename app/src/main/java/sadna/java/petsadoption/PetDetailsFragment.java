@@ -126,7 +126,12 @@ public class PetDetailsFragment extends Fragment {
                                 Toast.LENGTH_LONG).show();
                         return;
                     }
-                    String toastString = DatabaseHandler.deletePetByID(petId);
+                    try {
+                        DatabaseHandler.deletePetByID(petId);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Error",Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     Log.d("btnRequestToAdopt.onClick", "deletePetByID");
                     Handler handler = new Handler();
                     ProgressDialog progress = ProgressDialog.show(getContext(), "Deleting", "Wait a second...");
@@ -137,7 +142,7 @@ public class PetDetailsFragment extends Fragment {
                             }
                         }
                     }, 1500);
-                    Toast.makeText(getContext(), toastString,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Pet Deleted",Toast.LENGTH_LONG).show();
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
                 }
@@ -177,7 +182,7 @@ public class PetDetailsFragment extends Fragment {
             byte[] data = getArguments().getByteArray("image_data");
             if (data != null)
             {
-                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
+                final Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
                 binding.ivPetImage.setImageBitmap(bmp);
             }
         }

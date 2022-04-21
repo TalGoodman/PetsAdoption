@@ -185,6 +185,9 @@ public class AddPetFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK && data !=null) {
+            return;
+        }
 
 
         if (resultCode == Activity.RESULT_OK) {
@@ -196,14 +199,14 @@ public class AddPetFragment extends Fragment {
                     imageUri = data.getData();
                     imageStream = getActivity().getContentResolver().openInputStream(imageUri);
                     byteStream = new ByteArrayOutputStream();
-                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                    final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteStream);
                     petImageByteArray = byteStream.toByteArray();
                     if (petImageByteArray.length > 15000000) {
                         Toast.makeText(getActivity(), "File size must be at most 15MB", Toast.LENGTH_LONG).show();
-                        return;
+                    } else {
+                        binding.ivPetImageAdd.setImageBitmap(bitmap);
                     }
-                    binding.ivPetImageAdd.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
@@ -230,7 +233,6 @@ public class AddPetFragment extends Fragment {
             Toast.makeText(getActivity(), "You haven't picked An Image",Toast.LENGTH_LONG).show();
         }
     }
-
 
     @Override
     public void onDestroy() {

@@ -149,6 +149,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        //Clear the Activity's bundle of the subsidiary fragments' bundles.
+        bundle.clear();
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         if (!DatabaseHandler.isConnected(this)) {
             Toast.makeText(this, "No Internet Connection",

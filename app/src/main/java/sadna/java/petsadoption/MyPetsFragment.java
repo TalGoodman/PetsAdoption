@@ -30,7 +30,6 @@ public class MyPetsFragment extends Fragment {
     private FragmentMyPetsBinding binding;
 
     private RecyclerView recyclerView;
-    private ArrayList<Bitmap> imagesList;
     private ArrayList<String> petNamesTextList;
     private ArrayList<String> petSpeciesTextList;
     private ArrayList<Button> buttonsList;
@@ -39,7 +38,6 @@ public class MyPetsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMyPetsBinding.inflate(inflater, container, false);
-        imagesList = new ArrayList<>();
         petNamesTextList = new ArrayList<String>();
         petSpeciesTextList = new ArrayList<String>();
         buttonsList = new ArrayList<Button>();
