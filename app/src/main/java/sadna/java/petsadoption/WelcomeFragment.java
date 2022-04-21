@@ -193,6 +193,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding = null;
     }
 
+    @Deprecated
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK && data !=null) {
