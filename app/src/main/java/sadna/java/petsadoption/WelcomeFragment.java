@@ -44,7 +44,7 @@ Another button in WelcomeFragment is the Google Sign In button
 It is required to sign in in order to make the "Watch Messages", "Offer Pet For Adoption"
 and "My Pets" buttons active
  */
-public class WelcomeFragment extends Fragment implements OnCompleteListener<AuthResult> {
+public class WelcomeFragment extends Fragment implements OnCompleteListener<AuthResult>, View.OnClickListener {
 
     private FragmentWelcomeBinding binding;
 
@@ -103,95 +103,12 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         FirebaseUser user = mAuth.getCurrentUser();
         updateUI(user);     //a method that updates the UI
 
-        //initialize buttons
-        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(mAuth.getCurrentUser() == null){
-                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                    startActivityForResult(signInIntent, 9001);
-                } else {
-                    mAuth.signOut();
-                    mGoogleSignInClient.signOut();
-                    updateUI(null);
-                }
-            }
-        });
-
-        binding.btnWatchPets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                MainActivity.startShowingProgressDialog(getContext());
-                NavHostFragment.findNavController(WelcomeFragment.this)
-                        .navigate(R.id.action_WelcomeFragment_to_WatchPetsFragment);
-            }
-        });
-
-        binding.btnWatchMessages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(mAuth.getCurrentUser() != null) {
-                    MainActivity.startShowingProgressDialog(getContext());
-                    NavHostFragment.findNavController(WelcomeFragment.this)
-                            .navigate(R.id.action_WelcomeFragment_to_WatchMessagesFragment);
-                } else {
-                    Toast.makeText(getActivity(), "Please Sign In in order to watch messages",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        binding.btnOfferToAdoption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(mAuth.getCurrentUser() != null) {
-                    NavHostFragment.findNavController(WelcomeFragment.this)
-                            .navigate(R.id.action_WelcomeFragment_to_AddPetFragment);
-                } else {
-                    Toast.makeText(getActivity(), "Please Sign In in order to offer a pet",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        binding.btnMyPets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(mAuth.getCurrentUser() != null) {
-                    MainActivity.startShowingProgressDialog(getContext());
-                    NavHostFragment.findNavController(WelcomeFragment.this)
-                            .navigate(R.id.action_WelcomeFragment_to_MyPetsFragment);
-                } else {
-                    Toast.makeText(getActivity(), "Please Sign In in order to watch your pets",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        //initialize OnCLickListener for the buttons
+        binding.btnLogin.setOnClickListener(this);
+        binding.btnWatchPets.setOnClickListener(this);
+        binding.btnWatchMessages.setOnClickListener(this);
+        binding.btnMyPets.setOnClickListener(this);
+        binding.btnOfferToAdoption.setOnClickListener(this);
     }
 
     @Override
@@ -276,5 +193,81 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         MainActivity.dismissProgressDialog();
     }
 
+    @Override
+    public void onClick(View view) {
+        //initialize buttons OnClick listeners
+        if (view.getId() == R.id.btnLogin) {
+            if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(mAuth.getCurrentUser() == null){
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 9001);
+            } else {
+                mAuth.signOut();
+                mGoogleSignInClient.signOut();
+                updateUI(null);
+            }
+        }
 
+        if (view.getId() == R.id.btnWatchPets) {
+            if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            MainActivity.startShowingProgressDialog(getContext());
+            NavHostFragment.findNavController(WelcomeFragment.this)
+                    .navigate(R.id.action_WelcomeFragment_to_WatchPetsFragment);
+        }
+
+        if (view.getId() == R.id.btnWatchMessages) {
+            if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(mAuth.getCurrentUser() != null) {
+                MainActivity.startShowingProgressDialog(getContext());
+                NavHostFragment.findNavController(WelcomeFragment.this)
+                        .navigate(R.id.action_WelcomeFragment_to_WatchMessagesFragment);
+            } else {
+                Toast.makeText(getActivity(), "Please Sign In in order to watch messages",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (view.getId() == R.id.btnOfferToAdoption) {
+            if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(mAuth.getCurrentUser() != null) {
+                NavHostFragment.findNavController(WelcomeFragment.this)
+                        .navigate(R.id.action_WelcomeFragment_to_AddPetFragment);
+            } else {
+                Toast.makeText(getActivity(), "Please Sign In in order to offer a pet",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (view.getId() == R.id.btnMyPets) {
+            if (!DatabaseHandler.isConnected(WelcomeFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(mAuth.getCurrentUser() != null) {
+                MainActivity.startShowingProgressDialog(getContext());
+                NavHostFragment.findNavController(WelcomeFragment.this)
+                        .navigate(R.id.action_WelcomeFragment_to_MyPetsFragment);
+            } else {
+                Toast.makeText(getActivity(), "Please Sign In in order to watch your pets",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }
