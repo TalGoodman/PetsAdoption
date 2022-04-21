@@ -27,13 +27,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import sadna.java.petsadoption.databinding.ActivityMainBinding;
 
-
+//Main Activity of the application
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-
-    private GoogleSignInOptions gso;
 
     private String welcomeFragmentName;
     private String watchPetsFragmentName;
@@ -49,13 +47,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-         FirebaseApp.initializeApp(this);
-        /*gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);*/
-
+        //Initializes the default FirebaseApp instance using
+        FirebaseApp.initializeApp(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -70,17 +63,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        //get fragments names
         welcomeFragmentName = WelcomeFragment.class.getName();
         watchPetsFragmentName = WatchPetsFragment.class.getName();
         myPetsFragmentName = MyPetsFragment.class.getName();
         petDetailsFragmentName = PetDetailsFragment.class.getName();
         addPetFragmentName = AddPetFragment.class.getName();
         watchMessagesFragmentName = WatchMessagesFragment.class.getName();
-        //TODO:
-        //if GoogleSignInAccount returns null, then the user is not signed in already
-        //else, the user is signed in
-        //update ui accordingly
     }
 
     @Override
@@ -97,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_to_welcome_fragment) {
+            //Navigate to Home(WelcomeFragment)
             Fragment currentFragment = getSupportFragmentManager().getFragments().get(0).getChildFragmentManager()
                     .getFragments().get(0);
             String currentFragmentName = currentFragment.getClass().getName();
@@ -127,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         } else if (id == R.id.action_exit) {
+            //Exit from the application
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Closing Application")
@@ -144,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
                     .show();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -157,19 +147,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        //Handle the "Back" button click in toolbar
         if (!DatabaseHandler.isConnected(this)) {
             Toast.makeText(this, "No Internet Connection",
                     Toast.LENGTH_LONG).show();
             return false;
         }
         return navigateBack();
-        /*NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();*/
     }
 
     @Override
     public void onBackPressed() {
+        //Handle phone's "Back" button click
         if (!DatabaseHandler.isConnected(this)) {
             Toast.makeText(this, "No Internet Connection",
                     Toast.LENGTH_LONG).show();
@@ -179,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean navigateBack(){
+        //Navigates back
         Fragment currentFragment = getSupportFragmentManager().getFragments().get(0).getChildFragmentManager()
                 .getFragments().get(0);
         String currentFragmentName = currentFragment.getClass().getName();
@@ -214,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         } else if (welcomeFragmentName.equals(currentFragmentName)){
+            //If the user navigates back from WelcomeFragment
+            //The "Closing Application" dialog is shown
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Closing Application")
@@ -234,10 +226,14 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    //Method for handling usage of ProgressDialog
+    //The methods are static because it allows better dismiss timing
     public static void startShowingProgressDialog(Context c){
         progress = ProgressDialog.show(c, "Loading", "Wait a second...");
     }
 
+    //Method for handling usage of ProgressDialog
+    //The methods are static because it allows better dismiss timing
     public static void dismissProgressDialog(){
         if (progress != null && progress.isShowing()){
             progress.dismiss();
