@@ -29,7 +29,7 @@ import java.util.List;
 import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 
 
-public class AddPetFragment extends Fragment {
+public class AddPetFragment extends Fragment implements View.OnClickListener {
     private FragmentAddPetBinding binding;
 
     private byte[] petImageByteArray;
@@ -74,103 +74,11 @@ public class AddPetFragment extends Fragment {
 
     /*********************************************************/
 
-        //Add Pet Button
-        binding.btnAddPet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                String Specie = binding.spSpecieContentAdd.getSelectedItem().toString();
-                String Name = binding.etPetNameContentAdd.getText().toString();
-                String Identifier = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
-                String fbUserID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
-                String Sex = binding.spSexContentAdd.getSelectedItem().toString();
-                Boolean Vaccinated = binding.cbVaccinatedAdd.isChecked();
-                String Diet = binding.spDietContentAdd.getSelectedItem().toString();
-                String Description = binding.etDescriptionContentAdd.getText().toString();
-
-                if (Name.equals("")) {
-                    Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
-                    return;
-                } else if (Name.length() > 15) {
-                    Toast.makeText(getActivity(), "Pet Name is too long",Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                Pet newPet = new Pet(petImageByteArray, Specie, fbUserID,Name,Identifier, Sex,
-                        Vaccinated, Diet, Description);
-                String petJSON = newPet.toJSON();
-
-                MainActivity.startShowingProgressDialog(getContext());
-                try {
-                    DatabaseHandler.createPet(
-                            newPet.getOwnerID(),
-                            newPet.getSpecies()+"",
-                            newPet.getSex()+"",
-                            newPet.getVaccinated() ,
-                            newPet.getDiet(),
-                            newPet.getName(),
-                            newPet.getDescription(),
-                            newPet.getImage());
-                    Toast.makeText(getActivity(), "Pet added successfully",
-                            Toast.LENGTH_LONG).show();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                NavHostFragment.findNavController(AddPetFragment.this)
-                        .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
-            }
-        });
-
-        //Add Photo Button
-        binding.btnSetPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 9002);
-            }
-        });
-
-        //Tap Photo to upload
-        binding.ivPetImageAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 9002);
-            }
-        });
-
-        //Back Button
-        binding.btnBackAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
-                    Toast.makeText(getActivity(), "No Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                NavHostFragment.findNavController(AddPetFragment.this)
-                        .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
-            }
-        });
-
-
+        //initialize OnClickListener for buttons and image view
+        binding.btnAddPet.setOnClickListener(this);
+        binding.btnBackAdd.setOnClickListener(this);
+        binding.btnSetPhoto.setOnClickListener(this);
+        binding.ivPetImageAdd.setOnClickListener(this);
     }
 
     @Override
@@ -229,6 +137,91 @@ public class AddPetFragment extends Fragment {
             }
         } else {
             Toast.makeText(getActivity(), "You haven't picked An Image",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btnAddPet) {
+                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            String Specie = binding.spSpecieContentAdd.getSelectedItem().toString();
+            String Name = binding.etPetNameContentAdd.getText().toString();
+            String Identifier = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
+            String fbUserID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
+            String Sex = binding.spSexContentAdd.getSelectedItem().toString();
+            Boolean Vaccinated = binding.cbVaccinatedAdd.isChecked();
+            String Diet = binding.spDietContentAdd.getSelectedItem().toString();
+            String Description = binding.etDescriptionContentAdd.getText().toString();
+
+                if (Name.equals("")) {
+                Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
+                return;
+            } else if (Name.length() > 15) {
+                Toast.makeText(getActivity(), "Pet Name is too long",Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Pet newPet = new Pet(petImageByteArray, Specie, fbUserID,Name,Identifier, Sex,
+                    Vaccinated, Diet, Description);
+            String petJSON = newPet.toJSON();
+
+                MainActivity.startShowingProgressDialog(getContext());
+                try {
+                DatabaseHandler.createPet(
+                        newPet.getOwnerID(),
+                        newPet.getSpecies()+"",
+                        newPet.getSex()+"",
+                        newPet.getVaccinated() ,
+                        newPet.getDiet(),
+                        newPet.getName(),
+                        newPet.getDescription(),
+                        newPet.getImage());
+                Toast.makeText(getActivity(), "Pet added successfully",
+                        Toast.LENGTH_LONG).show();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+                NavHostFragment.findNavController(AddPetFragment.this)
+                    .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
+        }
+
+
+        else if (view.getId() == R.id.btnSetPhoto) {
+            if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, 9002);
+        }
+
+
+        else if (view.getId() == R.id.ivPetImageAdd) {
+            if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, 9002);
+        }
+
+        else if (view.getId() == R.id.btnBackAdd) {
+            if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+                Toast.makeText(getActivity(), "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            NavHostFragment.findNavController(AddPetFragment.this)
+                    .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
         }
     }
 
