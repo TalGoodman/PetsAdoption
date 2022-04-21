@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ECE5DF"
     tools:context=".MyPetsFragment">
 
     <TextView
@@ -58,7 +59,7 @@
         android:scrollbars="vertical"
         android:textAlignment="gravity"
         android:textDirection="ltr"
-        android:background="@color/white"
+        android:background="#ECE5DF"
         app:layout_constraintBottom_toTopOf="@+id/btnOfferPet"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

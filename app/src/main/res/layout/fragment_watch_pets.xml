@@ -77,7 +77,7 @@
         android:paddingBottom="20dp"
         android:scrollIndicators="start"
         android:scrollbars="vertical"
-        android:background="@color/white"
+        android:background="#ECE5DF"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
