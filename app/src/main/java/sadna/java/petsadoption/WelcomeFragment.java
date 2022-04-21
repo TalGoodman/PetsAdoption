@@ -32,13 +32,25 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import sadna.java.petsadoption.databinding.FragmentWelcomeBinding;
 
+/*
+WelcomeFragment is the Home page fragment
+It contains buttons for navigation to other fragments like:
+- "WatchPetsFragment" for watching pets added by other users
+- "MyPetsFragment" for watching pets added by the current user
+- "WatchMessagesFragment" for watching pets adoption requests messages sent to the current user
+- "AddPetFragment" for posting a pet of the current user so other users
+    can ask to adopt it
+Another button in WelcomeFragment is the Google Sign In button
+It is required to sign in in order to make the "Watch Messages", "Offer Pet For Adoption"
+and "My Pets" buttons active
+ */
 public class WelcomeFragment extends Fragment implements OnCompleteListener<AuthResult> {
 
     private FragmentWelcomeBinding binding;
 
     private FirebaseAuth mAuth;
     private GoogleSignInOptions gso;
-    GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInClient mGoogleSignInClient;
 
     private SignInButton signInButton;
 
@@ -57,6 +69,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         super.onViewCreated(view, savedInstanceState);
 
         if (!DatabaseHandler.isConnected(this.getContext())) {
+            //If there is no connection, shows this dialog and then exits
             new AlertDialog.Builder(this.getContext())
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("No Internet Connection")
@@ -71,32 +84,26 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                     })
                     .show();
         }
-        //TODO: fix default_web_client_id2 string resource
+        //initialize GoogleSignInOptions
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id2))
                 .requestEmail()
                 .build();
 
+        //initialize GoogleSignInClient
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
+        //initialize FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
+        //initialize SignInButton
         signInButton = binding.btnLogin;
         signInButton.setSize(SignInButton.SIZE_STANDARD);
 
         FirebaseUser user = mAuth.getCurrentUser();
-        updateUI(user);
+        updateUI(user);     //a method that updates the UI
 
-
-        /*ActivityResultLauncher<Intent> launcher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        //handleSignInResult(data);
-                    }
-                });*/
-
+        //initialize buttons
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,6 +200,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         binding = null;
     }
 
+    //Handles sign in with google account
     @Deprecated
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
@@ -210,18 +218,8 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             }
         }
     }
-    /*private void handleSignInResult(Intent data) {
-        try {
-            SignInCredential credential = Identity.getSignInClient(getActivity()).getSignInCredentialFromIntent(data);
-            // Signed in successfully
-            binding.tvWelcome.setText("Logged in");
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            binding.tvWelcome.setText("Error");
-        }
-    }*/
 
+    //Handles user authentication with FireBase
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("GoogleActivity", "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -230,6 +228,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                 .addOnCompleteListener(getActivity(), this);
     }
 
+    //Updates the UI according to whether the user is already Signed In or not
     private void updateUI(FirebaseUser user){
         if(user != null) {
             String user_name = user.getDisplayName();
@@ -240,7 +239,6 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             binding.btnOfferToAdoption.setEnabled(true);
             binding.btnMyPets.setEnabled(true);
             binding.tvSignInInfo.setVisibility(View.INVISIBLE);
-            //ToDo: Check that it doesn't exist already
         } else {
             binding.tvWelcome.setText("Welcome to Pets Adoption!");
             TextView textView = (TextView) signInButton.getChildAt(0);
@@ -252,6 +250,8 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         }
     }
 
+    //Handles user authentication with FireBase
+    //and adds to user to the Database
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
         if (task.isSuccessful()) {
@@ -261,6 +261,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             Toast.makeText(getActivity(), "Login was successful",
                     Toast.LENGTH_SHORT).show();
             String email = user.getEmail();
+            //Adds the user to the Database
             DatabaseHandler.createUser(user.getUid(), email, user.getDisplayName()); //Create A User on login
             updateUI(user);
         } else {
@@ -269,8 +270,7 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             updateUI(null);
         }
     }
-
-
+    
     public void onResume() {
         super.onResume();
         MainActivity.dismissProgressDialog();
