@@ -24,11 +24,15 @@ import com.parse.ParseUser;
 
 import sadna.java.petsadoption.databinding.FragmentPetDetailsBinding;
 
-public class PetDetailsFragment extends Fragment {
+public class PetDetailsFragment extends Fragment implements View.OnClickListener {
     private FragmentPetDetailsBinding binding;
 
     private String ownerId;
     private String petId;
+
+    private FirebaseUser firebaseUser;
+    private String currentUserId;
+    private boolean isRequested;
 
 
     @Override
@@ -45,13 +49,13 @@ public class PetDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ownerId = getArguments().getString("ownerId");
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String currentUserId = null;
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentUserId = null;
         if (firebaseUser != null) {
             currentUserId = firebaseUser.getUid();
         }
 
-        boolean isRequested = getArguments().getBoolean("isRequested");
+        isRequested = getArguments().getBoolean("isRequested");
 
         petId = getArguments().getString("petId");
         String petName = getArguments().getString("name");
@@ -72,10 +76,38 @@ public class PetDetailsFragment extends Fragment {
         binding.tvDescriptionContent.setText(petDescription);
         binding.tvOwnerNameContent.setText(ownerName);
 
-        if(firebaseUser != null && !currentUserId.equals(ownerId)) {
-            binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        if (currentUserId == null) {
+            binding.btnRequestToAdopt.setEnabled(false);
+        } else if (ownerId.equals(currentUserId)) {
+            binding.btnRequestToAdopt.setText(R.string.bttnTextDeletPet);
+        } else {
+            if(isRequested) {
+                binding.btnRequestToAdopt.setText(R.string.bttnAlreadyRequested);
+                binding.btnRequestToAdopt.setTextColor(Color.GREEN);
+                binding.btnRequestToAdopt.setEnabled(false);
+            }
+        }
+
+        //initialize OnClickListener for buttons
+        binding.btnBackPetDetails.setOnClickListener(this);
+        binding.btnRequestToAdopt.setOnClickListener(this);
+
+        if(getArguments()!=null)
+        {
+            byte[] data = getArguments().getByteArray("image_data");
+            if (data != null)
+            {
+                final Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
+                binding.ivPetImage.setImageBitmap(bmp);
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(!ownerId.equals(currentUserId)) {
+            if(firebaseUser != null) {
+                if (view.getId() == R.id.btnRequestToAdopt) {
                     if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
                         Toast.makeText(getActivity(), "No Internet Connection",
                                 Toast.LENGTH_LONG).show();
@@ -96,94 +128,54 @@ public class PetDetailsFragment extends Fragment {
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
                 }
-            });
+            }
 
-            binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
-                        Toast.makeText(getActivity(), "No Internet Connection",
-                                Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    MainActivity.startShowingProgressDialog(getContext());
-                    NavHostFragment.findNavController(PetDetailsFragment.this)
-                            .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
+            if (view.getId() == R.id.btnBackPetDetails) {
+                if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
                 }
-            });
-            if(isRequested) {
-                binding.btnRequestToAdopt.setText(R.string.bttnAlreadyRequested);
-                binding.btnRequestToAdopt.setTextColor(Color.GREEN);
-                binding.btnRequestToAdopt.setEnabled(false);
+                MainActivity.startShowingProgressDialog(getContext());
+                NavHostFragment.findNavController(PetDetailsFragment.this)
+                        .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
             }
         } else if (ownerId.equals(currentUserId)){
-            binding.btnRequestToAdopt.setText(R.string.bttnTextDeletPet);
-            binding.btnRequestToAdopt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
-                        Toast.makeText(getActivity(), "No Internet Connection",
-                                Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    try {
-                        DatabaseHandler.deletePetByID(petId);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Error",Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    Log.d("btnRequestToAdopt.onClick", "deletePetByID");
-                    Handler handler = new Handler();
-                    ProgressDialog progress = ProgressDialog.show(getContext(), "Deleting", "Wait a second...");
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            if (progress != null && progress.isShowing()){
-                                progress.dismiss();
-                            }
+            if (view.getId() == R.id.btnRequestToAdopt) {
+                if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+                try {
+                    DatabaseHandler.deletePetByID(petId);
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Error",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Log.d("btnRequestToAdopt.onClick", "deletePetByID");
+                Handler handler = new Handler();
+                ProgressDialog progress = ProgressDialog.show(getContext(), "Deleting", "Wait a second...");
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        if (progress != null && progress.isShowing()){
+                            progress.dismiss();
                         }
-                    }, 1500);
-                    Toast.makeText(getContext(), "Pet Deleted",Toast.LENGTH_LONG).show();
-                    NavHostFragment.findNavController(PetDetailsFragment.this)
-                            .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
-                }
-            });
-            binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
-                        Toast.makeText(getActivity(), "No Internet Connection",
-                                Toast.LENGTH_LONG).show();
-                        return;
                     }
-                    MainActivity.startShowingProgressDialog(getContext());
-                    NavHostFragment.findNavController(PetDetailsFragment.this)
-                            .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
+                }, 1500);
+                Toast.makeText(getContext(), "Pet Deleted",Toast.LENGTH_LONG).show();
+                NavHostFragment.findNavController(PetDetailsFragment.this)
+                        .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
+            }
+            else if (view.getId() == R.id.btnBackPetDetails) {
+                if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
+                    Toast.makeText(getActivity(), "No Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    return;
                 }
-            });
-        } else if (currentUserId == null) {
-            binding.btnRequestToAdopt.setEnabled(false);
-            binding.btnBackPetDetails.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!DatabaseHandler.isConnected(PetDetailsFragment.this.getContext())) {
-                        Toast.makeText(getActivity(), "No Internet Connection",
-                                Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    MainActivity.startShowingProgressDialog(getContext());
-                    NavHostFragment.findNavController(PetDetailsFragment.this)
-                            .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
-                }
-            });
-        }
-
-        if(getArguments()!=null)
-        {
-            byte[] data = getArguments().getByteArray("image_data");
-            if (data != null)
-            {
-                final Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
-                binding.ivPetImage.setImageBitmap(bmp);
+                MainActivity.startShowingProgressDialog(getContext());
+                NavHostFragment.findNavController(PetDetailsFragment.this)
+                        .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
             }
         }
     }
