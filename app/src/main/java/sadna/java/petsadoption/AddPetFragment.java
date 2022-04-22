@@ -33,7 +33,6 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
     private FragmentAddPetBinding binding;
 
     private byte[] petImageByteArray;
-    private Pet newPet;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -95,7 +94,6 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
             return;
         }
 
-
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 9002){
                 final Uri imageUri;
@@ -112,6 +110,8 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
                         Toast.makeText(getActivity(), "File size must be at most 15MB", Toast.LENGTH_LONG).show();
                     } else {
                         binding.ivPetImageAdd.setImageBitmap(bitmap);
+                        Toast.makeText(getActivity(), "Picture was set successfully",
+                                Toast.LENGTH_LONG).show();
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -169,7 +169,6 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
                     Vaccinated, Diet, Description);
             String petJSON = newPet.toJSON();
 
-                MainActivity.startShowingProgressDialog(getContext());
                 try {
                 DatabaseHandler.createPet(
                         newPet.getOwnerID(),
@@ -180,14 +179,13 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
                         newPet.getName(),
                         newPet.getDescription(),
                         newPet.getImage());
-                Toast.makeText(getActivity(), "Pet added successfully",
-                        Toast.LENGTH_LONG).show();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
                 NavHostFragment.findNavController(AddPetFragment.this)
                     .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
+            Toast.makeText(getActivity(), "The pet was successfully added",
+                    Toast.LENGTH_LONG).show();
         }
 
 

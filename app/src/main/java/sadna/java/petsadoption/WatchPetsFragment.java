@@ -51,8 +51,6 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
     private int numberOfPets;   //holds the number of relevant pets in the database
 
     private Map<String, Object> filterMap;  //contains values for filtering
-    
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,6 +100,9 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
         populateData();
         initAdapter();
         initScrollListener();
+
+        Toast.makeText(getActivity(), "Available Pets for adoption",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -210,7 +211,7 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
                 }
 
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int lastCompletelyVisibleItemPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                final int lastCompletelyVisibleItemPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (!isLoading) {
                     if (linearLayoutManager != null && lastCompletelyVisibleItemPosition == itemsLoaded - 1) {
                         if (!DatabaseHandler.isConnected(WatchPetsFragment.this.getContext())) {
@@ -218,8 +219,8 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
-                        loadMore();
                         isLoading = true;
+                        loadMore();
                     }
                 }
             }
@@ -234,6 +235,18 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
         pets_list.add(null);
         recyclerViewAdapter.notifyItemInserted(pets_list.size() - 1);
 
+        //read more pets from the database and add them to pets_list
+        List<ParseObject> pets_to_load;
+        if (currentUserId != null && !isFilter) {
+            pets_to_load = DatabaseHandler.getPetsOfOtherUsersWithLimitAsync(currentUserId, ITEMS_TO_LOAD, itemsLoaded);
+        } else if (isFilter) {
+            pets_to_load = DatabaseHandler.getPetsByKeysAndValuesWithLimitAsync(currentUserId, filterMap, ITEMS_TO_LOAD, itemsLoaded);
+        } else {
+            pets_to_load = DatabaseHandler.getAllPetsWithLimitAsync(ITEMS_TO_LOAD, itemsLoaded);
+        }
+        final List<ParseObject> append_list = pets_to_load;
+
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -242,30 +255,30 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
                 pets_list.remove(pets_list.size() - 1);
                 int scrollPosition = pets_list.size();
                 recyclerViewAdapter.notifyItemRemoved(scrollPosition);
-                int nextLimit = itemsLoaded + ITEMS_TO_LOAD;
-                List<ParseObject> append_list = new ArrayList<>();
+                if (append_list.size() == 0) {
+                    return;
+                }
 
-                //read more pets from the database and add them to pets_list
-                if (itemsLoaded < nextLimit) {
-                    if (currentUserId != null && !isFilter) {
-                        append_list = DatabaseHandler.getPetsOfOtherUsersWithLimit(currentUserId, ITEMS_TO_LOAD, itemsLoaded);
-                    } else if (isFilter) {
-                        append_list = DatabaseHandler.getPetsByKeysAndValuesWithLimit(currentUserId, filterMap, ITEMS_TO_LOAD, itemsLoaded);
-                    } else {
-                        append_list = DatabaseHandler.getAllPetsWithLimit(ITEMS_TO_LOAD, itemsLoaded);
-                    }
-                    pets_list.addAll(append_list);
-                    itemsLoaded += ITEMS_TO_LOAD;
-                    if (itemsLoaded > numberOfPets) {
-                        itemsLoaded = numberOfPets;
-                    }
+                //add the pets recently read from the database to pets_list
+                pets_list.addAll(append_list);
+                itemsLoaded += append_list.size();
+                if (itemsLoaded > numberOfPets) {
+                    itemsLoaded = numberOfPets;
                 }
 
                 //update the recycler view
                 recyclerViewAdapter.notifyItemRangeInserted(pets_list.size() - append_list.size(), append_list.size());
                 recyclerView.scrollToPosition(itemsLoaded - 5);
+            }
+        }, 400);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //move the scroll position and allow to load more items
+                recyclerView.scrollToPosition(itemsLoaded - 5);
                 isLoading = false;
             }
-        }, 1500);
+        }, 800);
     }
 }

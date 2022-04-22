@@ -33,7 +33,7 @@
     <string name="your_pets">Your Pets</string>
     <string name="offer_a_pet_for_adoption">Offer a pet for adoption</string>
     <string name="pet_details">Pet Details</string>
-    <string name="set_photo">Set Photo</string>
+    <string name="set_photo">Choose\nPicture</string>
     <string name="watch_messages_message">Hi _Some Name_ want to adopt _Some Pet Name_ _Some Name_ Email: _Some Email Address_</string>
     <string name="copy_email">Copy\nEmail</string>
     <string name="copy_name">Copy\nName</string>

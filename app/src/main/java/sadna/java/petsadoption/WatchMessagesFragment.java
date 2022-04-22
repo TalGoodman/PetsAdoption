@@ -1,5 +1,6 @@
 package sadna.java.petsadoption;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,8 +19,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.parse.ParseObject;
 
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import sadna.java.petsadoption.databinding.FragmentWatchMessagesBinding;
 
@@ -29,7 +35,7 @@ sent to the current user. The messages are sent automatically when
 another user requests to adopt a pet posted by the current user
  */
 public class WatchMessagesFragment extends Fragment {
-    public static final int ITEMS_TO_LOAD = 2;      //Number of items to load at scrolling
+    public static final int ITEMS_TO_LOAD = 1;      //Number of items to load at scrolling
 
     private FragmentWatchMessagesBinding binding;
 
@@ -39,6 +45,8 @@ public class WatchMessagesFragment extends Fragment {
 
     //holds a list of ParseObjects of messages obtained from the database
     private List<ParseObject> messages_list;
+    private List<ParseObject> messages_to_load;
+
 
     //the id of the current user
     private String currentUserId;
@@ -76,6 +84,9 @@ public class WatchMessagesFragment extends Fragment {
         populateData();
         initAdapter();
         initScrollListener();
+
+        Toast.makeText(getActivity(), "Messages Sent to you",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -132,7 +143,7 @@ public class WatchMessagesFragment extends Fragment {
                 }
 
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int lastCompletelyVisibleItemPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                final int lastCompletelyVisibleItemPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (!isLoading) {
                     if (linearLayoutManager != null && lastCompletelyVisibleItemPosition == itemsLoaded - 1) {
                         if (!DatabaseHandler.isConnected(WatchMessagesFragment.this.getContext())) {
@@ -140,8 +151,8 @@ public class WatchMessagesFragment extends Fragment {
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
-                        loadMore();
                         isLoading = true;
+                        loadMore();
                     }
                 }
             }
@@ -156,6 +167,9 @@ public class WatchMessagesFragment extends Fragment {
         messages_list.add(null);
         recyclerViewAdapter.notifyItemInserted(messages_list.size() - 1);
 
+        //read more messages from the database and add them to messages_list
+        messages_to_load = DatabaseHandler
+                .getMessagesByKeyAndValueWithLimitAsync("owner_id", currentUserId, ITEMS_TO_LOAD, itemsLoaded);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -165,26 +179,27 @@ public class WatchMessagesFragment extends Fragment {
                 messages_list.remove(messages_list.size() - 1);
                 int scrollPosition = messages_list.size();
                 recyclerViewAdapter.notifyItemRemoved(scrollPosition);
-                int nextLimit = itemsLoaded + ITEMS_TO_LOAD;
-                List<ParseObject> append_list = new ArrayList<>();
 
                 //read more messages from the database and add them to messages_list
-                if (itemsLoaded < nextLimit) {
-                    append_list = DatabaseHandler
-                            .getMessagesByKeyAndValueWithLimit("owner_id", currentUserId, ITEMS_TO_LOAD, itemsLoaded);
-                    messages_list.addAll(append_list);
-                    itemsLoaded += ITEMS_TO_LOAD;
-                    if (itemsLoaded > numberOfMessages) {
-                        itemsLoaded = numberOfMessages;
-                    }
+                messages_list.addAll(messages_to_load);
+                itemsLoaded += ITEMS_TO_LOAD;
+                if (itemsLoaded > numberOfMessages) {
+                    itemsLoaded = numberOfMessages;
                 }
 
                 //update the recycler view
-                recyclerViewAdapter.notifyItemRangeInserted(messages_list.size() - append_list.size(), append_list.size());
-                recyclerView.scrollToPosition(itemsLoaded - 5);
+                recyclerViewAdapter.notifyItemRangeInserted(messages_list.size() - messages_to_load.size(), messages_to_load.size());
+            }
+        }, 150);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //move the scroll position and allow to load more items
+                recyclerView.scrollToPosition(itemsLoaded - 4);
                 isLoading = false;
             }
-        }, 4000);
+        }, 500);
     }
 
 }

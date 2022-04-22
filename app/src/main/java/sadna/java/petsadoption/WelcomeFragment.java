@@ -175,8 +175,8 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             // Sign in success, update UI with the signed-in user's information
             Log.d("GoogleActivity", "signInWithCredential:success");
             FirebaseUser user = mAuth.getCurrentUser();
-            Toast.makeText(getActivity(), "Login was successful",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Signed in successfully",
+                    Toast.LENGTH_LONG).show();
             String email = user.getEmail();
             //Adds the user to the Database
             DatabaseHandler.createUser(user.getUid(), email, user.getDisplayName()); //Create A User on login
@@ -208,6 +208,8 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             } else {
                 mAuth.signOut();
                 mGoogleSignInClient.signOut();
+                Toast.makeText(getActivity(), "Signed Out",
+                        Toast.LENGTH_LONG).show();
                 updateUI(null);
             }
         }
@@ -233,9 +235,6 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                 MainActivity.startShowingProgressDialog(getContext());
                 NavHostFragment.findNavController(WelcomeFragment.this)
                         .navigate(R.id.action_WelcomeFragment_to_WatchMessagesFragment);
-            } else {
-                Toast.makeText(getActivity(), "Please Sign In in order to watch messages",
-                        Toast.LENGTH_LONG).show();
             }
         }
 
@@ -248,9 +247,6 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             if(mAuth.getCurrentUser() != null) {
                 NavHostFragment.findNavController(WelcomeFragment.this)
                         .navigate(R.id.action_WelcomeFragment_to_AddPetFragment);
-            } else {
-                Toast.makeText(getActivity(), "Please Sign In in order to offer a pet",
-                        Toast.LENGTH_LONG).show();
             }
         }
 
@@ -264,9 +260,6 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
                 MainActivity.startShowingProgressDialog(getContext());
                 NavHostFragment.findNavController(WelcomeFragment.this)
                         .navigate(R.id.action_WelcomeFragment_to_MyPetsFragment);
-            } else {
-                Toast.makeText(getActivity(), "Please Sign In in order to watch your pets",
-                        Toast.LENGTH_LONG).show();
             }
         }
     }

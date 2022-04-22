@@ -55,7 +55,7 @@ public class MyPetsFragment extends Fragment {
 
         /****************************************************************/
         //ToDo: Might be possible to filter the existing full pets list instead of getting it again to be more data efficient
-        List<ParseObject> pets_list = DatabaseHandler.getUserPets();
+        List<ParseObject> pets_list = DatabaseHandler.getUserPetsAsync();
 
 
         PetsListAdapter adapter = new PetsListAdapter(pets_list, currentUserId, MyPetsFragment.this);
@@ -100,8 +100,6 @@ public class MyPetsFragment extends Fragment {
                         .navigate(R.id.action_MyPetsFragment_to_WelcomeFragment);
             }
         });
-
-        DatabaseHandler.getAllPets();
     }
 
     @Override
