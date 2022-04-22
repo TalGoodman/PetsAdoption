@@ -21,40 +21,46 @@ import com.parse.ParseObject;
 
 import java.util.List;
 
+/*
+    Adapter for recycler views of pet items
+ */
 public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
+    private final int VIEW_TYPE_ITEM = 0;   //Type of pet item
+    private final int VIEW_TYPE_LOADING = 1;    //Type of loading progress bar
 
-    private List<ParseObject> petsList;
-    private String currentUserId;
-    private Fragment fragment;
+    private List<ParseObject> petsList;     //list of pets
+    private String currentUserId;       //Id of the current user
+    private Fragment fragment;      //The fragment which setAdapter was called from
 
 
+    //Inner class for pet item view
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         public ImageView petImage;
         public TextView petName;
         public TextView petSpecie;
         public Button btnView;
 
+        //constructor for inner class
         public ItemViewHolder(View v) {
             super(v);
-            petImage = (ImageView) v.findViewById(R.id.ivPetSmallImage);
-            petName = (TextView) v.findViewById(R.id.tvPetNameRV);
-            petSpecie = (TextView) v.findViewById(R.id.tvPetSpeciesRV);
-            btnView = (Button) v.findViewById(R.id.btnViewPetRV);
+            petImage = (ImageView) v.findViewById(R.id.ivPetSmallImage);    //view is in pet_list_item.xml
+            petName = (TextView) v.findViewById(R.id.tvPetNameRV);          //view is in pet_list_item.xml
+            petSpecie = (TextView) v.findViewById(R.id.tvPetSpeciesRV);     //view is in pet_list_item.xml
+            btnView = (Button) v.findViewById(R.id.btnViewPetRV);           //view is in pet_list_item.xml
         }
     }
 
+    //Inner class for loading item view
     public static class LoadingViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public LoadingViewHolder(View v) {
             super(v);
-            progressBar = v.findViewById(R.id.pbItemLoading);
+            progressBar = v.findViewById(R.id.pbItemLoading);       //view is in item_loading.xml
         }
     }
 
-    //ToDo: is it possible to do it with a list of requested pets? it should be much smaller
+    //constructor for PetsListAdapter
     public PetsListAdapter(List<ParseObject> petsList, String currentUserId, Fragment fragment) {
         this.petsList = petsList;
         this.currentUserId = currentUserId;
@@ -66,6 +72,8 @@ public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         View itemView;
+        //determine if the view should be a load item or pet item
+        //viewType is determined by the method getItemViewType
         if (viewType == VIEW_TYPE_ITEM) {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.pets_list_item, parent, false);
@@ -78,16 +86,28 @@ public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
+    public int getItemViewType(int position) {
+        //null item in the list indicated there should be a loading item
+        if (petsList.get(position) == null) {
+            return VIEW_TYPE_LOADING;
+        }
+        return VIEW_TYPE_ITEM;
+    }
+
+    @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof LoadingViewHolder) {
+            //if the item is loading item there is nothing else to set
             return;
         }
+        //item is pet item:
         PetsListAdapter.ItemViewHolder itemHolder = (PetsListAdapter.ItemViewHolder)holder;
+        //retrieve details about the pet from the list of pets
         String petName = petsList.get(position).get("pet_name").toString();
         String petSpecie = petsList.get(position).get("species").toString();
         String petId = petsList.get(position).get("pet_id").toString();
         DatabaseHandler.getPetImage(petsList.get(position), itemHolder);
-        Bundle bundle = createBundle(petsList.get(position));
+        Bundle bundle = createBundle(petsList.get(position));   //create a bundle of data to pass to the next fragment
         boolean isRequested = DatabaseHandler.findIfPetRequested(petId, currentUserId);
         if (isRequested) {
             bundle.putBoolean("isRequested", true);
@@ -95,15 +115,18 @@ public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             bundle.putBoolean("isRequested", false);
         }
 
+        //set the UI of pet item on UI thread
         fragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 itemHolder.petName.setText(petName);
                 itemHolder.petSpecie.setText(petSpecie);
                 if (isRequested) {
+                    //pet was requested by the user
                     itemHolder.btnView.setText("Details\n(Requested)");
                     itemHolder.btnView.setTextColor(Color.GREEN);
                 } else {
+                    //pet was not requested by the user
                     itemHolder.btnView.setText("Details");
                     itemHolder.btnView.setTextColor(Color.LTGRAY);
                 }
@@ -112,9 +135,15 @@ public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void onClick(View view) {
                         if(fragment.getClass() == WatchPetsFragment.class){
+                            //if the current fragment is WatchPetsFragment
+                            //then the button in the list item should
+                            //call navigate with the following navigation action
                             NavHostFragment.findNavController(fragment)
                                     .navigate(R.id.action_WatchPetsFragment_to_PetDetailsFragment, bundle);
                         } else if(fragment.getClass() == MyPetsFragment.class){
+                            //if the current fragment is MyPetsFragment
+                            //then the button in the list item should
+                            //call navigate with the following navigation action
                             NavHostFragment.findNavController(fragment)
                                     .navigate(R.id.action_MyPetsFragment_to_PetDetailsFragment, bundle);
                         }
@@ -129,14 +158,9 @@ public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return petsList.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (petsList.get(position) == null) {
-            return VIEW_TYPE_LOADING;
-        }
-        return VIEW_TYPE_ITEM;
-    }
 
+    //creates the bundle and adds data to it
+    //the bundle is used for passing data to the next fragment
     private Bundle createBundle(ParseObject object){
         Bundle bundle = new Bundle();
         String name = object.get("pet_name").toString();
