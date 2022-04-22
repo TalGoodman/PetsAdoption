@@ -28,7 +28,12 @@ import java.util.List;
 
 import sadna.java.petsadoption.databinding.FragmentAddPetBinding;
 
-
+//AddPetFragment is a fragment for offering a pet for adoption by other users
+//The fragment has a button adding a picture of the pet
+//Input fields: EditTexts, spinners, and a checkbox
+//for adding details about the pet
+//A button to add the pet to the system
+//and a button to navigate back
 public class AddPetFragment extends Fragment implements View.OnClickListener {
     private FragmentAddPetBinding binding;
 
@@ -37,10 +42,7 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
         binding = FragmentAddPetBinding.inflate(inflater, container, false);
-
         return binding.getRoot();
     }
 
@@ -49,12 +51,6 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        /*DEBUGGING SPECIES VALUE
-        Toast.makeText(getParentFragment().getActivity(), binding.spSexContentAdd.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-         */
-
-        /**********************************************************/
 
         // Spinner element
         Spinner spinner = binding.spSpecieContentAdd;
@@ -71,8 +67,6 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
 
-    /*********************************************************/
-
         //initialize OnClickListener for buttons and image view
         binding.btnAddPet.setOnClickListener(this);
         binding.btnBackAdd.setOnClickListener(this);
@@ -86,6 +80,7 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
         binding = null;
     }
 
+    //Handles the picture input
     @Deprecated
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -107,6 +102,7 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteStream);
                     petImageByteArray = byteStream.toByteArray();
                     if (petImageByteArray.length > 15000000) {
+                        //if the picture is too heavy, notify the user
                         Toast.makeText(getActivity(), "File size must be at most 15MB", Toast.LENGTH_LONG).show();
                     } else {
                         binding.ivPetImageAdd.setImageBitmap(bitmap);
@@ -143,11 +139,14 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnAddPet) {
-                if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
+            //The button clicked was "Add Pet"
+            if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
                 Toast.makeText(getActivity(), "No Internet Connection",
                         Toast.LENGTH_LONG).show();
                 return;
             }
+
+            //Assign the pet details from the input to the variables
             String Specie = binding.spSpecieContentAdd.getSelectedItem().toString();
             String Name = binding.etPetNameContentAdd.getText().toString();
             String Identifier = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
@@ -157,19 +156,23 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
             String Diet = binding.spDietContentAdd.getSelectedItem().toString();
             String Description = binding.etDescriptionContentAdd.getText().toString();
 
-                if (Name.equals("")) {
+            if (Name.equals("")) {
+                //Pet name should not be empty
                 Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
                 return;
             } else if (Name.length() > 15) {
+                //Pet Name cannot be too long
                 Toast.makeText(getActivity(), "Pet Name is too long",Toast.LENGTH_LONG).show();
                 return;
             }
 
+            //create the Pet object
             Pet newPet = new Pet(petImageByteArray, Specie, fbUserID,Name,Identifier, Sex,
                     Vaccinated, Diet, Description);
-            String petJSON = newPet.toJSON();
 
-                try {
+            //add the new pet to the database
+            String petJSON = newPet.toJSON();
+            try {
                 DatabaseHandler.createPet(
                         newPet.getOwnerID(),
                         newPet.getSpecies()+"",
@@ -182,7 +185,9 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-                NavHostFragment.findNavController(AddPetFragment.this)
+
+            //navigate back to WelcomeFragment
+            NavHostFragment.findNavController(AddPetFragment.this)
                     .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
             Toast.makeText(getActivity(), "The pet was successfully added",
                     Toast.LENGTH_LONG).show();
@@ -190,42 +195,38 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
 
 
         else if (view.getId() == R.id.btnSetPhoto) {
+            //The button clicked was "Set Picture"
             if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
                 Toast.makeText(getActivity(), "No Internet Connection",
                         Toast.LENGTH_LONG).show();
                 return;
             }
+
+            //open an activity for choosing a picture for the pet
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, 9002);
-        }
-
-
-        else if (view.getId() == R.id.ivPetImageAdd) {
+        } else if (view.getId() == R.id.ivPetImageAdd) {
+            //The image view was clicked
             if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
                 Toast.makeText(getActivity(), "No Internet Connection",
                         Toast.LENGTH_LONG).show();
                 return;
             }
+            //open an activity for choosing a picture for the pet
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, 9002);
-        }
-
-        else if (view.getId() == R.id.btnBackAdd) {
+        } else if (view.getId() == R.id.btnBackAdd) {
+            //The button "Back" was clicked
             if (!DatabaseHandler.isConnected(AddPetFragment.this.getContext())) {
                 Toast.makeText(getActivity(), "No Internet Connection",
                         Toast.LENGTH_LONG).show();
                 return;
             }
+            //navigate back to WelcomeFragment
             NavHostFragment.findNavController(AddPetFragment.this)
                     .navigate(R.id.action_AddPetFragment_to_WelcomeFragment);
         }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 }
