@@ -125,9 +125,7 @@ public class DatabaseHandler {
         });
     }
 
-    public static List<ParseObject> getUserPets() {
-        String user_id = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
-
+    public static List<ParseObject> getUserPets(String user_id) {
         //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("owner_id", user_id);
         try {
@@ -146,24 +144,24 @@ public class DatabaseHandler {
         }
     }
 
-    public static List<ParseObject> getUserPetsAsync() {
-        String user_id = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
-
-        //This find function works synchronously.
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("owner_id", user_id);
+    public static List<ParseObject> getUserPetsAsync(String user_id) {
+        //This find function works asynchronously.
         List<ParseObject> pets_list = new ArrayList<>();
-        Task asyncTask;
-        boolean success;
-        do {
-            try {
-                asyncTask = query.findInBackground();
-                asyncTask.waitForCompletion();
-                pets_list = (List<ParseObject>)asyncTask.getResult();
-                success = true;
-            } catch (InterruptedException e) {
-                success = false;
-            }
-        } while (!success);
+        if (user_id != null) {
+            ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("owner_id", user_id);
+            Task asyncTask;
+            boolean success;
+            do {
+                try {
+                    asyncTask = query.findInBackground();
+                    asyncTask.waitForCompletion();
+                    pets_list = (List<ParseObject>)asyncTask.getResult();
+                    success = true;
+                } catch (InterruptedException e) {
+                    success = false;
+                }
+            } while (!success);
+        }
         return pets_list;
     }
 
