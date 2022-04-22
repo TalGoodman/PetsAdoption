@@ -25,15 +25,15 @@ import java.util.List;
     Adapter for recycler views of pet items
  */
 public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private final int VIEW_TYPE_ITEM = 0;   //Type of pet item
-    private final int VIEW_TYPE_LOADING = 1;    //Type of loading progress bar
+    private final int VIEW_TYPE_ITEM = 0;   //Pet item
+    private final int VIEW_TYPE_LOADING = 1;    //Loading progress bar
 
     private List<ParseObject> petsList;     //list of pets
     private String currentUserId;       //Id of the current user
     private Fragment fragment;      //The fragment which setAdapter was called from
 
 
-    //Inner class for pet item view
+    //Inner class for pet list item view
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         public ImageView petImage;
         public TextView petName;
@@ -43,10 +43,10 @@ public class PetsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         //constructor for inner class
         public ItemViewHolder(View v) {
             super(v);
-            petImage = (ImageView) v.findViewById(R.id.ivPetSmallImage);    //view is in pet_list_item.xml
-            petName = (TextView) v.findViewById(R.id.tvPetNameRV);          //view is in pet_list_item.xml
-            petSpecie = (TextView) v.findViewById(R.id.tvPetSpeciesRV);     //view is in pet_list_item.xml
-            btnView = (Button) v.findViewById(R.id.btnViewPetRV);           //view is in pet_list_item.xml
+            petImage = (ImageView) v.findViewById(R.id.ivPetSmallImage);    //view is in pets_list_item.xml
+            petName = (TextView) v.findViewById(R.id.tvPetNameRV);          //view is in pets_list_item.xml
+            petSpecie = (TextView) v.findViewById(R.id.tvPetSpeciesRV);     //view is in pets_list_item.xml
+            btnView = (Button) v.findViewById(R.id.btnViewPetRV);           //view is in pets_list_item.xml
         }
     }
 

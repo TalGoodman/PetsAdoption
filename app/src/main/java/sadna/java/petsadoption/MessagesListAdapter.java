@@ -33,13 +33,17 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+/*
+    Adapter for recycler views of messages list items
+ */
 public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
+    private final int VIEW_TYPE_ITEM = 0;       //Message item
+    private final int VIEW_TYPE_LOADING = 1;       //Loading item
 
-    private List<ParseObject> messagesList;
-    private WatchMessagesFragment fragment;
+    private List<ParseObject> messagesList;     //list of messages
+    private WatchMessagesFragment fragment;     //The fragment which setAdapter was called from
 
+    //Inner class for message list item view
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         public TextView tvMessage;
         public Button btnCopyEmail;
@@ -47,22 +51,24 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public Button btnSendEmail;
         public Button btnDelete;
 
+        //constructor for inner class
         public ItemViewHolder(View v) {
             super(v);
-            tvMessage = (TextView) v.findViewById(R.id.tvMessage);
-            btnCopyEmail = (Button) v.findViewById(R.id.btnCopyEmail);
-            btnCopyName = (Button) v.findViewById(R.id.btnCopyName);
-            btnSendEmail = (Button) v.findViewById(R.id.btnSendEmail);
-            btnDelete = (Button) v.findViewById(R.id.btnDelete);
+            tvMessage = (TextView) v.findViewById(R.id.tvMessage);      //view is in messages_list_item.xml
+            btnCopyEmail = (Button) v.findViewById(R.id.btnCopyEmail);  //view is in messages_list_item.xml
+            btnCopyName = (Button) v.findViewById(R.id.btnCopyName);    //view is in messages_list_item.xml
+            btnSendEmail = (Button) v.findViewById(R.id.btnSendEmail);  //view is in messages_list_item.xml
+            btnDelete = (Button) v.findViewById(R.id.btnDelete);        //view is in messages_list_item.xml
         }
     }
 
+    //Inner class for loading item view
     public static class LoadingViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public LoadingViewHolder(View v) {
             super(v);
-            progressBar = v.findViewById(R.id.pbItemLoading);
+            progressBar = v.findViewById(R.id.pbItemLoading);   //view is in item_loading.xml
         }
     }
 
@@ -71,6 +77,8 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         View itemView;
+        //determine if the view should be a load item or message item
+        //viewType is determined by the method getItemViewType
         if (viewType == VIEW_TYPE_ITEM) {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.messages_list_item, parent, false);
@@ -82,6 +90,16 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        //null item in the list indicated there should be a loading item
+        if (messagesList.get(position) == null) {
+            return VIEW_TYPE_LOADING;
+        }
+        return VIEW_TYPE_ITEM;
+    }
+
+    //constructor for MessagesListAdapter
     public MessagesListAdapter(List<ParseObject> messagesList, WatchMessagesFragment fragment) {
         this.messagesList = messagesList;
         this.fragment = fragment;
@@ -90,9 +108,12 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MessagesListAdapter.LoadingViewHolder) {
+            //if the item is loading item there is nothing else to set
             return;
         }
+        //item is message item:
         MessagesListAdapter.ItemViewHolder itemHolder = (MessagesListAdapter.ItemViewHolder)holder;
+        //retrieve details about the message from the list of messages
         String sender_id = messagesList.get(position).get("sender_id").toString();
         String pet_id = messagesList.get(position).get("pet_id").toString();
         ParseUser userParseUser = DatabaseHandler.getUserByID(sender_id);
@@ -107,11 +128,13 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         String message_text = "Hi! " + user_name + " wants to adopt " + pet_name +
                 ".\n" + user_name + "\'s Emails is: " + user_email + ".";
 
+        //set the UI of message item on UI thread
         fragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 itemHolder.tvMessage.setText(message_text);
 
+                //copies the email address of the message sender to clipboard
                 itemHolder.btnCopyEmail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -123,6 +146,7 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 });
 
+                //copies the name of the message sender to clipboard
                 itemHolder.btnCopyName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -134,6 +158,8 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 });
 
+                //opens gmail for answering the message sender
+                //also adds the sender email address and a default subject text
                 itemHolder.btnSendEmail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -159,6 +185,9 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 });
 
+                //deletes the message from both the database and the list
+                //then calls messageDeleted in fragment WatchMessagesFragment
+                //in order to update the recycler view and relevant fields
                 itemHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -180,6 +209,7 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 }
                             }, 1500);
                             Toast.makeText(fragment.getContext(), "Message Deleted",Toast.LENGTH_SHORT).show();
+                            //calls messageDeleted of WatchMessagesFragment
                             fragment.messageDeleted(position_in_messages_list);
                         } catch (Exception e) {
                             Toast.makeText(fragment.getContext(), "Something went wrong",Toast.LENGTH_SHORT).show();
@@ -194,13 +224,5 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemCount() {
         return messagesList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (messagesList.get(position) == null) {
-            return VIEW_TYPE_LOADING;
-        }
-        return VIEW_TYPE_ITEM;
     }
 }
