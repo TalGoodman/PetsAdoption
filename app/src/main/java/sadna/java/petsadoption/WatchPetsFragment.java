@@ -45,7 +45,7 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
     //the id of the current user
     private String currentUserId;
 
-    private boolean isLoading;  //indicates whether are new pets currently loaded
+    private boolean isLoading;  //indicates whether new pets are currently loaded
     private boolean isFilter;   //indicates whether the filter button was clicked
     private int itemsLoaded;    //counts the number of pets already loaded
     private int numberOfPets;   //holds the number of relevant pets in the database
@@ -204,6 +204,7 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (itemsLoaded >= numberOfPets) {
+                    //don't try to load more items if all of the pets were already loaded
                     recyclerView.removeOnScrollListener(this);
                     return;
                 }
@@ -229,6 +230,7 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
 
     //load more items
     private void loadMore() {
+        //add a temporary null item to the end of pets_list and recycler view
         pets_list.add(null);
         recyclerViewAdapter.notifyItemInserted(pets_list.size() - 1);
 
@@ -236,7 +238,7 @@ public class WatchPetsFragment extends Fragment implements View.OnClickListener 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //remove the temporary null at the end of pets_list and notfy the adapter
+                //remove the temporary null at the end of pets_list and notify the adapter
                 pets_list.remove(pets_list.size() - 1);
                 int scrollPosition = pets_list.size();
                 recyclerViewAdapter.notifyItemRemoved(scrollPosition);

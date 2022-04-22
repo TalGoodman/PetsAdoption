@@ -23,19 +23,28 @@ import java.util.List;
 
 import sadna.java.petsadoption.databinding.FragmentWatchMessagesBinding;
 
-
+/*
+WatchMessagesFragment is a fragment holding a list of the messages
+sent to the current user. The messages are sent automatically when
+another user requests to adopt a pet posted by the current user
+ */
 public class WatchMessagesFragment extends Fragment {
-    public static final int ITEMS_TO_LOAD = 2;
+    public static final int ITEMS_TO_LOAD = 2;      //Number of items to load at scrolling
 
     private FragmentWatchMessagesBinding binding;
+
+    //the recycler view's items are "messages_list_item" layouts used for displaying messages
     private RecyclerView recyclerView;
     private MessagesListAdapter recyclerViewAdapter;
 
+    //holds a list of ParseObjects of messages obtained from the database
     private List<ParseObject> messages_list;
+
+    //the id of the current user
     private String currentUserId;
-    private boolean isLoading;
-    private int itemsLoaded;
-    private int numberOfMessages;
+    private boolean isLoading;  //indicates whether new messages are currently loaded
+    private int itemsLoaded;    //counts the number of messages already loaded
+    private int numberOfMessages;   //holds the number of relevant messages in the database
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,26 +59,23 @@ public class WatchMessagesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        isLoading = false;
-        itemsLoaded = 0;
+        isLoading = false;  //initializing
+        itemsLoaded = 0;    //initializing
 
+        //initialize currentUserId
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             currentUserId = firebaseUser.getUid();
         } else {
             return;
         }
+        //initialize numberOfMessages
         numberOfMessages = DatabaseHandler.getNumberOfMessagesByUser(currentUserId);
 
+        //initialize recyclerView and recyclerViewAdapter
         populateData();
         initAdapter();
         initScrollListener();
-        //List<ParseObject> messages_list = DatabaseHandler.getMessagesByKeyAndValue("owner_id", currentUserId);
-
-
-        //MessagesListAdapter adapter = new MessagesListAdapter(messages_list, WatchMessagesFragment.this);
-        //recyclerView.setAdapter(adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -78,6 +84,10 @@ public class WatchMessagesFragment extends Fragment {
         binding = null;
     }
 
+    /*
+        updates the relevant fields and notifies the MessagesListAdapter
+        when a message was deleted
+     */
     public void messageDeleted(int position) {
         messages_list.remove(position);
         recyclerViewAdapter.notifyItemRemoved(position);
@@ -85,12 +95,14 @@ public class WatchMessagesFragment extends Fragment {
         numberOfMessages--;
     }
 
+    //read the first items from the database
     private void populateData() {
         messages_list = DatabaseHandler
                 .getMessagesByKeyAndValueWithLimit("owner_id", currentUserId, 4, itemsLoaded);
         itemsLoaded = 4;
     }
 
+    //initialize the recyclerview adapter
     private void initAdapter() {
         recyclerViewAdapter = new MessagesListAdapter(messages_list, WatchMessagesFragment.this);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -103,6 +115,7 @@ public class WatchMessagesFragment extends Fragment {
         });
     }
 
+    //initialize scroll listener for the recycler view
     private void initScrollListener() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -114,6 +127,7 @@ public class WatchMessagesFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (itemsLoaded >= numberOfMessages) {
+                    //don't try to load more items if all of the messages were already loaded
                     return;
                 }
 
@@ -136,7 +150,9 @@ public class WatchMessagesFragment extends Fragment {
 
     }
 
+    //load more items
     private void loadMore() {
+        //add a temporary null item to the end of messages_list and recycler view
         messages_list.add(null);
         recyclerViewAdapter.notifyItemInserted(messages_list.size() - 1);
 
@@ -145,12 +161,14 @@ public class WatchMessagesFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                //remove the temporary null at the end of messages_list and notify the adapter
                 messages_list.remove(messages_list.size() - 1);
                 int scrollPosition = messages_list.size();
                 recyclerViewAdapter.notifyItemRemoved(scrollPosition);
                 int nextLimit = itemsLoaded + ITEMS_TO_LOAD;
                 List<ParseObject> append_list = new ArrayList<>();
 
+                //read more messages from the database and add them to messages_list
                 if (itemsLoaded < nextLimit) {
                     append_list = DatabaseHandler
                             .getMessagesByKeyAndValueWithLimit("owner_id", currentUserId, ITEMS_TO_LOAD, itemsLoaded);
@@ -161,6 +179,7 @@ public class WatchMessagesFragment extends Fragment {
                     }
                 }
 
+                //update the recycler view
                 recyclerViewAdapter.notifyItemRangeInserted(messages_list.size() - append_list.size(), append_list.size());
                 recyclerView.scrollToPosition(itemsLoaded - 5);
                 isLoading = false;
