@@ -125,18 +125,13 @@ public class DatabaseHandler {
         });
     }
 
+    //reads from the database the pet with the given owner id
+    //synchronously
     public static List<ParseObject> getUserPets(String user_id) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("owner_id", user_id);
         try {
+            //This find function works synchronously.
             List<ParseObject> pets_list = query.find();
-            //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("Finding User Pets", (String) pet.get("pet_name"));
-
-                    }
-            );
             return pets_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -144,8 +139,9 @@ public class DatabaseHandler {
         }
     }
 
+    //reads from the database the pet with the given owner id
+    //asynchronously
     public static List<ParseObject> getUserPetsAsync(String user_id) {
-        //This find function works asynchronously.
         List<ParseObject> pets_list = new ArrayList<>();
         if (user_id != null) {
             ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("owner_id", user_id);
@@ -153,6 +149,7 @@ public class DatabaseHandler {
             boolean success;
             do {
                 try {
+                    //This find function works asynchronously.
                     asyncTask = query.findInBackground();
                     asyncTask.waitForCompletion();
                     pets_list = (List<ParseObject>)asyncTask.getResult();
@@ -165,13 +162,15 @@ public class DatabaseHandler {
         return pets_list;
     }
 
+    //read from the database the pets with given keys and values
+    //synchronously
     public static List<ParseObject> getPetsByKeysAndValues(String user_id, Map<String, Object> filterMap) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);;
         for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
             query = query.whereEqualTo(entry.getKey(), entry.getValue());
         }
         try {
+            //This find function works synchronously.
             List<ParseObject> pets_list = query.find();
             return pets_list;
         } catch (com.parse.ParseException e) {
@@ -180,8 +179,11 @@ public class DatabaseHandler {
         }
     }
 
+    //read from the database the pets with given keys and values
+    //also set a limit to the number of maximum pets to read
+    //also set a skip to the number of pets skip before starting to read
+    //synchronously
     public static List<ParseObject> getPetsByKeysAndValuesWithLimit(String user_id, Map<String, Object> filterMap, int limit, int skip) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
         if (user_id != null) {
             query = query.whereNotEqualTo("owner_id", user_id);
@@ -190,6 +192,7 @@ public class DatabaseHandler {
             query = query.whereEqualTo(entry.getKey(), entry.getValue());
         }
         try {
+            //This find function works synchronously.
             List<ParseObject> pets_list = query.find();
             return pets_list;
         } catch (com.parse.ParseException e) {
@@ -198,8 +201,11 @@ public class DatabaseHandler {
         }
     }
 
+    //read from the database the pets with given keys and values
+    //also set a limit to the number of maximum pets to read
+    //also set a skip to the number of pets skipbefore starting to read
+    //asynchronously
     public static List<ParseObject> getPetsByKeysAndValuesWithLimitAsync(String user_id, Map<String, Object> filterMap, int limit, int skip) {
-        //This find function works asynchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
         if (user_id != null) {
             query = query.whereNotEqualTo("owner_id", user_id);
@@ -214,6 +220,7 @@ public class DatabaseHandler {
         long difference = 0;
         do {
             try {
+                //This find function works asynchronously.
                 asyncTask = query.findInBackground();
                 asyncTask.waitForCompletion();
                 pets_list = (List<ParseObject>)asyncTask.getResult();
@@ -226,6 +233,7 @@ public class DatabaseHandler {
         return pets_list;
     }
 
+    //returns the number of pets in the database which suitable for the filtering requirements
     public static int getNumberOfPetsByKeysAndValue(String user_id, Map<String, Object> filterMap) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         if (user_id != null) {
@@ -243,14 +251,16 @@ public class DatabaseHandler {
         return number;
     }
 
+    //returns an array list of species names read from the database
+    //the options for possible species the users can select
+    //are stored in the database
+    //synchronously
     public static ArrayList<String> getSpeciesNames() {
         ArrayList<String> species_names = new ArrayList<String>();
-
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("Species");
         try {
+            //This find function works synchronously.
             List<ParseObject> species = query.find();
-            //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
             species.forEach(
                     (specie) -> {
                         species_names.add(specie.getString("species_name").toString());
@@ -263,25 +273,13 @@ public class DatabaseHandler {
         }
     }
 
-    /*
-    public static ParseObject getUserByID(String user_id) {
-        ParseQuery<ParseObject> query = new ParseQuery<>("users").whereEqualTo("user_id", user_id);
-        try {
-            List<ParseObject> user =  query.find();
-            Log.d("Finding User", (String) user.get(0).get("user_name"));
-            return user.get(0);
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    */
-
+    //returns a user with a giver id from the database as ParseUser object
+    //synchronously
     public static ParseUser getUserByID(String user_id) {
         ParseQuery<ParseUser> query = ParseUser.getQuery().whereEqualTo("firebase_id", user_id);
         try {
+            //This find function works synchronously.
             List<ParseUser> user =  query.find();
-            Log.d("getUserByID", (String) user.get(0).get("firebase_id"));
             return user.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -294,7 +292,6 @@ public class DatabaseHandler {
        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereEqualTo("pet_id", pet_id);
         try {
             List<ParseObject> pet =  query.find();
-            Log.d("Finding User Pets", (String) pet.get(0).get("pet_name"));
             return pet.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -302,11 +299,11 @@ public class DatabaseHandler {
         }
     }
 
+    //Synchronously Gets A Message By ID.
     public static ParseObject getMessageByID(String message_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("message_id", message_id);
         try {
             List<ParseObject> message =  query.find();
-            Log.d("Finding Message", (String) message.get(0).get("message_id"));
             return message.get(0);
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -314,9 +311,12 @@ public class DatabaseHandler {
         }
     }
 
+    //returns a list of messages about the pet with the given id
+    //synchronously
     public static List<ParseObject> getMessagesByPetID(String pet_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("pet_id", pet_id);
         try {
+            //This find function works synchronously.
             List<ParseObject> messages =  query.find();
             return messages;
         } catch (com.parse.ParseException e) {
@@ -325,6 +325,7 @@ public class DatabaseHandler {
         }
     }
 
+    //deletes the message with the given id from the database
     public static void deleteMessageByID(String message_id) {
         ParseObject message_to_remove = getMessageByID(message_id);
         if (message_to_remove != null) {message_to_remove.deleteInBackground(e -> {
@@ -337,6 +338,8 @@ public class DatabaseHandler {
         }
     }
 
+    //deletes the pet with the given id from the database
+    //also deletes messages about this pet from the database
     public static String deletePetByID(String pet_id) {
         AtomicReference<String> deletage_message = new AtomicReference<>("");
         deleteMessagesByKeyAndValue("pet_id", pet_id);
@@ -353,6 +356,7 @@ public class DatabaseHandler {
         return deletage_message.get();
     }
 
+    //deletes messages with given keys and values from the database
     public static void deleteMessagesByKeyAndValue(String key, String value) {
         List<ParseObject> messages_list = getMessagesByKeyAndValue(key, value);
         for (ParseObject parseObj:messages_list
@@ -361,10 +365,11 @@ public class DatabaseHandler {
         }
     }
 
+    //returns from the database a list of pets with owner id different of the current user id
     public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
         try {
+            //This find function works synchronously.
             List<ParseObject> pets_list = query.find();
             pets_list.forEach(
                     (pet) -> {
@@ -378,6 +383,9 @@ public class DatabaseHandler {
         }
     }
 
+    //returns from the database a list of pets with owner id different of the current user id
+    //also set a limit to the number of maximum pets to read
+    //also set a skip to the number of pets skip before starting to read
     public static List<ParseObject> getPetsOfOtherUsersWithLimit(String user_id, int limit, int skip) {
         //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip).whereNotEqualTo("owner_id", user_id);
@@ -390,8 +398,11 @@ public class DatabaseHandler {
         }
     }
 
+    //returns from the database a list of pets with owner id different of the current user id
+    //also set a limit to the number of maximum pets to read
+    //also set a skip to the number of pets skip before starting to read
+    //asynchronously
     public static List<ParseObject> getPetsOfOtherUsersWithLimitAsync(String user_id, int limit, int skip) {
-        //This find function works asynchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip).whereNotEqualTo("owner_id", user_id);
         List<ParseObject> pets_list = new ArrayList<>();
         Task asyncTask;
@@ -400,6 +411,7 @@ public class DatabaseHandler {
         long difference = 0;
         do {
             try {
+                //This find function works asynchronously.
                 asyncTask = query.findInBackground();
                 asyncTask.waitForCompletion();
                 pets_list = (List<ParseObject>)asyncTask.getResult();
@@ -412,12 +424,15 @@ public class DatabaseHandler {
         return pets_list;
     }
 
+    //returns true if the pet with id "pet_id" was requested by the user with id "user_id"
+    //synchronously
     public static boolean findIfPetRequested(String pet_id, String user_id) {
         if (user_id == null) {
             return false;
         }
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("pet_id", pet_id).whereEqualTo("sender_id", user_id);
         try {
+            //This find function works synchronously.
             List<ParseObject> message =  query.find();
             if (message.size() > 0) {
                 if (pet_id.equals(message.get(0).getString("pet_id"))){
@@ -430,10 +445,12 @@ public class DatabaseHandler {
         }
     }
 
+    //returns from the database a list of messages with the given key and value
+    //synchronously
     public static List<ParseObject> getMessagesByKeyAndValue(String key, String value) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo(key, value);
         try {
+            //This find function works synchronously.
             List<ParseObject> messages_list = query.find();
             return messages_list;
         } catch (com.parse.ParseException e) {
@@ -442,10 +459,14 @@ public class DatabaseHandler {
         }
     }
 
+    //returns from the database a list of messages with the given key and value
+    //also set a limit to the number of maximum messages to read
+    //also set a skip to the number of messages skip before starting to read
+    //synchronously
     public static List<ParseObject> getMessagesByKeyAndValueWithLimit(String key, String value, int limit, int skip) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").setLimit(limit).setSkip(skip).whereEqualTo(key, value);
         try {
+            //This find function works synchronously.
             List<ParseObject> messages_list = query.find();
             return messages_list;
         } catch (com.parse.ParseException e) {
@@ -454,9 +475,12 @@ public class DatabaseHandler {
         }
     }
 
+    //returns from the database a list of messages with the given key and value
+    //also set a limit to the number of maximum messages to read
+    //also set a skip to the number of messages skip before starting to read
+    //asynchronously
     public static List<ParseObject> getMessagesByKeyAndValueWithLimitAsync
             (String key, String value, int limit, int skip) {
-        //This find function works asynchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").setLimit(limit).setSkip(skip).whereEqualTo(key, value);
         List<ParseObject> messages_list = new ArrayList<>();
         Task asyncTask;
@@ -465,6 +489,7 @@ public class DatabaseHandler {
         long difference = 0;
         do {
             try {
+                //This find function works asynchronously.
                 asyncTask = query.findInBackground();
                 asyncTask.waitForCompletion();
                 messages_list = (List<ParseObject>)asyncTask.getResult();
@@ -477,6 +502,7 @@ public class DatabaseHandler {
         return messages_list;
     }
 
+    //returns the number of messages sent to the user with id "user_id"
     public static int getNumberOfMessagesByUser(String user_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages");
         if (user_id == null) {
@@ -492,28 +518,7 @@ public class DatabaseHandler {
         return number;
     }
 
-    public static List<ParseObject> getNotRequestedPets(String user_id) {
-        List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
-        Set<String> requested_pets_ids = new HashSet<>();
-        for(int i = 0; i < messages_list.size(); i++) {
-            String pet_id = messages_list.get(i).get("pet_id").toString();
-            requested_pets_ids.add(pet_id);
-        }
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotContainedIn("pet_id", requested_pets_ids);
-        try {
-            List<ParseObject> pets_list = query.find();
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("getNotRequestedPets", (String) pet.get("pet_name"));
-                    }
-            );
-            return pets_list;
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
+    //returns a set of the pets requested by the user with id "user_id"
     public static Set<String> getRequestedPetsIds(String user_id) {
         List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
         Set<String> requested_pets_ids = new HashSet<>();
@@ -524,6 +529,7 @@ public class DatabaseHandler {
         return requested_pets_ids;
     }
 
+    //returns the number of allpets in the database
     public static int getNumberOfPets() {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         int number = 0;
@@ -535,8 +541,8 @@ public class DatabaseHandler {
         return number;
     }
 
+    //returns the number of pets with owner id different of the given "user_id"
     public static int getNumberOfPetsOfOtherUsers(String user_id) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
         int number = 0;
         try {
@@ -547,42 +553,12 @@ public class DatabaseHandler {
         return number;
     }
 
-    public static List<ParseObject> getNotRequestedPetsWithLimit(Set<String> requested_pets_ids, int limit, int skip) {
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip).whereNotContainedIn("pet_id", requested_pets_ids);
-        try {
-            List<ParseObject> pets_list = query.find();
-            return pets_list;
-        } catch (com.parse.ParseException e) {
-            return null;
-        }
-    }
-
-    //getPetsByFilter
-    public static List<ParseObject> getPetsByFilter(            String specie,
-                                                                String gander,
-                                                                Boolean vaccinated,
-                                                                String diet) {
-        //This find function works synchronously.
-        ParseQuery<ParseObject> query = new ParseQuery<>("pets");
-        query.whereMatches("specie", specie);
-        query.whereMatches("vaccinated", vaccinated.toString());
-        query.whereMatches("gander", gander);
-        query.whereMatches("diet", diet);
-        try {
-            List<ParseObject> pets_list = query.find();
-            return pets_list;
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-
+    //returns from the database a list of all pets
+    //synchronously
     public static List<ParseObject> getAllPets() {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         try {
+            //This find function works synchronously.
             List<ParseObject> pets_list = query.find();
             //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
             pets_list.forEach(
@@ -598,10 +574,14 @@ public class DatabaseHandler {
         }
     }
 
+    //returns from the database a list pets without any restriction on their details
+    //also set a limit to the number of maximum pets to read
+    //also set a skip to the number of pets skip before starting to read
+    //synchronously
     public static List<ParseObject> getAllPetsWithLimit(int limit, int skip) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
         try {
+            //This find function works synchronously.
             List<ParseObject> pets_list = query.find();
             return pets_list;
         } catch (com.parse.ParseException e) {
@@ -610,8 +590,11 @@ public class DatabaseHandler {
         }
     }
 
+    //returns from the database a list pets without any restriction on their details
+    //also set a limit to the number of maximum pets to read
+    //also set a skip to the number of pets skip before starting to read
+    //asynchronously
     public static List<ParseObject> getAllPetsWithLimitAsync(int limit, int skip) {
-        //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
         List<ParseObject> pets_list = new ArrayList<>();
         Task asyncTask;
@@ -620,6 +603,7 @@ public class DatabaseHandler {
         long difference = System.currentTimeMillis();
         do {
             try {
+                //This find function works asynchronously.
                 asyncTask = query.findInBackground();
                 asyncTask.waitForCompletion();
                 pets_list = (List<ParseObject>)asyncTask.getResult();
@@ -649,6 +633,7 @@ public class DatabaseHandler {
     }
 
     //Get Pet Image From Parse Object
+    //Set the picture on PetsListAdapter.ItemViewHolder holder
     public static Bitmap getPetImage(ParseObject petObject, PetsListAdapter.ItemViewHolder holder)
     {
         final Bitmap[] bmp = new Bitmap[1];
@@ -669,6 +654,7 @@ public class DatabaseHandler {
         return bmp[0];
     }
 
+    //returns true if the user has internet connection
     public static boolean isConnected(Context context) {
         boolean result = false;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
