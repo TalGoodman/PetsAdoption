@@ -25,8 +25,6 @@ import sadna.java.petsadoption.databinding.FragmentMyPetsBinding;
 
 
 public class MyPetsFragment extends Fragment {
-    public static final int MAX_LIST_SIZE = 50;
-
     private FragmentMyPetsBinding binding;
 
     private RecyclerView recyclerView;

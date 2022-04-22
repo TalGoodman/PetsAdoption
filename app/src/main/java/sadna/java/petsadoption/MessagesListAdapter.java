@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
@@ -141,15 +142,20 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
-                        final Intent emailIntent = new Intent( android.content.Intent.ACTION_SEND);
-                        emailIntent.setType("plain/text");
-                        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+                        final Intent emailIntent = new Intent( Intent.ACTION_SENDTO).setType("plain/text")
+                                .setData(Uri.parse("mailto:"));
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL,
                                 new String[] { user_email });
                         String subject = "Hello " + user_name + " I would like to adopt " + pet_name;
-                        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT,
                                 subject);
-                        fragment.startActivity(Intent.createChooser(
-                                emailIntent, "Send mail..."));
+                        emailIntent.setPackage("com.google.android.gm");
+                        try {
+                            fragment.startActivity(Intent.createChooser(
+                                    emailIntent, "Send mail..."));
+                        } catch (android.content.ActivityNotFoundException e) {
+                            Toast.makeText(fragment.getContext(), "There is no gmail client installed.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
@@ -175,7 +181,6 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             }, 1500);
                             Toast.makeText(fragment.getContext(), "Message Deleted",Toast.LENGTH_SHORT).show();
                             fragment.messageDeleted(position_in_messages_list);
-                            //NavHostFragment.findNavController(fragment).navigate(R.id.action_WatchMessagesFragment_to_WatchMessagesFragment);
                         } catch (Exception e) {
                             Toast.makeText(fragment.getContext(), "Something went wrong",Toast.LENGTH_SHORT).show();
                         }
