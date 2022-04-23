@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
@@ -30,17 +29,18 @@ import java.util.concurrent.atomic.AtomicReference;
 public class DatabaseHandler {
     private final static int MAX_RUNNING_TIME_SECONDS = 10;
 
-//Create User
+    /** Create User in the database
+     *
+     * @param user_id
+     * @param email
+     * @param user_name
+     */
     public static void createUser(String user_id, String email,String user_name) {
         ParseUser user = new ParseUser();
         user.put("firebase_id", user_id);
         user.setUsername(user_name);
         user.setPassword("my pass");
         user.setEmail(email);
-
-        // Other fields can be set just like any other ParseObject,
-        // using the "put" method, like this: user.put("attribute", "its value");
-        // If this field does not exists, it will be automatically created
 
         user.signUpInBackground(e -> {
             if (e == null) {
@@ -63,7 +63,11 @@ public class DatabaseHandler {
     }
 
 
-    //ToDo: add the nececeary users info
+    /**
+     * Creates a message in the database
+     * @param pet_id
+     * @param owner_id
+     */
     public static void createMessage(String pet_id, String owner_id) {
         ParseObject message = new ParseObject("messages");
         String message_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
@@ -80,8 +84,7 @@ public class DatabaseHandler {
         // Saves the new object
         message.saveInBackground(e -> {
             if (e==null){
-                //message.setObjectId(message_id);
-                Log.d("createMessage", "createObject: "+message.toString());
+                //Log.d("createMessage", "createObject: "+message.toString());
             }else{
                 Log.d("createMessage", "createObject: "+e.getMessage());
             }
@@ -89,7 +92,18 @@ public class DatabaseHandler {
 
     }
 
-    //https://parse-dashboard.back4app.com/apps/2e930e57-26cb-49bf-a16a-38c9effd1503/browser/pets
+    /**
+     * Creates a Pet in the pets table on the database
+     * @param owner_id
+     * @param species
+     * @param gender
+     * @param vaccinated
+     * @param diet
+     * @param pet_name
+     * @param description
+     * @param pet_image
+     * @throws ParseException
+     */
     public static void createPet(String owner_id,
                                  String species,
                                  String gender,
@@ -99,7 +113,6 @@ public class DatabaseHandler {
                                  String description,
                                  byte[] pet_image) throws ParseException {
         String pet_id = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
-        //ParseObject pet = ParseObject.createWithoutData("pets", pet_id);//new ParseObject("pets");
         ParseObject pet = new ParseObject("pets");
         pet.put("pet_id", pet_id);
         pet.put("owner_id",owner_id);
@@ -114,9 +127,9 @@ public class DatabaseHandler {
         pet.saveInBackground(e -> {
             if (e==null){
                 //Save was done
-                Log.d("PetCreated",pet.getObjectId());
+                //Log.d("PetCreated",pet.getObjectId());
                 pet.setObjectId(pet_id);
-                Log.d("PetUpdated",pet.getObjectId());
+                //Log.d("PetUpdated",pet.getObjectId());
                 pet.saveInBackground();
             }else{
                 //Something went wrong
@@ -127,6 +140,12 @@ public class DatabaseHandler {
 
     //reads from the database the pet with the given owner id
     //synchronously
+
+    /**
+     *
+     * @param user_id
+     * @return
+     */
     public static List<ParseObject> getUserPets(String user_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereContains("owner_id", user_id);
         try {
@@ -141,6 +160,12 @@ public class DatabaseHandler {
 
     //reads from the database the pet with the given owner id
     //asynchronously
+
+    /**
+     *
+     * @param user_id
+     * @return
+     */
     public static List<ParseObject> getUserPetsAsync(String user_id) {
         List<ParseObject> pets_list = new ArrayList<>();
         if (user_id != null) {
@@ -164,6 +189,13 @@ public class DatabaseHandler {
 
     //read from the database the pets with given keys and values
     //synchronously
+
+    /**
+     *
+     * @param user_id
+     * @param filterMap
+     * @return
+     */
     public static List<ParseObject> getPetsByKeysAndValues(String user_id, Map<String, Object> filterMap) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);;
         for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
@@ -183,6 +215,15 @@ public class DatabaseHandler {
     //also set a limit to the number of maximum pets to read
     //also set a skip to the number of pets skip before starting to read
     //synchronously
+
+    /**
+     *
+     * @param user_id
+     * @param filterMap
+     * @param limit
+     * @param skip
+     * @return
+     */
     public static List<ParseObject> getPetsByKeysAndValuesWithLimit(String user_id, Map<String, Object> filterMap, int limit, int skip) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
         if (user_id != null) {
@@ -205,6 +246,15 @@ public class DatabaseHandler {
     //also set a limit to the number of maximum pets to read
     //also set a skip to the number of pets skipbefore starting to read
     //asynchronously
+
+    /**
+     *
+     * @param user_id
+     * @param filterMap
+     * @param limit
+     * @param skip
+     * @return
+     */
     public static List<ParseObject> getPetsByKeysAndValuesWithLimitAsync(String user_id, Map<String, Object> filterMap, int limit, int skip) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
         if (user_id != null) {
@@ -234,6 +284,13 @@ public class DatabaseHandler {
     }
 
     //returns the number of pets in the database which suitable for the filtering requirements
+
+    /**
+     *
+     * @param user_id
+     * @param filterMap
+     * @return
+     */
     public static int getNumberOfPetsByKeysAndValue(String user_id, Map<String, Object> filterMap) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         if (user_id != null) {
@@ -255,6 +312,11 @@ public class DatabaseHandler {
     //the options for possible species the users can select
     //are stored in the database
     //synchronously
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList<String> getSpeciesNames() {
         ArrayList<String> species_names = new ArrayList<String>();
         ParseQuery<ParseObject> query = new ParseQuery<>("Species");
@@ -275,6 +337,12 @@ public class DatabaseHandler {
 
     //returns a user with a giver id from the database as ParseUser object
     //synchronously
+
+    /**
+     *
+     * @param user_id
+     * @return
+     */
     public static ParseUser getUserByID(String user_id) {
         ParseQuery<ParseUser> query = ParseUser.getQuery().whereEqualTo("firebase_id", user_id);
         try {
@@ -288,6 +356,12 @@ public class DatabaseHandler {
     }
 
     //Synchronously Gets A Pet By ID.
+
+    /**
+     *
+     * @param pet_id
+     * @return
+     */
     public static ParseObject getPetByID(String pet_id) {
        ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereEqualTo("pet_id", pet_id);
         try {
@@ -300,6 +374,12 @@ public class DatabaseHandler {
     }
 
     //Synchronously Gets A Message By ID.
+
+    /**
+     *
+     * @param message_id
+     * @return
+     */
     public static ParseObject getMessageByID(String message_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("message_id", message_id);
         try {
@@ -313,6 +393,12 @@ public class DatabaseHandler {
 
     //returns a list of messages about the pet with the given id
     //synchronously
+
+    /**
+     *
+     * @param pet_id
+     * @return
+     */
     public static List<ParseObject> getMessagesByPetID(String pet_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("pet_id", pet_id);
         try {
@@ -326,29 +412,39 @@ public class DatabaseHandler {
     }
 
     //deletes the message with the given id from the database
+
+    /**
+     *
+     * @param message_id
+     */
     public static void deleteMessageByID(String message_id) {
         ParseObject message_to_remove = getMessageByID(message_id);
         if (message_to_remove != null) {message_to_remove.deleteInBackground(e -> {
             if (e == null) {
                 //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                Log.d("deleteMessage", message_to_remove+" delete successfuly");
+               //Log.d("deleteMessage", message_to_remove+" delete successfuly");
             }
             ;
         });
         }
     }
 
-    //deletes the pet with the given id from the database
-    //also deletes messages about this pet from the database
+
+
+    /**
+     * deletes the pet with the given id from the database
+     * also deletes messages about this pet from the database
+     * @param pet_id
+     * @return a String, message about delete status
+     */
     public static String deletePetByID(String pet_id) {
         AtomicReference<String> deletage_message = new AtomicReference<>("");
         deleteMessagesByKeyAndValue("pet_id", pet_id);
         ParseObject pet_to_remove = getPetByID(pet_id);
         if (pet_to_remove != null) {pet_to_remove.deleteInBackground(e -> {
             if (e == null) {
-                //ToDo: make a toast somehow | Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
                 deletage_message.set(pet_id + " delete successfuly");
-                Log.d("deletePetByID", deletage_message.get());
+                //Log.d("deletePetByID", deletage_message.get());
             }
             ;
         });
@@ -356,7 +452,11 @@ public class DatabaseHandler {
         return deletage_message.get();
     }
 
-    //deletes messages with given keys and values from the database
+    /**deletes messages with given keys and values from the database
+     *
+     * @param key
+     * @param value
+     */
     public static void deleteMessagesByKeyAndValue(String key, String value) {
         List<ParseObject> messages_list = getMessagesByKeyAndValue(key, value);
         for (ParseObject parseObj:messages_list
@@ -365,17 +465,16 @@ public class DatabaseHandler {
         }
     }
 
-    //returns from the database a list of pets with owner id different of the current user id
+    /** returns from the database a list of pets with owner id different of the current user id
+     *
+     * @param user_id
+     * @return
+     */
     public static List<ParseObject> getPetsOfOtherUsers(String user_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
         try {
             //This find function works synchronously.
             List<ParseObject> pets_list = query.find();
-            pets_list.forEach(
-                    (pet) -> {
-                        Log.d("Finding Other Users Pets", (String) pet.get("pet_name"));
-                    }
-            );
             return pets_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -383,9 +482,10 @@ public class DatabaseHandler {
         }
     }
 
-    //returns from the database a list of pets with owner id different of the current user id
-    //also set a limit to the number of maximum pets to read
-    //also set a skip to the number of pets skip before starting to read
+    /** returns from the database a list of pets with owner id different of the current user id
+     * also set a limit to the number of maximum pets to read
+     * also set a skip to the number of pets skip before starting to read
+     */
     public static List<ParseObject> getPetsOfOtherUsersWithLimit(String user_id, int limit, int skip) {
         //This find function works synchronously.
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip).whereNotEqualTo("owner_id", user_id);
@@ -398,10 +498,15 @@ public class DatabaseHandler {
         }
     }
 
-    //returns from the database a list of pets with owner id different of the current user id
-    //also set a limit to the number of maximum pets to read
-    //also set a skip to the number of pets skip before starting to read
-    //asynchronously
+    /**
+     * returns from the database a list of pets with owner id different of the current user id
+     * also set a limit to the number of maximum pets to read
+     * also set a skip to the number of pets skip before starting to read asynchronously
+     * @param user_id
+     * @param limit
+     * @param skip
+     * @return
+     */
     public static List<ParseObject> getPetsOfOtherUsersWithLimitAsync(String user_id, int limit, int skip) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip).whereNotEqualTo("owner_id", user_id);
         List<ParseObject> pets_list = new ArrayList<>();
@@ -411,7 +516,6 @@ public class DatabaseHandler {
         long difference = 0;
         do {
             try {
-                //This find function works asynchronously.
                 asyncTask = query.findInBackground();
                 asyncTask.waitForCompletion();
                 pets_list = (List<ParseObject>)asyncTask.getResult();
@@ -424,8 +528,15 @@ public class DatabaseHandler {
         return pets_list;
     }
 
-    //returns true if the pet with id "pet_id" was requested by the user with id "user_id"
-    //synchronously
+    //
+    //
+
+    /**
+     * synchronously
+     * @param pet_id
+     * @param user_id
+     * @return boolean true if the pet with id "pet_id" was requested by the user with id "user_id"
+     */
     public static boolean findIfPetRequested(String pet_id, String user_id) {
         if (user_id == null) {
             return false;
@@ -447,6 +558,13 @@ public class DatabaseHandler {
 
     //returns from the database a list of messages with the given key and value
     //synchronously
+
+    /**
+     *
+     * @param key
+     * @param value
+     * @return
+     */
     public static List<ParseObject> getMessagesByKeyAndValue(String key, String value) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo(key, value);
         try {
@@ -463,6 +581,15 @@ public class DatabaseHandler {
     //also set a limit to the number of maximum messages to read
     //also set a skip to the number of messages skip before starting to read
     //synchronously
+
+    /**
+     *
+     * @param key
+     * @param value
+     * @param limit
+     * @param skip
+     * @return
+     */
     public static List<ParseObject> getMessagesByKeyAndValueWithLimit(String key, String value, int limit, int skip) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").setLimit(limit).setSkip(skip).whereEqualTo(key, value);
         try {
@@ -479,6 +606,15 @@ public class DatabaseHandler {
     //also set a limit to the number of maximum messages to read
     //also set a skip to the number of messages skip before starting to read
     //asynchronously
+
+    /**
+     *
+     * @param key
+     * @param value
+     * @param limit
+     * @param skip
+     * @return
+     */
     public static List<ParseObject> getMessagesByKeyAndValueWithLimitAsync
             (String key, String value, int limit, int skip) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").setLimit(limit).setSkip(skip).whereEqualTo(key, value);
@@ -503,6 +639,12 @@ public class DatabaseHandler {
     }
 
     //returns the number of messages sent to the user with id "user_id"
+
+    /**
+     *
+     * @param user_id
+     * @return
+     */
     public static int getNumberOfMessagesByUser(String user_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("messages");
         if (user_id == null) {
@@ -519,6 +661,12 @@ public class DatabaseHandler {
     }
 
     //returns a set of the pets requested by the user with id "user_id"
+
+    /**
+     *
+     * @param user_id
+     * @return
+     */
     public static Set<String> getRequestedPetsIds(String user_id) {
         List<ParseObject> messages_list = getMessagesByKeyAndValue("sender_id", user_id);
         Set<String> requested_pets_ids = new HashSet<>();
@@ -530,6 +678,11 @@ public class DatabaseHandler {
     }
 
     //returns the number of allpets in the database
+
+    /**
+     *
+     * @return
+     */
     public static int getNumberOfPets() {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         int number = 0;
@@ -542,6 +695,12 @@ public class DatabaseHandler {
     }
 
     //returns the number of pets with owner id different of the given "user_id"
+
+    /**
+     *
+     * @param user_id
+     * @return
+     */
     public static int getNumberOfPetsOfOtherUsers(String user_id) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").whereNotEqualTo("owner_id", user_id);
         int number = 0;
@@ -555,18 +714,16 @@ public class DatabaseHandler {
 
     //returns from the database a list of all pets
     //synchronously
+
+    /**
+     *
+     * @return
+     */
     public static List<ParseObject> getAllPets() {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets");
         try {
             //This find function works synchronously.
             List<ParseObject> pets_list = query.find();
-            //Log.d("Finding Pets", "List: " + pets_list.listIterator(1));
-            pets_list.forEach(
-                    (pet) -> {
-                                Log.d("Finding Pets", (String) pet.get("pet_name"));
-                             }
-            );
-//            Log.d("Pet: ", (String) pets_list.get(1).get("pet_name"));
             return pets_list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -578,6 +735,13 @@ public class DatabaseHandler {
     //also set a limit to the number of maximum pets to read
     //also set a skip to the number of pets skip before starting to read
     //synchronously
+
+    /**
+     *
+     * @param limit
+     * @param skip
+     * @return
+     */
     public static List<ParseObject> getAllPetsWithLimit(int limit, int skip) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
         try {
@@ -594,6 +758,13 @@ public class DatabaseHandler {
     //also set a limit to the number of maximum pets to read
     //also set a skip to the number of pets skip before starting to read
     //asynchronously
+
+    /**
+     *
+     * @param limit
+     * @param skip
+     * @return
+     */
     public static List<ParseObject> getAllPetsWithLimitAsync(int limit, int skip) {
         ParseQuery<ParseObject> query = new ParseQuery<>("pets").setLimit(limit).setSkip(skip);
         List<ParseObject> pets_list = new ArrayList<>();
@@ -617,14 +788,16 @@ public class DatabaseHandler {
     }
 
     //This find function works synchronously.
+
+    /**
+     *
+     * @param className
+     * @return
+     */
     public static List<ParseObject> find(String className) {
         ParseQuery<ParseObject> query = new ParseQuery<>(className);
         try {
             List<ParseObject> list = query.find();
-            //ToDo: לעבור על הרשימה עם list.listIterator(i)
-            Log.d("Finding "+className+"objects", "List: " + list.listIterator(1));
-            //forEach(ParseObject pet in list);
-//            Log.d("Pet: ", (String) list.get(1).get("pet_name"));
             return list;
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -634,6 +807,13 @@ public class DatabaseHandler {
 
     //Get Pet Image From Parse Object
     //Set the picture on PetsListAdapter.ItemViewHolder holder
+
+    /**
+     *
+     * @param petObject
+     * @param holder
+     * @return
+     */
     public static Bitmap getPetImage(ParseObject petObject, PetsListAdapter.ItemViewHolder holder)
     {
         final Bitmap[] bmp = new Bitmap[1];
@@ -655,6 +835,12 @@ public class DatabaseHandler {
     }
 
     //returns true if the user has internet connection
+
+    /**
+     *
+     * @param context
+     * @return
+     */
     public static boolean isConnected(Context context) {
         boolean result = false;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

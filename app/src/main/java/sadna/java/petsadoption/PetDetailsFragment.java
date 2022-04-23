@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,7 +106,7 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
         binding.btnBackPetDetails.setOnClickListener(this);
         binding.btnRequestToAdopt.setOnClickListener(this);
 
-        //set pet image by getting data from the budnle
+        //set pet image by getting data from the bundle
         if(getArguments()!=null)
         {
             byte[] data = getArguments().getByteArray("image_data");
@@ -131,7 +130,7 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
                         return;
                     }
                     DatabaseHandler.createMessage(petId, ownerId);  //adds a new message to the database
-                    Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
+                    //Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
                     ProgressDialog progress = ProgressDialog.show(getContext(), "Requesting", "Wait a second...");
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -175,7 +174,7 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(getContext(), "Error",Toast.LENGTH_LONG).show();
                     return;
                 }
-                Log.d("btnRequestToAdopt.onClick", "deletePetByID");
+                //Log.d("btnRequestToAdopt.onClick", "deletePetByID");
                 Handler handler = new Handler();
                 ProgressDialog progress = ProgressDialog.show(getContext(), "Deleting", "Wait a second...");
                 handler.postDelayed(new Runnable() {

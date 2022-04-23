@@ -1,7 +1,5 @@
 package sadna.java.petsadoption;
 
-import android.util.Log;
-
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -11,19 +9,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-//Used Integers instead of ENUMS because ENUMS requires too much memory and
-//it might slow the application
-//https://stackoverflow.com/questions/9246934/working-with-enums-in-android
-public class Pet /*extends ParseObject*/{
-    //TODO: add more animals
-    /*
-    private static final int GENUS_CAT = 11;
-    private static final int GENUS_DOG = 12;
-    private static final int GENUS_FISH = 13;
-    private static final int GENUS_CHICKEN = 14;
-    private static final int GENUS_RABBIT = 15;
-    private static final int GENUS_OTHER = 16;
-    */
+public class Pet {
 
     private static final int SEX_MALE = 21;
     private static final int SEX_FEMALE = 22;
@@ -131,7 +117,10 @@ public class Pet /*extends ParseObject*/{
         this.Description = description;
     }
 
-    //Create A Jason
+    /**Create A Jason
+     *
+     * @return the pet object in a JSON format
+     */
     public String toJSON(){
         JSONObject jsonPet= new JSONObject();
         try {
@@ -147,12 +136,15 @@ public class Pet /*extends ParseObject*/{
 
             return jsonPet.toString();
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return "";
         }
     }
 
+    /**
+     *
+     * @return Pet As ParseObject
+     */
     public ParseObject toParseObject(){
         return (new ParseObject(this.toJSON()));
     }
@@ -174,7 +166,12 @@ public class Pet /*extends ParseObject*/{
                 '}';
     }
 
+
     boolean created = false;
+
+    /**
+     * adds a pet to database
+     */
     public void addToDatabase() {
 
         ParseObject pet = new ParseObject("pets");
@@ -187,15 +184,12 @@ public class Pet /*extends ParseObject*/{
         pet.put("pet_image", new ParseFile("resume.txt", "My string content".getBytes()));
 
         // Saves the new object.
-        // Notice that the SaveCallback is totally optional!
         pet.saveInBackground(e -> {
             if (e==null){
                 //Save was done
                 created = true;
-                Log.d("addToDatabase()","New Pet Have Been Added To Database\n");
             }else{
                 //Something went wrong
-                //this. (this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
