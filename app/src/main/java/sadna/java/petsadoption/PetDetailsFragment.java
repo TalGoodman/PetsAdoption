@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -84,13 +85,16 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
         binding.tvDescriptionContent.setText(petDescription);
         binding.tvOwnerNameContent.setText(ownerName);
 
-        //the "Request To Adopt" button is available only if the user is already signed in
+        //the "Request To Adopt" button does not request the pet if the user is not signed in
+        //instead, it show a toast
         if (currentUserId == null) {
-            binding.btnRequestToAdopt.setEnabled(false);
+            binding.btnRequestToAdopt.getBackground().setTint(Color.DKGRAY);
+            binding.btnRequestToAdopt.setTextColor(Color.WHITE);
         } else if (ownerId.equals(currentUserId)) {
             //if the current user is the pet owner, change the button to be "Delete Pet"
             //it is possible only if the prior fragment was MyPetsFragment
             binding.btnRequestToAdopt.setText(R.string.bttnTextDeletPet);
+            binding.btnRequestToAdopt.setTextColor(Color.WHITE);
         } else {
             //the current user is signed in and the pet owner is another user
             if(isRequested) {
@@ -99,6 +103,7 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
                 binding.btnRequestToAdopt.setText(R.string.bttnAlreadyRequested);
                 binding.btnRequestToAdopt.setTextColor(Color.GREEN);
                 binding.btnRequestToAdopt.setEnabled(false);
+                binding.btnRequestToAdopt.getBackground().setTint(Color.LTGRAY);
             }
         }
 
@@ -130,7 +135,6 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
                         return;
                     }
                     DatabaseHandler.createMessage(petId, ownerId);  //adds a new message to the database
-                    //Log.d("btnRequestToAdopt.onClick", "RequestToAdaptHere");
                     ProgressDialog progress = ProgressDialog.show(getContext(), "Requesting", "Wait a second...");
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -144,6 +148,12 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
                     //navigate back to WatchPetsFragment
                     NavHostFragment.findNavController(PetDetailsFragment.this)
                             .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
+                }
+            } else {
+                if (view.getId() == R.id.btnRequestToAdopt) {
+                    Toast.makeText(getActivity(), "Please sign in in order\nto request a pet",
+                            Toast.LENGTH_LONG).show();
+                    return;
                 }
             }
 

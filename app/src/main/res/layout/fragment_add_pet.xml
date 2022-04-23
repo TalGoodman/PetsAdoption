@@ -192,6 +192,7 @@
         android:padding="14dip"
         app:cornerRadius="8dp"
         android:text="@string/add_pet"
+        android:backgroundTint="#AEEA00"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -203,6 +204,7 @@
         android:layout_marginBottom="30dp"
         android:padding="14dip"
         android:text="@string/back"
+        android:backgroundTint="#FF6E40"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
