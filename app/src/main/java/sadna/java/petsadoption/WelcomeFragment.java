@@ -3,6 +3,7 @@ package sadna.java.petsadoption;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -100,6 +101,9 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
         signInButton = binding.btnLogin;
         signInButton.setSize(SignInButton.SIZE_STANDARD);
 
+        //initialize btnWatchPets background color
+        binding.btnWatchPets.setBackgroundColor(Color.argb(190, 50, 25, 150));
+
         FirebaseUser user = mAuth.getCurrentUser();
         updateUI(user);     //a method that updates the UI
 
@@ -152,17 +156,23 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             binding.tvWelcome.setText("Logged in as "+user_name);
             TextView textView = (TextView) signInButton.getChildAt(0);
                 textView.setText("Sign out");
-            binding.btnWatchMessages.setEnabled(true);
-            binding.btnOfferToAdoption.setEnabled(true);
-            binding.btnMyPets.setEnabled(true);
+            binding.btnWatchMessages.setClickable(true);
+            binding.btnWatchMessages.setBackgroundColor(Color.argb(190, 50, 25, 150));
+            binding.btnOfferToAdoption.setClickable(true);
+            binding.btnOfferToAdoption.setBackgroundColor(Color.argb(190, 50, 25, 150));
+            binding.btnMyPets.setClickable(true);
+            binding.btnMyPets.setBackgroundColor(Color.argb(190, 50, 25, 150));
             binding.tvSignInInfo.setVisibility(View.INVISIBLE);
         } else {
             binding.tvWelcome.setText("Welcome to Pets Adoption!");
             TextView textView = (TextView) signInButton.getChildAt(0);
             textView.setText("Sign in");
-            binding.btnWatchMessages.setEnabled(false);
-            binding.btnOfferToAdoption.setEnabled(false);
-            binding.btnMyPets.setEnabled(false);
+            binding.btnWatchMessages.setClickable(false);
+            binding.btnWatchMessages.setBackgroundColor(Color.argb(120, 90, 90, 90));
+            binding.btnOfferToAdoption.setClickable(false);
+            binding.btnOfferToAdoption.setBackgroundColor(Color.argb(120, 90, 90, 90));
+            binding.btnMyPets.setClickable(false);
+            binding.btnMyPets.setBackgroundColor(Color.argb(120, 90, 90, 90));
             binding.tvSignInInfo.setVisibility(View.VISIBLE);
         }
     }
@@ -175,6 +185,9 @@ public class WelcomeFragment extends Fragment implements OnCompleteListener<Auth
             // Sign in success, update UI with the signed-in user's information
             Log.d("GoogleActivity", "signInWithCredential:success");
             FirebaseUser user = mAuth.getCurrentUser();
+            if (user == null) {
+                return;
+            }
             Toast.makeText(getActivity(), "Signed in successfully",
                     Toast.LENGTH_LONG).show();
             String email = user.getEmail();

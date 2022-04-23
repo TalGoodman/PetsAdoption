@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ECE5DF"
+    android:background="@drawable/background_board"
     tools:context=".MyPetsFragment">
 
     <TextView
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/your_pets"
         android:textSize="20sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/rvMyPetsList"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -31,6 +32,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
+        app:cornerRadius="8dp"
         android:textSize="11sp"
         android:text="@string/offer_a_pet_for_adoption"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,6 +46,7 @@
         android:layout_marginLeft="36dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
+        app:cornerRadius="8dp"
         android:textSize="11sp"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +62,6 @@
         android:scrollbars="vertical"
         android:textAlignment="gravity"
         android:textDirection="ltr"
-        android:background="#ECE5DF"
         app:layout_constraintBottom_toTopOf="@+id/btnOfferPet"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

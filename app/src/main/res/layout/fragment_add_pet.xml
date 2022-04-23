@@ -10,7 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF"
+    android:background="@drawable/message_board_background"
     tools:context=".AddPetFragment">
 
 
@@ -35,6 +35,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="1dp"
         android:padding="14dip"
+        app:cornerRadius="8dp"
         android:text="@string/set_photo"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -189,6 +190,7 @@
         android:layout_marginLeft="28dp"
         android:layout_marginBottom="28dp"
         android:padding="14dip"
+        app:cornerRadius="8dp"
         android:text="@string/add_pet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -201,6 +203,7 @@
         android:layout_marginBottom="30dp"
         android:padding="14dip"
         android:text="@string/back"
+        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnAddPet" />

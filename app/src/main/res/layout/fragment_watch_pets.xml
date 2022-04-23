@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6EC6B1"
+    android:background="#69F0AE"
+
     tools:context=".WatchPetsFragment">
 
     <Spinner
@@ -60,6 +61,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
         android:padding="7dip"
+        app:cornerRadius="8dp"
         android:text="@string/filter"
         android:textSize="11sp"
         app:layout_constraintTop_toBottomOf="@+id/spDietFilter"
@@ -77,7 +79,7 @@
         android:paddingBottom="20dp"
         android:scrollIndicators="start"
         android:scrollbars="vertical"
-        android:background="#ECE5DF"
+        android:background="@drawable/background_board"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"

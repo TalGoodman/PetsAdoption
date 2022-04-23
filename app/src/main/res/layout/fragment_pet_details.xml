@@ -11,7 +11,7 @@
     android:id="@+id/pet_details_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/background_texture"
     tools:context=".PetDetailsFragment">
 
     <ImageView
@@ -194,6 +194,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
+        app:cornerRadius="8dp"
         android:text="@string/request_to_adopt"
         app:barrierMargin="-20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -208,6 +209,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="36dp"
         android:padding="14dip"
+        app:cornerRadius="8dp"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
