@@ -172,7 +172,7 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 .setData(Uri.parse("mailto:"));
                         emailIntent.putExtra(Intent.EXTRA_EMAIL,
                                 new String[] { user_email });
-                        String subject = "Hello " + user_name + " I would like to adopt " + pet_name;
+                        String subject = "Hello " + user_name + ", do you still want to adopt " + pet_name + "?";
                         emailIntent.putExtra(Intent.EXTRA_SUBJECT,
                                 subject);
                         emailIntent.setPackage("com.google.android.gm");
