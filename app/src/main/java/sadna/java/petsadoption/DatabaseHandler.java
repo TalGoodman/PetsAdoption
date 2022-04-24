@@ -10,6 +10,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -67,8 +68,12 @@ public class DatabaseHandler {
         message.put("message_id", message_id);
         message.put("owner_id", owner_id);
 
-        String sender_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String sender_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (fbUser == null) {
+            return;
+        }
+        String sender_id = fbUser.getUid();
+        String sender_email = fbUser.getEmail();
         message.put("sender_id", sender_id);
         message.put("sender_email", sender_email);
 
@@ -529,7 +534,7 @@ public class DatabaseHandler {
      * @return boolean true if the pet with id "pet_id" was requested by the user with id "user_id"
      */
     public static boolean findIfPetRequested(String pet_id, String user_id) {
-        if (user_id == null) {
+        if (user_id == null || pet_id == null) {
             return false;
         }
         ParseQuery<ParseObject> query = new ParseQuery<>("messages").whereEqualTo("pet_id", pet_id).whereEqualTo("sender_id", user_id);

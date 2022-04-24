@@ -19,14 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.parse.ParseObject;
 
-import java.lang.reflect.Executable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import sadna.java.petsadoption.databinding.FragmentWatchMessagesBinding;
 
 /*

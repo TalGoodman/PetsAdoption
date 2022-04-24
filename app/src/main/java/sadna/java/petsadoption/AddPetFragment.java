@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.ParseException;
 
 import java.io.ByteArrayOutputStream;
@@ -158,11 +159,18 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
             //Assign the pet details from the input to the variables
             String specie = binding.spSpecieContentAdd.getSelectedItem().toString();
             String name = binding.etPetNameContentAdd.getText().toString();
-            String fbUserID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
             String sex = binding.spSexContentAdd.getSelectedItem().toString();
             Boolean vaccinated = binding.cbVaccinatedAdd.isChecked();
             String diet = binding.spDietContentAdd.getSelectedItem().toString();
             String description = binding.etDescriptionContentAdd.getText().toString();
+            FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+            String fbUserID;
+            if (fbUser != null) {
+                fbUserID = fbUser.getUid();
+            } else {
+                Toast.makeText(getActivity(), "Something went wrong",Toast.LENGTH_LONG).show();
+                return;
+            }
 
             if (name.equals("")) {
                 //Pet name should not be empty

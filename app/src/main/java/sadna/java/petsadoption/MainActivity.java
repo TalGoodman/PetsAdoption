@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import sadna.java.petsadoption.databinding.ActivityMainBinding;
 
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private String watchMessagesFragmentName;
 
     public static ProgressDialog progress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,23 +150,35 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         //Handle the "Back" button click in toolbar
-        if (!DatabaseHandler.isConnected(this)) {
-            Toast.makeText(this, "No Internet Connection",
+        try {
+            if (!DatabaseHandler.isConnected(this)) {
+                Toast.makeText(this, "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+            return navigateBack();
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong",
                     Toast.LENGTH_LONG).show();
             return false;
         }
-        return navigateBack();
     }
 
     @Override
     public void onBackPressed() {
         //Handle phone's "Back" button click
-        if (!DatabaseHandler.isConnected(this)) {
-            Toast.makeText(this, "No Internet Connection",
+        try {
+            if (!DatabaseHandler.isConnected(this)) {
+                Toast.makeText(this, "No Internet Connection",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            navigateBack();
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong",
                     Toast.LENGTH_LONG).show();
             return;
         }
-        navigateBack();
     }
 
     private boolean navigateBack(){
@@ -193,9 +207,13 @@ public class MainActivity extends AppCompatActivity {
             PetDetailsFragment petDetailsFragment = (PetDetailsFragment)currentFragment;
             MainActivity.startShowingProgressDialog(petDetailsFragment.getContext());
             PetDetailsFragment currentPetDetailsFragment = (PetDetailsFragment)currentFragment;
-            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+            String currentUserId = null;
+            if (fbUser != null) {
+                currentUserId = fbUser.getUid();
+            }
             String owner_id = currentPetDetailsFragment.getArguments().getString("ownerId");
-            if (!currentUserId.equals(owner_id)){
+            if (!owner_id.equals(currentUserId)){
                 NavHostFragment.findNavController(currentFragment)
                         .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
             } else {
@@ -229,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
     //Method for handling usage of ProgressDialog
     //The methods are static because it allows better dismiss timing
     public static void startShowingProgressDialog(Context c){
-        progress = ProgressDialog.show(c, "Loading", "Wait a second...");
+        progress = ProgressDialog.show(c, "Loading", "Just a few moments...");
     }
 
     //Method for handling usage of ProgressDialog

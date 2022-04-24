@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.ParseObject;
 
 import java.util.List;
@@ -40,8 +41,9 @@ public class MyPetsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //initialize currentUserId
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (fbUser != null) {
+            currentUserId = fbUser.getUid();
         } else {
             currentUserId = null;
         }
