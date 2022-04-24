@@ -68,6 +68,8 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
 
+        petImageByteArray = null;
+
         //initialize OnClickListener for buttons and image view
         binding.btnAddPet.setOnClickListener(this);
         binding.btnBackAdd.setOnClickListener(this);
@@ -147,42 +149,42 @@ public class AddPetFragment extends Fragment implements View.OnClickListener {
                 return;
             }
 
-            //Assign the pet details from the input to the variables
-            String Specie = binding.spSpecieContentAdd.getSelectedItem().toString();
-            String Name = binding.etPetNameContentAdd.getText().toString();
-            String Identifier = Long.toString(System.currentTimeMillis(), 32).toUpperCase();
-            String fbUserID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
-            String Sex = binding.spSexContentAdd.getSelectedItem().toString();
-            Boolean Vaccinated = binding.cbVaccinatedAdd.isChecked();
-            String Diet = binding.spDietContentAdd.getSelectedItem().toString();
-            String Description = binding.etDescriptionContentAdd.getText().toString();
+            if (petImageByteArray == null) {
+                Toast.makeText(getActivity(), "Please Choose a picture of the pet",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
 
-            if (Name.equals("")) {
+            //Assign the pet details from the input to the variables
+            String specie = binding.spSpecieContentAdd.getSelectedItem().toString();
+            String name = binding.etPetNameContentAdd.getText().toString();
+            String fbUserID = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getUid();
+            String sex = binding.spSexContentAdd.getSelectedItem().toString();
+            Boolean vaccinated = binding.cbVaccinatedAdd.isChecked();
+            String diet = binding.spDietContentAdd.getSelectedItem().toString();
+            String description = binding.etDescriptionContentAdd.getText().toString();
+
+            if (name.equals("")) {
                 //Pet name should not be empty
                 Toast.makeText(getActivity(), "Invalid Pet Name",Toast.LENGTH_LONG).show();
                 return;
-            } else if (Name.length() > 15) {
+            } else if (name.length() > 15) {
                 //Pet Name cannot be too long
                 Toast.makeText(getActivity(), "Pet Name is too long",Toast.LENGTH_LONG).show();
                 return;
             }
 
-            //create the Pet object
-            Pet newPet = new Pet(petImageByteArray, Specie, fbUserID,Name,Identifier, Sex,
-                    Vaccinated, Diet, Description);
-
             //add the new pet to the database
-            String petJSON = newPet.toJSON();
             try {
                 DatabaseHandler.createPet(
-                        newPet.getOwnerID(),
-                        newPet.getSpecies()+"",
-                        newPet.getSex()+"",
-                        newPet.getVaccinated() ,
-                        newPet.getDiet(),
-                        newPet.getName(),
-                        newPet.getDescription(),
-                        newPet.getImage());
+                        fbUserID,
+                        specie,
+                        sex,
+                        vaccinated ,
+                        diet,
+                        name,
+                        description,
+                        petImageByteArray);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

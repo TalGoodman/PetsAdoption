@@ -85,27 +85,8 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
         binding.tvDescriptionContent.setText(petDescription);
         binding.tvOwnerNameContent.setText(ownerName);
 
-        //the "Request To Adopt" button does not request the pet if the user is not signed in
-        //instead, it show a toast
-        if (currentUserId == null) {
-            binding.btnRequestToAdopt.getBackground().setTint(Color.DKGRAY);
-            binding.btnRequestToAdopt.setTextColor(Color.WHITE);
-        } else if (ownerId.equals(currentUserId)) {
-            //if the current user is the pet owner, change the button to be "Delete Pet"
-            //it is possible only if the prior fragment was MyPetsFragment
-            binding.btnRequestToAdopt.setText(R.string.bttnTextDeletPet);
-            binding.btnRequestToAdopt.setTextColor(Color.WHITE);
-        } else {
-            //the current user is signed in and the pet owner is another user
-            if(isRequested) {
-                //if the pet was requested by the current user
-                //disable the button and change it's text to "Already Requested"
-                binding.btnRequestToAdopt.setText(R.string.bttnAlreadyRequested);
-                binding.btnRequestToAdopt.setTextColor(Color.GREEN);
-                binding.btnRequestToAdopt.setEnabled(false);
-                binding.btnRequestToAdopt.getBackground().setTint(Color.LTGRAY);
-            }
-        }
+        //set button
+        setButton(isRequested);
 
         //initialize OnClickListener for buttons
         binding.btnBackPetDetails.setOnClickListener(this);
@@ -135,19 +116,8 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
                         return;
                     }
                     DatabaseHandler.createMessage(petId, ownerId);  //adds a new message to the database
-                    ProgressDialog progress = ProgressDialog.show(getContext(), "Requesting", "Wait a second...");
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            if (progress != null && progress.isShowing()){
-                                progress.dismiss();
-                            }
-                        }
-                    }, 1500);
                     Toast.makeText(getContext(), "Pet Requested",Toast.LENGTH_LONG).show();
-                    //navigate back to WatchPetsFragment
-                    NavHostFragment.findNavController(PetDetailsFragment.this)
-                            .navigate(R.id.action_PetDetailsFragment_to_WatchPetsFragment);
+                    setButton(true);
                 }
             } else {
                 if (view.getId() == R.id.btnRequestToAdopt) {
@@ -209,6 +179,30 @@ public class PetDetailsFragment extends Fragment implements View.OnClickListener
                 MainActivity.startShowingProgressDialog(getContext());
                 NavHostFragment.findNavController(PetDetailsFragment.this)
                         .navigate(R.id.action_PetDetailsFragment_to_MyPetsFragment);
+            }
+        }
+    }
+
+    private void setButton(boolean isRequested) {
+        //the "Request To Adopt" button does not request the pet if the user is not signed in
+        //instead, it show a toast
+        if (currentUserId == null) {
+            binding.btnRequestToAdopt.getBackground().setTint(Color.DKGRAY);
+            binding.btnRequestToAdopt.setTextColor(Color.WHITE);
+        } else if (ownerId.equals(currentUserId)) {
+            //if the current user is the pet owner, change the button to be "Delete Pet"
+            //it is possible only if the prior fragment was MyPetsFragment
+            binding.btnRequestToAdopt.setText(R.string.bttnTextDeletPet);
+            binding.btnRequestToAdopt.setTextColor(Color.WHITE);
+        } else {
+            //the current user is signed in and the pet owner is another user
+            if(isRequested) {
+                //if the pet was requested by the current user
+                //disable the button and change it's text to "Already Requested"
+                binding.btnRequestToAdopt.setText(R.string.bttnAlreadyRequested);
+                binding.btnRequestToAdopt.setTextColor(Color.GREEN);
+                binding.btnRequestToAdopt.setEnabled(false);
+                binding.btnRequestToAdopt.getBackground().setTint(Color.LTGRAY);
             }
         }
     }

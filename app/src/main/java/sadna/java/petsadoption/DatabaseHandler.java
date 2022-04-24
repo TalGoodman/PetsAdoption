@@ -53,15 +53,6 @@ public class DatabaseHandler {
         });
     }
 
-    //create user by tal
-    public static void createUserTal(String user_id, String user_email, String user_name) {
-        ParseObject user = new ParseObject("users");
-        user.put("user_id", user_id);
-        user.put("user_email",user_email);
-        user.put("user_name", user_name);
-        user.saveInBackground();
-    }
-
 
     /**
      * Creates a message in the database
