@@ -84,9 +84,6 @@ public class WatchMessagesFragment extends Fragment {
         populateData();
         initAdapter();
         initScrollListener();
-
-        Toast.makeText(getActivity(), "Messages Sent to you",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override

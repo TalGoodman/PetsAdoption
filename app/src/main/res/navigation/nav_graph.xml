@@ -88,16 +88,6 @@
             app:destination="@id/WelcomeFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/PetListItemFragment"
-        android:name="sadna.java.petsadoption.ListItem"
-        android:label="pet_list_item"
-        tools:layout="@layout/pets_list_item">
-
-        <action
-            android:id="@+id/action_PetListItem_to_PetDetailsFragment"
-            app:destination="@id/PetDetailsFragment"/>
-    </fragment>
-    <fragment
         android:id="@+id/WatchMessagesFragment"
         android:name="sadna.java.petsadoption.WatchMessagesFragment"
         android:label="@string/watch_messages1"
