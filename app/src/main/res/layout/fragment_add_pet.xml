@@ -31,9 +31,9 @@
     <Button
         android:id="@+id/btnSetPhoto"
         android:layout_width="wrap_content"
-        android:layout_min_width="120dp"
+        android:minWidth="120dp"
         android:layout_height="wrap_content"
-        android:layout_min_height="@dimen/buttons_height"
+        android:minHeight="@dimen/buttons_height"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="1dp"
         android:padding="14dip"
