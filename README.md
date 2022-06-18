@@ -13,3 +13,27 @@ Home Screen - not logged in
 
 Home Screen - logged in
 ![Screenshot_2022-06-18-16-23-40-296_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174439708-bc48894b-2fd9-4cae-a14a-b101ac6aaefd.jpg)
+
+Add Pet Screen
+![Screenshot_2022-04-25-19-14-38-303_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174439771-c040c75b-af91-4e9c-a90f-3c548bc862c2.jpg)
+
+Pets list Screen
+![Screenshot_2022-06-18-16-27-54-798_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174439838-600cc08a-6426-44d6-b661-b7f190fb0f9f.jpg)
+
+Pet Details Screen - logged in
+Request button is enabled
+![Screenshot_2022-06-18-16-34-20-672_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174440045-4dd3002c-9135-4b2f-8a29-98b299980e90.jpg)
+
+Pet Details Screen - not logged in
+Request button is disabled
+![Screenshot_2022-06-18-16-36-18-395_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174440134-a06d427b-cf64-413d-8076-e7e4d0c6c545.jpg)
+
+My Pets list Screen(Pets the curren tuser added and are offered for adoption by other users)
+![Screenshot_2022-06-18-16-39-06-222_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174440242-8404e71b-29f7-49cd-90f5-cc31d6f6c125.jpg)
+
+Pet Details - My pet
+![Screenshot_2022-06-18-16-43-22-121_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174440379-4c3d3668-a1fa-4892-998b-e821d0d5ec6a.jpg)
+
+Messages List Screen
+![Screenshot_2022-06-18-16-45-37-473_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174441290-9a312010-4dce-479b-8254-fe0c70296a7e.jpg)
+
