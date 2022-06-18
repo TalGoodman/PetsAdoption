@@ -7,3 +7,9 @@ The lists are beign loaded dynamically from the database when scrolling down.
 Each item in the list of pets available to adoption has a picture of the pet, the pet's name and specie and a button that leads to a screen of the pets details where the user can choose to adopt the pet.
 Each item in the list of the pets which are offered by the user itself is the same as in the other pets list but when they user clicks the details button it would lead to the pet details screen with the option to delete the pet instead of requesting it.
 Each item in the request messages list has a text with details about the requesting user and the relevant pet and also some buttons for sending email, copy details to clipboard or deleteing the request message.
+
+Home Screen - not logged in
+![Screenshot_2022-04-25-19-09-03-505_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174439563-0431e5b6-9d3b-4b06-8015-e4e35a70f726.jpg)
+
+Home Screen - logged in
+![Screenshot_2022-06-18-16-23-40-296_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174439708-bc48894b-2fd9-4cae-a14a-b101ac6aaefd.jpg)
