@@ -37,3 +37,9 @@ Pet Details - My pet
 Messages List Screen
 ![Screenshot_2022-06-18-16-45-37-473_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174441290-9a312010-4dce-479b-8254-fe0c70296a7e.jpg)
 
+Menu
+![Screenshot_2022-04-25-19-24-06-360_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174441620-0e9b6614-b386-4e79-b7a4-7714e4b434d1.jpg)
+
+Close app dialog
+Appears when "Exit" is selected or when system's "Back" button is pressed at Home Screen
+![Screenshot_2022-04-25-19-26-45-307_sadna java petsadoption](https://user-images.githubusercontent.com/30302888/174441710-e3b9963f-637f-4dd1-b09d-8c14fb646702.jpg)
